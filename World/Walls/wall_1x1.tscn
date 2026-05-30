@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dnx5jcppv40ne"]
+
+[ext_resource type="Texture2D" uid="uid://cshyd7khwfrvx" path="res://art/wall_1.png" id="1_3kbuu"]
+[ext_resource type="Texture2D" uid="uid://dcc3jyq6hxvuk" path="res://art/Wall/wall_1_ambient.png" id="2_eowwh"]
+[ext_resource type="Texture2D" uid="uid://ckmt1rr7ku2b4" path="res://art/Wall/wall_1_normal.png" id="3_xf0lu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
+albedo_texture = ExtResource("1_3kbuu")
+normal_enabled = true
+normal_texture = ExtResource("3_xf0lu")
+ao_enabled = true
+ao_light_affect = 0.23
+ao_texture = ExtResource("2_eowwh")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lquwl"]
+
+[node name="Wall_1x1" type="MeshInstance3D" unique_id=921799148]
+transform = Transform3D(-1.3113416e-07, 0.19999999, 0, 1.3113414e-07, -3.2840566e-16, -2.9999995, -2.9999995, -8.742276e-09, -1.3113414e-07, 0, 0, 0)
+mesh = SubResource("BoxMesh_0xm2m")
+surface_material_override/0 = SubResource("StandardMaterial3D_0xm2m")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=928150436]
+collision_layer = 7
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1498858818]
+shape = SubResource("BoxShape3D_lquwl")

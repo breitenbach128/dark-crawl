@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bfq6musk5k252"]
+
+[ext_resource type="Texture2D" uid="uid://cqtpg0fh2vgee" path="res://art/Enemies/MerfolkImpaler.png" id="1_mbxyh"]
+[ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy_1.gd" id="1_vy3xu"]
+[ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_4cuqr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
+
+[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component")]
+script = ExtResource("1_vy3xu")
+health_component = NodePath("HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1774136908]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_h2yge")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=669087216]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+pixel_size = 0.15
+billboard = 2
+texture_filter = 0
+texture = ExtResource("1_mbxyh")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_4cuqr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.2)
+health = 10
+health_max = 10

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://du4xs7vckbub4"]
+
+[ext_resource type="Script" uid="uid://d1ttcf3sivnta" path="res://UIEffects/damage_number.gd" id="1_3pjmr"]
+
+[node name="DamageNumber" type="Node3D" unique_id=1578767003 node_paths=PackedStringArray("text_label")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+script = ExtResource("1_3pjmr")
+text_label = NodePath("Label3D")
+
+[node name="Timer" type="Timer" parent="." unique_id=2095402431]
+wait_time = 3.0
+autostart = true
+
+[node name="Label3D" type="Label3D" parent="." unique_id=123114816]
+billboard = 2
+text = "Damage"
+font_size = 48
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

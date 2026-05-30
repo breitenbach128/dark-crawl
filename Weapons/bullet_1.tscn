@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dbwflkox1ee0q"]
+
+[ext_resource type="Texture2D" uid="uid://bgydht8j3mgm8" path="res://art/Weapons/bullet_blast_1.png" id="1_lqaso"]
+[ext_resource type="Script" uid="uid://bp3ydvgvupqqm" path="res://Weapons/bullet.gd" id="1_v0qp1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v0qp1"]
+friction = 0.2
+bounce = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lqaso"]
+radius = 0.2
+
+[node name="bullet_1" type="RigidBody3D" unique_id=91766674]
+collision_layer = 4
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_v0qp1")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_v0qp1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=589480253]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("SphereShape3D_lqaso")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1688294820]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+billboard = 1
+texture_filter = 0
+texture = ExtResource("1_lqaso")
+
+[node name="Timer" type="Timer" parent="." unique_id=329340027]
+wait_time = 5.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

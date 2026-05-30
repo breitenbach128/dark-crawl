@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cm2djj3ued2uq"]
+
+[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="1_dkbaw"]
+[ext_resource type="Texture2D" uid="uid://bgydht8j3mgm8" path="res://art/Weapons/bullet_blast_1.png" id="2_4crdo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
+atlas = ExtResource("1_dkbaw")
+region = Rect2(16, 352, 64, 96)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
+
+[node name="Card" type="Control" unique_id=1504661029]
+custom_minimum_size = Vector2(96, 128)
+layout_mode = 3
+anchor_right = 0.33200002
+anchor_bottom = 0.78400004
+offset_right = -0.46401978
+offset_bottom = -0.03201294
+
+[node name="CardTemplate" type="TextureRect" parent="." unique_id=1514441462]
+texture_filter = 1
+layout_mode = 0
+offset_right = 96.0
+offset_bottom = 128.0
+texture = SubResource("AtlasTexture_4crdo")
+
+[node name="Info" type="Label" parent="." unique_id=740711605]
+texture_filter = 1
+layout_mode = 0
+offset_left = 10.0
+offset_top = 91.0
+offset_right = 158.0
+offset_bottom = 166.0
+scale = Vector2(0.5, 0.5)
+text = "Longsword
+1-8 Damage, Melee
+"
+label_settings = SubResource("LabelSettings_4crdo")
+horizontal_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="." unique_id=1014671199]
+texture_filter = 1
+layout_mode = 0
+offset_left = 18.0
+offset_top = 69.0
+offset_right = 34.0
+offset_bottom = 85.0
+texture = ExtResource("2_4crdo")

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://u1jon222ioi6"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dvnyb"]
+lifetime_randomness = 0.3
+flatness = 0.5
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wv5fs"]
+albedo_color = Color(0.78653735, 0, 0.06027758, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_nuwwg"]
+material = SubResource("StandardMaterial3D_wv5fs")
+size = Vector2(0.2, 0.2)
+
+[node name="BloodSplatter" type="Node3D" unique_id=1784654527]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=2054038692]
+emitting = false
+amount = 30
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+transform_align = 3
+process_material = SubResource("ParticleProcessMaterial_dvnyb")
+draw_pass_1 = SubResource("QuadMesh_nuwwg")

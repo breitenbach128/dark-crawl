@@ -1,0 +1,145 @@
+[gd_scene format=3 uid="uid://bxrtx5xxoe0y8"]
+
+[ext_resource type="Script" uid="uid://dmm444c58awv8" path="res://Player/player.gd" id="1_l8h54"]
+[ext_resource type="Texture2D" uid="uid://bwlu1sxucefu3" path="res://art/Weapons/gun_1.png" id="2_4ntmi"]
+[ext_resource type="Texture2D" uid="uid://cun5efmq4qhh6" path="res://art/Weapons/crosshair_1.png" id="3_btcbx"]
+[ext_resource type="PackedScene" uid="uid://cm2djj3ued2uq" path="res://UI/Cards/card.tscn" id="4_gwnis"]
+[ext_resource type="Texture2D" uid="uid://k3y4ssae1a67" path="res://icon.svg" id="4_k53q1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btcbx"]
+atlas = ExtResource("2_4ntmi")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwnis"]
+atlas = ExtResource("2_4ntmi")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k53q1"]
+atlas = ExtResource("2_4ntmi")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhl08"]
+atlas = ExtResource("2_4ntmi")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vtle1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btcbx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gwnis")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k53q1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhl08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btcbx")
+}],
+"loop": false,
+"name": &"shoot",
+"speed": 16.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
+font_size = 32
+
+[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("gun_marker", "gun_raycast", "gun_sprite")]
+script = ExtResource("1_l8h54")
+gun_marker = NodePath("GunMarker")
+gun_raycast = NodePath("Camera3D/RayCast3D")
+gun_sprite = NodePath("Camera3D/GunSprite")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=976178556]
+shape = SubResource("CapsuleShape3D_lquwl")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1302084531]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6855066, -0.0889481)
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1152142937]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.050963998, -0.56583035)
+target_position = Vector3(0, 0, -100)
+collision_mask = 3
+debug_shape_custom_color = Color(0.9019608, 0, 0, 1)
+debug_shape_thickness = 5
+
+[node name="GunSprite" type="AnimatedSprite3D" parent="Camera3D" unique_id=862178727]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.3236271, -0.26592964, -0.7185259)
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_vtle1")
+animation = &"shoot"
+
+[node name="GunMarker" type="Node3D" parent="." unique_id=632795815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32064053, 0.4127665, -0.77828944)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=94397259]
+
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1780232396]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/UI" unique_id=770317034]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Some Text"
+label_settings = SubResource("LabelSettings_lquwl")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/UI" unique_id=1882463550]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Crosshair" type="TextureRect" parent="CanvasLayer/UI/CenterContainer" unique_id=766713277]
+layout_mode = 2
+texture = ExtResource("3_btcbx")
+stretch_mode = 3
+
+[node name="CardArea" type="HBoxContainer" parent="CanvasLayer/UI" unique_id=13525101]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 528.0
+grow_vertical = 0
+
+[node name="Deck" type="TextureRect" parent="CanvasLayer/UI/CardArea" unique_id=1863535712]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+texture = ExtResource("4_k53q1")
+
+[node name="CardHand" type="HBoxContainer" parent="CanvasLayer/UI/CardArea" unique_id=1189480962]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Card" parent="CanvasLayer/UI/CardArea/CardHand" unique_id=1504661029 instance=ExtResource("4_gwnis")]
+layout_mode = 2
+
+[node name="Card2" parent="CanvasLayer/UI/CardArea/CardHand" unique_id=71723962 instance=ExtResource("4_gwnis")]
+layout_mode = 2
+
+[node name="Card3" parent="CanvasLayer/UI/CardArea/CardHand" unique_id=628108904 instance=ExtResource("4_gwnis")]
+layout_mode = 2
+
+[node name="Card4" parent="CanvasLayer/UI/CardArea/CardHand" unique_id=1140836824 instance=ExtResource("4_gwnis")]
+layout_mode = 2
+
+[node name="Card5" parent="CanvasLayer/UI/CardArea/CardHand" unique_id=1023224859 instance=ExtResource("4_gwnis")]
+layout_mode = 2
