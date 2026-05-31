@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://dwg5sydgquur"]
+
+[ext_resource type="Script" uid="uid://wpwwdjk42xwe" path="res://Weapons/melee.gd" id="1_4jxaa"]
+[ext_resource type="Texture2D" uid="uid://c3y8goxxcrlrj" path="res://art/Weapons/pixel_art_sword_slash_sprites.png" id="2_4jxaa"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v0qp1"]
+friction = 0.2
+bounce = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lqaso"]
+radius = 0.2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcquk"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(0, 0, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7w7dw"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(64, 0, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_27s6r"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(128, 0, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qb5o4"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(0, 47, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vs4xa"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(64, 47, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7jkmi"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(128, 47, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1lqc"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(0, 94, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4uom"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(64, 94, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jp3wh"]
+atlas = ExtResource("2_4jxaa")
+region = Rect2(128, 94, 64, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oika3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fcquk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7w7dw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27s6r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qb5o4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vs4xa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7jkmi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1lqc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4uom")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jp3wh")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 12.0
+}]
+
+[node name="sword_slash" type="RigidBody3D" unique_id=91766674]
+collision_layer = 4
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_v0qp1")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_4jxaa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=589480253]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("SphereShape3D_lqaso")
+
+[node name="Anim" type="AnimatedSprite3D" parent="." unique_id=2088719789]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_oika3")
+animation = &"attack"
+
+[node name="Timer" type="Timer" parent="." unique_id=329340027]
+wait_time = 0.1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="Anim" to="." method="_on_anim_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

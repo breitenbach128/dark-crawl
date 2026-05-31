@@ -71,13 +71,14 @@ func _input(event):
 				ui.discard_card(ui.card_hand.get_children()[0])
 			
 func shoot():
-	SoundManager.play_gun_sound(GUNS.BLASTER)
-	var bullet_speed = 25
+	#SoundManager.play_gun_sound(GUNS.BLASTER)
+	var attack_velocity = 0.01
 	gun_sprite.play("shoot")
-	var new_bullet : RigidBody3D = load("res://Weapons/bullet_1.tscn").instantiate()
-	get_tree().current_scene.bullets_root.add_child(new_bullet)
+	var attack : Melee = load("res://Weapons/sword_slash.tscn").instantiate()
+	attack.attack()
+	get_tree().current_scene.bullets_root.add_child(attack)
 	#POSITION
-	new_bullet.position = gun_marker.global_position
+	attack.position = gun_marker.global_position
 	#new_bullet.global_transform.origin = camera.global_transform.origin	
 	
 	var target_point : Vector3
@@ -88,7 +89,7 @@ func shoot():
 	#print("Camera: ",-camera.global_transform.basis.z.normalized())
 	#new_bullet.apply_impulse(-camera.global_transform.basis.z.normalized()  * bullet_speed)
 	var direction = gun_marker.global_position.direction_to(target_point)
-	new_bullet.apply_impulse(direction * bullet_speed)
+	attack.apply_impulse(direction * attack_velocity)
 	
 
 func move(delta):

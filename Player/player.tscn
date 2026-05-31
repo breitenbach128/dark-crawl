@@ -63,6 +63,9 @@ _data = {
 }
 point_count = 7
 
+[sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
+font_size = 24
+
 [node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("gun_marker", "gun_raycast", "ui", "health_component", "gun_sprite")]
 script = ExtResource("1_l8h54")
 gun_marker = NodePath("GunMarker")
@@ -179,3 +182,26 @@ texture = ExtResource("7_vtle1")
 
 [node name="PathCardDiscard" type="Path2D" parent="CanvasLayer/UI" unique_id=1035138848]
 curve = SubResource("Curve2D_vtle1")
+
+[node name="CardTitle" type="Label" parent="." unique_id=1974957263]
+texture_filter = 1
+offset_left = 27.0
+offset_top = 34.0
+offset_right = 247.0
+offset_bottom = 74.0
+scale = Vector2(0.5, 0.5)
+text = "Longsword"
+label_settings = SubResource("LabelSettings_4crdo")
+horizontal_alignment = 1
+
+[node name="CardEffect" type="Label" parent="." unique_id=1903926040]
+texture_filter = 1
+offset_left = 24.0
+offset_top = 152.0
+offset_right = 244.0
+offset_bottom = 236.0
+scale = Vector2(0.5, 0.5)
+text = "1-8 Damage, Melee
+"
+label_settings = SubResource("LabelSettings_4crdo")
+horizontal_alignment = 1
