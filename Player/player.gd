@@ -1,9 +1,16 @@
 extends CharacterBody3D
 class_name Player
+
+@export_category("Mouse Control")
 @export var mouse_sensitivity : float = 0.002
+
+@export_category("Aimming")
 @onready var camera : Camera3D = $Camera3D
 @export var gun_marker : Node3D
 @export var gun_raycast : RayCast3D
+
+@export_category("UI")
+@export var ui : UI 
 
 var jump_velocity : float = 25.5
 var movement_speed : float = 8.0
@@ -13,7 +20,12 @@ var dash_speed : float = 18.0
 
 enum GUNS {BLASTER=0}
 
+#Components
+@export_category("Components")
+@export var health_component : Health_Component
+
 #nodes
+@export_category("Sprites")
 @export var gun_sprite : AnimatedSprite3D
 
 func _ready() -> void:
@@ -51,6 +63,13 @@ func _input(event):
 			#Shoot Gun 
 			if !gun_sprite.is_playing():
 				shoot()
+	if event is InputEventKey:
+		if Input.is_action_just_pressed("draw_card_force"):
+			ui.draw_card()
+		if Input.is_action_just_pressed("discard_card_force"):
+			if ui.card_hand.get_child_count() > 0:
+				ui.discard_card(ui.card_hand.get_children()[0])
+			
 func shoot():
 	SoundManager.play_gun_sound(GUNS.BLASTER)
 	var bullet_speed = 25

@@ -20,9 +20,8 @@ signal health_death
 func _ready() -> void:
 	pass
 
-
 func take_damage(damage_number):	
-	print("HC Taking damage")
+	#print("HC Taking damage")
 	health = health - damage_number
 	var ui_effect_damage_number : Damage_Number = load("res://UIEffects/damage_number.tscn").instantiate()
 	get_tree().current_scene.uieffects_root.add_child(ui_effect_damage_number)

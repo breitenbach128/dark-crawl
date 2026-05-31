@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://cun5efmq4qhh6" path="res://art/Weapons/crosshair_1.png" id="3_btcbx"]
 [ext_resource type="Script" uid="uid://bga4dowpnkdoo" path="res://Player/ui.gd" id="3_fhl08"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_vtle1"]
-[ext_resource type="PackedScene" uid="uid://cm2djj3ued2uq" path="res://UI/Cards/card_template.tscn" id="4_gwnis"]
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="4_k53q1"]
 [ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="7_vtle1"]
 
@@ -113,7 +112,7 @@ script = ExtResource("3_fhl08")
 debug_card_index = NodePath("Label")
 card_deck = NodePath("CardArea/Deck")
 card_hand = NodePath("CardArea/CardHand")
-discard_path = NodePath("PathCardDiscard")
+discard_path = NodePath("../PathCardDiscard/PathFollow2D")
 
 [node name="Label" type="Label" parent="CanvasLayer/UI" unique_id=770317034]
 layout_mode = 0
@@ -150,15 +149,6 @@ custom_minimum_size = Vector2(160, 212)
 layout_mode = 2
 texture = SubResource("AtlasTexture_vtle1")
 
-[node name="Card" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1504661029 instance=ExtResource("4_gwnis")]
-layout_mode = 0
-
-[node name="Card2" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1319707028 instance=ExtResource("4_gwnis")]
-layout_mode = 0
-
-[node name="Card3" parent="CanvasLayer/UI/CardArea/Deck" unique_id=2070312246 instance=ExtResource("4_gwnis")]
-layout_mode = 0
-
 [node name="CardHand" type="HBoxContainer" parent="CanvasLayer/UI/CardArea" unique_id=1189480962]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -177,5 +167,9 @@ grow_horizontal = 0
 grow_vertical = 0
 texture = ExtResource("7_vtle1")
 
-[node name="PathCardDiscard" type="Path2D" parent="CanvasLayer/UI" unique_id=1035138848]
+[node name="PathCardDiscard" type="Path2D" parent="CanvasLayer" unique_id=1035138848]
 curve = SubResource("Curve2D_vtle1")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="CanvasLayer/PathCardDiscard" unique_id=1273251161]
+position = Vector2(405, 416)
+rotation = -0.5172874

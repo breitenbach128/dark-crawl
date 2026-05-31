@@ -1,0 +1,102 @@
+extends Control
+class_name Card
+
+enum  CARD_CATEGORIES {ATTACK, DEFENSE, UTILITY}
+
+var control_icon_textures : Array[Dictionary] = [
+	{
+		"atlas": load("res://art/ui/ui_mouse_icons.png"),
+		"region" : Rect2(Vector2(0,0),Vector2(128,128)),
+		"input" : "MOUSE1"
+	},
+	{
+		"atlas":load("res://art/ui/ui_mouse_icons.png"),
+		"region" : Rect2(Vector2(128,0),Vector2(128,128)),
+		"input" : "MOUSE2"},
+	{	
+		"atlas":load("res://art/ui/ui_mouse_icons.png"),
+		"region" : Rect2(Vector2(256,0),Vector2(128,128)),
+		"input" : "MOUSE3"},
+	{	
+		"atlas":load("res://art/ui/ui_control_icons.png"),
+		"region" : Rect2(Vector2(0,0),Vector2(128,128)),
+		"input" : "Q"},
+	{
+		"atlas":load("res://art/ui/ui_control_icons.png"),
+		"region" : Rect2(Vector2(128,0),Vector2(128,128)),
+		"input" : "E"}
+]
+
+
+@export_category("General")
+@export var card_type : CARD_CATEGORIES
+@export var card_name : String = "Card Name"
+@export var control_icon : TextureRect
+
+
+@export_category("Parameters")
+@export var attack_min : int = 0
+@export var attack_max : int = 0
+@export var restistance : Dictionary = {
+	"physical": 0.0,
+	"fire": 0.0,
+	"force": 0.0,
+	"shock": 0.0,
+	"cold": 0.0,
+	"soul": 0.0
+}
+@export var movement_speed: float = 0.0
+@export var rate: float = 0.0 #How fast can the card be activated / cooldown
+@export var attack_effects : Array = [] #What effects can the card cause, trigger, etc.
+@export var self_effects : Array = []
+
+var card_hand_index : int  = 0
+
+
+func _ready() -> void:
+	$CardTitle.text = card_name
+	print("Anchors " , anchor_left, anchor_top)
+
+func drawn(index):
+	print("Card Drawn from Deck, in hand index ", index)
+	card_hand_index = index
+	var new_texture = AtlasTexture.new()
+	new_texture.atlas =  control_icon_textures[card_hand_index].atlas
+	new_texture.region = control_icon_textures[card_hand_index].region
+	control_icon.texture = new_texture
+	control_icon.visible = true
+
+func selected():
+	$SelectedBorder.visible = true
+	print("Card Selected: ", name, " ", position, " globalpos: ", global_position)
+	
+func deselected():
+	$SelectedBorder.visible = false
+	
+func discarded(path,ui):
+	var holder_node = Control.new()
+	var follow_path = PathFollow2D.new()
+	var refrect= ReferenceRect.new()
+	holder_node.add_child(refrect)
+	path.add_child(follow_path)
+	ui.add_child(holder_node)
+	holder_node.global_position = global_position
+	holder_node.custom_minimum_size = self.custom_minimum_size
+	holder_node.size = self.size
+	holder_node.pivot_offset_ratio = Vector2(0.5,0.5)
+	reparent(holder_node,true)
+
+	print("Rotation ", pivot_offset_ratio, " ", pivot_offset)
+	var progress_ratio = 0.0
+	var travel_time = 5.0
+	# Create and play the tween
+	var discard_tween = create_tween()
+	# Animate the progress_ratio from 0 to 1
+	discard_tween.tween_property(follow_path, "progress_ratio", 1.0, travel_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	discard_tween.parallel().tween_method(
+		func(_value): holder_node.global_position = follow_path.global_position - (holder_node.size/2),
+		0.0, 1.0, travel_time
+	)
+	discard_tween.parallel().tween_property(self, "rotation_degrees", 720.0, travel_time)
+	discard_tween.parallel().tween_property(self, "scale", Vector2(0.3,0.3), travel_time)
+	discard_tween.finished.connect(queue_free)
