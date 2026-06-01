@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dwg5sydgquur"]
 
-[ext_resource type="Script" uid="uid://wpwwdjk42xwe" path="res://Weapons/melee.gd" id="1_4jxaa"]
+[ext_resource type="Script" uid="uid://benrwrut7pys6" path="res://Weapons/attack.gd" id="1_4jxaa"]
 [ext_resource type="Texture2D" uid="uid://c3y8goxxcrlrj" path="res://art/Weapons/pixel_art_sword_slash_sprites.png" id="2_4jxaa"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v0qp1"]
@@ -95,11 +95,12 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0
 shape = SubResource("SphereShape3D_lqaso")
 
 [node name="Anim" type="AnimatedSprite3D" parent="." unique_id=2088719789]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 billboard = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_oika3")
 animation = &"attack"
+frame = 8
+frame_progress = 1.0
 
 [node name="Timer" type="Timer" parent="." unique_id=329340027]
 wait_time = 0.1

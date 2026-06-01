@@ -6,7 +6,8 @@ class_name Player
 
 @export_category("Aimming")
 @onready var camera : Camera3D = $Camera3D
-@export var gun_marker : Node3D
+@export var right_hand : Node3D
+@export var left_hand : Node3D
 @export var gun_raycast : RayCast3D
 
 @export_category("UI")
@@ -60,37 +61,27 @@ func _input(event):
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			#Shoot Gun 
-			if !gun_sprite.is_playing():
-				shoot()
+			run_card(0)
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			run_card(1)
+		if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+			run_card(1)
+	
 	if event is InputEventKey:
 		if Input.is_action_just_pressed("draw_card_force"):
 			ui.draw_card()
 		if Input.is_action_just_pressed("discard_card_force"):
 			if ui.card_hand.get_child_count() > 0:
 				ui.discard_card(ui.card_hand.get_children()[0])
-			
-func shoot():
-	#SoundManager.play_gun_sound(GUNS.BLASTER)
-	var attack_velocity = 0.01
-	gun_sprite.play("shoot")
-	var attack : Melee = load("res://Weapons/sword_slash.tscn").instantiate()
-	attack.attack()
-	get_tree().current_scene.bullets_root.add_child(attack)
-	#POSITION
-	attack.position = gun_marker.global_position
-	#new_bullet.global_transform.origin = camera.global_transform.origin	
+
+func run_card(index):
 	
-	var target_point : Vector3
-	if gun_raycast.is_colliding():
-		target_point = gun_raycast.get_collision_point()
-	else:
-		target_point = camera.global_position + (-camera.global_transform.basis.z * 1000)
-	#print("Camera: ",-camera.global_transform.basis.z.normalized())
-	#new_bullet.apply_impulse(-camera.global_transform.basis.z.normalized()  * bullet_speed)
-	var direction = gun_marker.global_position.direction_to(target_point)
-	attack.apply_impulse(direction * attack_velocity)
-	
+	if ui.card_hand.get_child_count() > index:
+		var card : Card = ui.card_hand.get_child(index)
+		if card.card_ready:
+			print("Running Card: ", card.card_name)
+			gun_sprite.play("shoot")
+			card.use_card()
 
 func move(delta):
 	var input_dir: Vector2 = Input.get_vector("strafe_left", "strafe_right", "move_forward", "move_backwards")

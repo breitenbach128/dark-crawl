@@ -8,6 +8,7 @@ class_name UI
 @export var card_deck : TextureRect
 @export var card_hand : HBoxContainer
 @export var discard_path: Path2D
+@export var player: Player
 var selected_card : Card
 var selected_card_index : int = 0
 var max_hand_size : int = 5
@@ -83,7 +84,7 @@ func draw_card():
 func take_card(top_card : Card):
 	top_card.reparent(card_hand,true)
 	draw_tween_pending = max(0,draw_tween_pending - 1) #Clamps to zero as a min
-	top_card.drawn(card_hand.get_child_count() - 1)
+	top_card.drawn(card_hand.get_child_count() - 1,self,player)
 
 func discard_card(card : Card):
 	card.reparent(self, true) #Move back to UI parent

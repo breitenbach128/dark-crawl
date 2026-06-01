@@ -1,25 +1,25 @@
-[gd_scene format=3 uid="uid://cm2djj3ued2uq"]
+[gd_scene format=3 uid="uid://cotr24htyhlfv"]
 
-[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/card.gd" id="1_4kgta"]
-[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="2_qlr6f"]
-[ext_resource type="Texture2D" uid="uid://bgydht8j3mgm8" path="res://art/Weapons/bullet_blast_1.png" id="3_c1kgs"]
-[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="4_4ublx"]
-[ext_resource type="Texture2D" uid="uid://d3fowu6o7omp3" path="res://art/Weapons/Veteran War Sword.png" id="5_qlr6f"]
-[ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="6_c1kgs"]
+[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/card.gd" id="1_2rpwk"]
+[ext_resource type="PackedScene" uid="uid://dbwflkox1ee0q" path="res://Weapons/bullet_1.tscn" id="2_2rpwk"]
+[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_fydt7"]
+[ext_resource type="Texture2D" uid="uid://bgydht8j3mgm8" path="res://art/Weapons/bullet_blast_1.png" id="4_u0ehm"]
+[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="5_17hf5"]
+[ext_resource type="Texture2D" uid="uid://d3fowu6o7omp3" path="res://art/Weapons/Veteran War Sword.png" id="6_2aboh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
-atlas = ExtResource("2_qlr6f")
+atlas = ExtResource("3_fydt7")
 region = Rect2(16, 352, 64, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p0wgq"]
-atlas = ExtResource("2_qlr6f")
+atlas = ExtResource("3_fydt7")
 region = Rect2(336, 128, 64, 96)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
 font_size = 24
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxjwh"]
-atlas = ExtResource("4_4ublx")
+atlas = ExtResource("5_17hf5")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qlr6f"]
@@ -36,20 +36,15 @@ anchors_preset = 0
 offset_right = 160.0
 offset_bottom = 212.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
-script = ExtResource("1_4kgta")
-card_type = null
-card_name = null
+script = ExtResource("1_2rpwk")
+card_type = 1
+card_name = "Magic Blast"
 control_icon = NodePath("ControlIcon")
-energy = null
-attack_damage = null
-attack_resource = ExtResource("6_c1kgs")
-restistance = null
-attack_velocity = null
-movement_speed = null
-rate = null
+energy = 10
+attack_resource = ExtResource("2_2rpwk")
+attack_velocity = 6.0
+rate = 0.7
 cooldownTimer = NodePath("CoolDown")
-attack_effects = null
-self_effects = null
 
 [node name="CardTemplate" type="TextureRect" parent="." unique_id=1514441462]
 texture_filter = 1
@@ -100,7 +95,7 @@ offset_left = 98.0
 offset_top = 9.0
 offset_right = 122.0
 offset_bottom = 33.0
-texture = ExtResource("3_c1kgs")
+texture = ExtResource("4_u0ehm")
 
 [node name="ControlIcon" type="TextureRect" parent="." unique_id=995841942]
 visible = false
@@ -119,7 +114,7 @@ offset_left = 27.0
 offset_top = 50.0
 offset_right = 134.0
 offset_bottom = 113.0
-texture = ExtResource("5_qlr6f")
+texture = ExtResource("6_2aboh")
 stretch_mode = 5
 
 [node name="EnergyLevel" type="Label" parent="." unique_id=1739479121]
