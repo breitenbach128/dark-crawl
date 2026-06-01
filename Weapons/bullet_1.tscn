@@ -20,7 +20,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4qe6w")
 }],
-"loop": false,
+"loop": true,
 "name": &"attack",
 "speed": 5.0
 }]
@@ -45,9 +45,9 @@ texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_651ug")
 animation = &"attack"
 
-[node name="Timer" type="Timer" parent="." unique_id=329340027]
+[node name="Lifespan" type="Timer" parent="." unique_id=329340027]
 wait_time = 5.0
 autostart = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Lifespan" to="." method="_on_lifespan_timeout"]

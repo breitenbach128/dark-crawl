@@ -66,8 +66,8 @@ point_count = 7
 
 [node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "health_component", "gun_sprite")]
 script = ExtResource("1_l8h54")
-right_hand = NodePath("RightHand")
-left_hand = NodePath("LeftHand")
+right_hand = NodePath("Camera3D/RightHand")
+left_hand = NodePath("Camera3D/LeftHand")
 gun_raycast = NodePath("Camera3D/RayCast3D")
 ui = NodePath("CanvasLayer/UI")
 health_component = NodePath("HealthComponent")
@@ -94,11 +94,11 @@ texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_vtle1")
 animation = &"shoot"
 
-[node name="RightHand" type="Node3D" parent="." unique_id=632795815]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.6, -0.778)
+[node name="RightHand" type="Node3D" parent="Camera3D" unique_id=632795815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.08550656, -0.68905187)
 
-[node name="LeftHand" type="Node3D" parent="." unique_id=18097889]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.6, -0.778)
+[node name="LeftHand" type="Node3D" parent="Camera3D" unique_id=18097889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.08550656, -0.68905187)
 
 [node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_vtle1")]
 health = 100

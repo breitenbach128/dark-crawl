@@ -42,7 +42,7 @@ card_name = "Magic Blast"
 control_icon = NodePath("ControlIcon")
 energy = 10
 attack_resource = ExtResource("2_2rpwk")
-attack_velocity = 6.0
+attack_velocity = 20.0
 rate = 0.7
 cooldownTimer = NodePath("CoolDown")
 
