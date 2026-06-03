@@ -37,19 +37,17 @@ offset_right = 160.0
 offset_bottom = 212.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
 script = ExtResource("1_4kgta")
-card_type = null
-card_name = null
 control_icon = NodePath("ControlIcon")
-energy = null
-attack_damage = null
+attack_damage = {
+"cold": [0, 0],
+"fire": [0, 0],
+"force": [0, 0],
+"physical": [1, 8],
+"shock": [0, 0],
+"soul": [0, 0]
+}
 attack_resource = ExtResource("6_c1kgs")
-restistance = null
-attack_velocity = null
-movement_speed = null
-rate = null
 cooldownTimer = NodePath("CoolDown")
-attack_effects = null
-self_effects = null
 
 [node name="CardTemplate" type="TextureRect" parent="." unique_id=1514441462]
 texture_filter = 1

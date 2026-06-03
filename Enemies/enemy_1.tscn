@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://cqtpg0fh2vgee" path="res://art/Enemies/MerfolkImpaler.png" id="1_mbxyh"]
 [ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy_1.gd" id="1_vy3xu"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_4cuqr"]
+[ext_resource type="Script" uid="uid://cg2vnfv2on06f" path="res://Statemachine/statemachine.gd" id="4_kvr2i"]
+[ext_resource type="Script" uid="uid://bxktyrxbnrj8p" path="res://Statemachine/enemy_idle.gd" id="5_l2fd0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
@@ -27,3 +29,13 @@ region_rect = Rect2(0, 0, 16, 16)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.2)
 health = 10
 health_max = 10
+
+[node name="StateMachine" type="Node" parent="." unique_id=1309826036 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("4_kvr2i")
+initial_state = NodePath("EnemyIdle")
+metadata/_custom_type_script = "uid://cg2vnfv2on06f"
+
+[node name="EnemyIdle" type="Node" parent="StateMachine" unique_id=185323446 node_paths=PackedStringArray("enemy")]
+script = ExtResource("5_l2fd0")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://bxktyrxbnrj8p"

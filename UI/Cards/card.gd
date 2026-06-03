@@ -101,7 +101,7 @@ func get_attack_origin():
 			return player.right_hand
 
 func attack_action():
-	print("attack card")
+	print("attack card ", attack_damage)
 	var attack :Attack = attack_resource.instantiate()
 	attack.attack(attack_damage)
 	get_tree().current_scene.bullets_root.add_child(attack)
