@@ -23,3 +23,5 @@ func Update(delta: float):
 func Physics_Update(_delta : float):
 	if enemy:		
 		enemy.velocity = move_direction * move_speed 
+		
+#Transitioned.emit(self, "otherstate")

@@ -39,3 +39,5 @@ metadata/_custom_type_script = "uid://cg2vnfv2on06f"
 script = ExtResource("5_l2fd0")
 enemy = NodePath("../..")
 metadata/_custom_type_script = "uid://bxktyrxbnrj8p"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2083722768]
