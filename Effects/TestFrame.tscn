@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://bfa5o3hiytvfv"]
+
+[ext_resource type="Script" uid="uid://bc617y8yerwuh" path="res://Effects/test_frame.gd" id="1_xia4u"]
+[ext_resource type="Texture2D" uid="uid://dnfoflwudl7f0" path="res://art/Enemies/testangle.png" id="2_8hi46"]
+
+[sub_resource type="Animation" id="Animation_fdypd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_bu0sy"]
+resource_name = "idle_back"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.033333335, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_8hi46"]
+resource_name = "idle_front"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_ii8bt"]
+resource_name = "idle_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_w3m8n"]
+resource_name = "idle_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bu0sy"]
+_data = {
+&"RESET": SubResource("Animation_fdypd"),
+&"idle_back": SubResource("Animation_bu0sy"),
+&"idle_front": SubResource("Animation_8hi46"),
+&"idle_left": SubResource("Animation_ii8bt"),
+&"idle_right": SubResource("Animation_w3m8n")
+}
+
+[node name="TestFrame" type="Node3D" unique_id=107425910 node_paths=PackedStringArray("anim_player")]
+script = ExtResource("1_xia4u")
+anim_player = NodePath("AnimationPlayer")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1035238143]
+billboard = 2
+texture_filter = 0
+texture = ExtResource("2_8hi46")
+hframes = 2
+vframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=175273312]
+libraries/ = SubResource("AnimationLibrary_bu0sy")

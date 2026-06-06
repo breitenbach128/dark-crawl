@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bfq6musk5k252" path="res://Enemies/enemy_1.tscn" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://ce16cimxtm3mu" path="res://World/Floors/floor_4x4.tscn" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://x7x6ehjlc4ny" path="res://World/Floors/floor_1x1.tscn" id="7_kek77"]
+[ext_resource type="PackedScene" uid="uid://bfa5o3hiytvfv" path="res://Effects/TestFrame.tscn" id="9_kek77"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
 size = Vector3(60, 1, 60)
@@ -105,5 +106,9 @@ transform = Transform3D(3, 0, 0, 0, 0.2, 0, 0, 0, 3, -5.8, 0, -6.1000004)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.7, 0)
 
 [node name="UIEffects" type="Node3D" parent="." unique_id=1188170590]
+
+[node name="TestFrame" parent="." unique_id=107425910 node_paths=PackedStringArray("player") instance=ExtResource("9_kek77")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.7, -3.4)
+player = NodePath("../Player")
 
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]
