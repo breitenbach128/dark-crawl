@@ -1,27 +1,26 @@
 extends State
-class_name EnemyIdle
+class_name StateEnemyIdle
 
 @export var enemy : CharacterBody3D
-var move_speed : float = 6.0
-var move_direction: Vector3
-var wander_time : float
+@export var bored_level : float = 0.50
 
-func randomize_wander():
-	move_direction  = Vector3(randf_range(-1,1),0.0,randf_range(-1,1))
-	wander_time = randf_range(3,6)
+var idle_time : float
+ 
+
+func randomize_idle():
+	idle_time = randf_range(1,10)
 	
-
 func Enter():
-	randomize_wander()
+	print("Enter State, StateEnemyIdle")
+	randomize_idle()
 
 func Update(delta: float):
-	if wander_time > 0:
-		wander_time -= delta
+	if idle_time > 0:
+		idle_time -= delta
 	else:
-		randomize_wander()
+		#Look to do something else
+		if randf() < bored_level:
+			Transitioned.emit(self, "StateEnemyWander")
 
 func Physics_Update(_delta : float):
-	if enemy:		
-		enemy.velocity = move_direction * move_speed 
-		
-#Transitioned.emit(self, "otherstate")
+	pass

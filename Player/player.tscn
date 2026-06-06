@@ -64,7 +64,7 @@ _data = {
 }
 point_count = 7
 
-[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "health_component", "gun_sprite")]
+[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
 right_hand = NodePath("Camera3D/RightHand")
 left_hand = NodePath("Camera3D/LeftHand")

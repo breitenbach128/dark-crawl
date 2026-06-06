@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://3qlfkta2bnks"]
+
+[ext_resource type="Script" uid="uid://jl48ewn38l5h" path="res://Enemies/Attacks/enemy_attack.gd" id="1_jiqw2"]
+[ext_resource type="Texture2D" uid="uid://c0cpplwmpjuea" path="res://art/Enemies/Attacks/MerfolkTrident.png" id="2_u3gby"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_u3gby"]
+radius = 0.09982186
+
+[node name="EnemyAttack" type="Node3D" unique_id=827840960]
+script = ExtResource("1_jiqw2")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=242593886]
+texture_filter = 0
+texture = ExtResource("2_u3gby")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=364796060]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=268773205]
+shape = SubResource("SphereShape3D_u3gby")
+
+[node name="Lifespan" type="Timer" parent="." unique_id=1628370107]
+wait_time = 10.0
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="timeout" from="Lifespan" to="." method="_on_lifespan_timeout"]

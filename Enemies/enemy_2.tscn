@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bjtmk0f1ehwt5"]
 
-[ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy_1.gd" id="1_rtiul"]
+[ext_resource type="Script" uid="uid://bot15kw8y5sd4" path="res://Enemies/enemy_2.gd" id="1_csjqm"]
 [ext_resource type="Texture2D" uid="uid://cqtpg0fh2vgee" path="res://art/Enemies/MerfolkImpaler.png" id="2_by8t8"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_sesgi"]
 
@@ -38,22 +38,52 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_rtiul"]
+resource_name = "Walk"
+length = 0.5
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [4, 5, 6]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rtiul"]
 _data = {
 &"Idle": SubResource("Animation_csjqm"),
-&"RESET": SubResource("Animation_1jrr1")
+&"RESET": SubResource("Animation_1jrr1"),
+&"Walk": SubResource("Animation_rtiul")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_csjqm"]
 animation = &"Idle"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1jrr1"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rtiul"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_csjqm"]
+advance_mode = 2
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_csjqm"]
 states/Idle/node = SubResource("AnimationNodeAnimation_csjqm")
-states/Idle/position = Vector2(379, 100)
+states/Idle/position = Vector2(315, 229)
+states/Start/position = Vector2(143, 100)
+states/Walk/node = SubResource("AnimationNodeAnimation_1jrr1")
+states/Walk/position = Vector2(658, 229)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_rtiul"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_csjqm")]
 
-[node name="Enemy2" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component")]
-script = ExtResource("1_rtiul")
-health_component = NodePath("HealthComponent")
+[node name="EnemySM" type="CharacterBody3D" unique_id=772004908]
+script = ExtResource("1_csjqm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1774136908]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
@@ -65,9 +95,9 @@ pixel_size = 0.15
 billboard = 2
 texture_filter = 0
 texture = ExtResource("2_by8t8")
-hframes = 4
+hframes = 7
 region_enabled = true
-region_rect = Rect2(0, 0, 64, 16)
+region_rect = Rect2(0, 0, 112, 16)
 
 [node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_sesgi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.2)

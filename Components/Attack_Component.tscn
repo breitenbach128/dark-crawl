@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cr2g8yogrqi8n"]
+
+[ext_resource type="Script" uid="uid://dwkv117macc0t" path="res://Components/attack_component.gd" id="1_7k3ld"]
+[ext_resource type="Script" uid="uid://bkibh4ljqsyu6" path="res://Classes/attack_selection.gd" id="2_six8p"]
+[ext_resource type="PackedScene" uid="uid://3qlfkta2bnks" path="res://Enemies/Attacks/enemy_attack.tscn" id="3_bqrff"]
+
+[sub_resource type="Resource" id="Resource_bqrff"]
+script = ExtResource("2_six8p")
+enemy_attack = ExtResource("3_bqrff")
+selection_chance = 1.0
+metadata/_custom_type_script = "uid://bkibh4ljqsyu6"
+
+[node name="AttackComponent" type="Node3D" unique_id=1762840063]
+script = ExtResource("1_7k3ld")
+attack_list = Array[ExtResource("2_six8p")]([SubResource("Resource_bqrff")])

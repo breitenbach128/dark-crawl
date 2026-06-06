@@ -4,13 +4,17 @@
 [ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy_1.gd" id="1_vy3xu"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_4cuqr"]
 [ext_resource type="Script" uid="uid://cg2vnfv2on06f" path="res://Statemachine/statemachine.gd" id="4_kvr2i"]
-[ext_resource type="Script" uid="uid://bxktyrxbnrj8p" path="res://Statemachine/enemy_idle.gd" id="5_l2fd0"]
+[ext_resource type="PackedScene" uid="uid://cr2g8yogrqi8n" path="res://Components/Attack_Component.tscn" id="4_p1n56"]
+[ext_resource type="Script" uid="uid://cmfdvoc00jqfv" path="res://Statemachine/enemy_idle.gd" id="5_l2fd0"]
+[ext_resource type="Script" uid="uid://bxktyrxbnrj8p" path="res://Statemachine/enemy_wander.gd" id="6_l2fd0"]
+[ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="8_rknch"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
-[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component")]
+[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component")]
 script = ExtResource("1_vy3xu")
 health_component = NodePath("HealthComponent")
+attack_component = NodePath("AttackComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1774136908]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
@@ -30,14 +34,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.2)
 health = 10
 health_max = 10
 
+[node name="AttackComponent" parent="." unique_id=1762840063 node_paths=PackedStringArray("enemy") instance=ExtResource("4_p1n56")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+enemy = NodePath("..")
+
 [node name="StateMachine" type="Node" parent="." unique_id=1309826036 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_kvr2i")
-initial_state = NodePath("EnemyIdle")
+initial_state = NodePath("StateEnemyIdle")
 metadata/_custom_type_script = "uid://cg2vnfv2on06f"
 
-[node name="EnemyIdle" type="Node" parent="StateMachine" unique_id=185323446 node_paths=PackedStringArray("enemy")]
+[node name="StateEnemyIdle" type="Node" parent="StateMachine" unique_id=2136858549 node_paths=PackedStringArray("enemy")]
 script = ExtResource("5_l2fd0")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://cmfdvoc00jqfv"
+
+[node name="StateEnemyWander" type="Node" parent="StateMachine" unique_id=230540216 node_paths=PackedStringArray("enemy")]
+script = ExtResource("6_l2fd0")
 enemy = NodePath("../..")
 metadata/_custom_type_script = "uid://bxktyrxbnrj8p"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2083722768]
+[node name="StateEnemyAttack" type="Node" parent="StateMachine" unique_id=1821165404 node_paths=PackedStringArray("enemy")]
+script = ExtResource("8_rknch")
+enemy = NodePath("../..")
+attack_rate_timer = 1.5
+metadata/_custom_type_script = "uid://btwueqitmvqcq"

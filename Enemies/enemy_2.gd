@@ -1,12 +1,11 @@
 extends CharacterBody3D
 
-class_name Enemy
+class_name EnemySM
 
 
 @export var enemy_name : String = "Enemy"
 
 @export var health_component : Health_Component
-@export var attack_component : Attack_Component
 
 var death_sound_index = 0
 var gravity = 75.5
