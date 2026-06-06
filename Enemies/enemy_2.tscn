@@ -6,6 +6,22 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
+[sub_resource type="Animation" id="Animation_by8t8"]
+resource_name = "Attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [7, 8, 9, 10, 11]
+}
+
 [sub_resource type="Animation" id="Animation_csjqm"]
 resource_name = "Idle"
 length = 1.2
@@ -57,10 +73,14 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rtiul"]
 _data = {
+&"Attack": SubResource("Animation_by8t8"),
 &"Idle": SubResource("Animation_csjqm"),
 &"RESET": SubResource("Animation_1jrr1"),
 &"Walk": SubResource("Animation_rtiul")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rtiul"]
+animation = &"Attack"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_csjqm"]
 animation = &"Idle"
@@ -71,16 +91,15 @@ animation = &"Walk"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rtiul"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_csjqm"]
-advance_mode = 2
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_csjqm"]
+states/Attack/node = SubResource("AnimationNodeAnimation_rtiul")
+states/Attack/position = Vector2(479, 100)
 states/Idle/node = SubResource("AnimationNodeAnimation_csjqm")
 states/Idle/position = Vector2(315, 229)
 states/Start/position = Vector2(143, 100)
 states/Walk/node = SubResource("AnimationNodeAnimation_1jrr1")
 states/Walk/position = Vector2(658, 229)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_rtiul"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_csjqm")]
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_rtiul")]
 
 [node name="EnemySM" type="CharacterBody3D" unique_id=772004908]
 script = ExtResource("1_csjqm")
@@ -95,9 +114,9 @@ pixel_size = 0.15
 billboard = 2
 texture_filter = 0
 texture = ExtResource("2_by8t8")
-hframes = 7
+hframes = 14
 region_enabled = true
-region_rect = Rect2(0, 0, 112, 16)
+region_rect = Rect2(0, 0, 224, 16)
 
 [node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_sesgi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.2)

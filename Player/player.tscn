@@ -116,17 +116,17 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3_fhl08")
-debug_card_index = NodePath("Label")
+debug_card_index = NodePath("Health")
 card_deck = NodePath("CardArea/Deck")
 card_hand = NodePath("CardArea/CardHand")
 discard_path = NodePath("PathCardDiscard")
 player = NodePath("../..")
 
-[node name="Label" type="Label" parent="CanvasLayer/UI" unique_id=770317034]
+[node name="Health" type="Label" parent="CanvasLayer/UI" unique_id=770317034]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
-text = "Some Text"
+text = "HP: 10"
 label_settings = SubResource("LabelSettings_lquwl")
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/UI" unique_id=1882463550]

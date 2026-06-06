@@ -14,7 +14,7 @@ var selected_card_index : int = 0
 var max_hand_size : int = 5
 var draw_tween_pending : int = 0
 
-
+enum SCREEN_FLASH_TYPE {HURT, HEAL, AURA, ZONE}
 
 
 func _ready() -> void:
@@ -23,6 +23,31 @@ func _ready() -> void:
 	var cards = card_hand.get_children()
 	if cards.size() > 0:
 		select_card(selected_card_index)
+	#Connect UI to Player Signals
+	if player:
+		player.health_component.health_changed.connect(update_ui_display_health)
+		update_ui_display_health(player.health_component.health,player.health_component.health_max,0)
+
+func update_ui_display_health(hp : float,hpmax : float,change):
+	var hp_change_percent : float = snapped((hp/hpmax),0.01)
+	#print("HP: ", hp, " HPMAX: ", hpmax)
+	#print(hp_change_percent," ",(hp/hpmax))
+	if change < 0:
+		screen_flash(SCREEN_FLASH_TYPE.HURT, 1-hp_change_percent)
+		pass
+	$Health.text = "HP: " + str(hp)
+
+func screen_flash(type : SCREEN_FLASH_TYPE, intensity : float):
+	match type:
+		SCREEN_FLASH_TYPE.HURT:
+			var hurt_rect : ColorRect = ColorRect.new()
+			hurt_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+			self.add_child(hurt_rect)
+			hurt_rect.color = Color(1,0,0,intensity)
+			var tween = create_tween()
+			tween.tween_property(hurt_rect,"color",Color(1,0,0,0),0.2)
+			tween.tween_callback(func(): hurt_rect.queue_free())
+
 
 func get_next_card():
 	var cards = card_hand.get_children()

@@ -8,24 +8,44 @@ class_name StateEnemyAttack
 @export var attack_rate_timer : float = 3.0
 @export var aggro_range: float = 10.0
 
+var atc: Attack_Component
+var use_animtree: bool = true
+
+func attack_animation_loop_complete():
+	var target = enemy.find_closest_player_target()
+	if target == null:
+		Transitioned.emit(self, "StateEnemyWander")	
+	if atc && target:
+		atc.attack_target(target)
+
 func Enter():
 	print("Enter State, StateEnemyAttack")
-
-func Update(delta: float):
-	if attack_rate_count < attack_rate_timer:
-		attack_rate_count += delta
+	enemy.velocity = Vector3(0,0,0) #Stop Moving
+	#Setup Attack Component for easy reference
+	atc = enemy.attack_component
+	#Use animation tree for attack timing. If no Anim Tree, then use the set values
+	if enemy.animation_tree:
+		var anim_sm :AnimationNodeStateMachinePlayback = enemy.animation_tree.get("parameters/playback")
+		anim_sm.travel("Attack")
 	else:
-		#Look to do something else
-		var players = get_tree().get_nodes_in_group("Player")
-		if players.size() == 0:
-			#can check aggro distance and LOS later
-			Transitioned.emit(self, "StateEnemyWander")
-		
-		if enemy.attack_component:
-			var atc : Attack_Component = enemy.attack_component
-			atc.attack_target(players[0])
-			
-		attack_rate_count = 0
+		use_animtree = false
+	
+func Update(delta: float):
+
+	#Do manual timer if there is no animation
+	if !use_animtree:
+		if attack_rate_count < attack_rate_timer:
+			attack_rate_count += delta
+		else:
+			#Look to do something else
+			var target = enemy.find_closest_player_target()
+			#If there are no player targets, then transition to wander or idle	
+			if target == null:
+				Transitioned.emit(self, "StateEnemyWander")		
+			if atc && target:
+				atc.attack_target(target)
+				
+			attack_rate_count = 0
 
 func Physics_Update(_delta : float):
 	pass

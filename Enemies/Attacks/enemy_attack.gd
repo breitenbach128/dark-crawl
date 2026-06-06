@@ -25,7 +25,9 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body is Player:
-		print(attack_name, " hit player")
+		#print(attack_name, " hit player")
+		if body.health_component:
+			body.health_component.take_damage(attack_damage)
 		call_deferred("queue_free")
 
 

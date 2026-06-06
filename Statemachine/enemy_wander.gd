@@ -17,9 +17,8 @@ func Enter():
 
 func Update(delta: float):
 	#Check for players to kill
-	var players = get_tree().get_nodes_in_group("Player")
-	if players.size() > 0:
-		#can check aggro distance and LOS later
+	var target = enemy.find_closest_player_target()
+	if target:
 		Transitioned.emit(self, "StateEnemyAttack")
 
 	#No players, so just wander	

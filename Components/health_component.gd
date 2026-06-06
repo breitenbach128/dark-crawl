@@ -29,7 +29,7 @@ func take_damage(attack_damage):
 	var soul_damage = ceil((1-soul) * randi_range(attack_damage.soul[0],attack_damage.soul[1]))
 	
 	var damage_number = physical_damage+fire_damage+shock_damage+force_damage+cold_damage+soul_damage
-	print("HC Taking damage ", attack_damage)
+	#print("HC Taking damage ", attack_damage)
 	health = health - damage_number
 	var ui_effect_damage_number : Damage_Number = load("res://UIEffects/damage_number.tscn").instantiate()
 	get_tree().current_scene.uieffects_root.add_child(ui_effect_damage_number)
@@ -39,9 +39,19 @@ func take_damage(attack_damage):
 	var bloodsplatter : GPUParticles3D = vi_bloodsplatter.get_node("GPUParticles3D")
 	bloodsplatter.restart()
 	
+	health_changed.emit(health, health_max, -damage_number)
+	
 	if health <= 0:
 		death()
 		
 func death():
 	health_death.emit()
-	queue_free()
+	
+	if get_parent() is Player:
+		print("GAME OVER")
+		#Switch to dead state, removing you from being targeted by enemies but allowing you
+		#be revived by other players.
+		#If all players are dead, go to MISSION failed screen to exit or restart
+	else:
+		#Monster death animation should start.
+		queue_free()
