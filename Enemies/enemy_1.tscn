@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="10_7bagf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
+height = 1.5
 
 [sub_resource type="Animation" id="Animation_by8t8"]
 resource_name = "Attack"
@@ -193,12 +194,12 @@ animation_tree = NodePath("AnimationTree")
 line_of_sight = NodePath("LineOfSign")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1774136908]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_h2yge")
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=669087216]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
-pixel_size = 0.15
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8000001, 0)
+pixel_size = 0.1
 billboard = 2
 texture_filter = 0
 texture = ExtResource("1_mbxyh")

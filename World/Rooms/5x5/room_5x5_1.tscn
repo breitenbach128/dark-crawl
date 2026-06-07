@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cfcb68jf1fakh"]
+
+[ext_resource type="PackedScene" uid="uid://cgstlgm26l3is" path="res://World/Floors/floor_5x5.tscn" id="1_xica4"]
+
+[node name="Room5x5_1" type="Node3D" unique_id=2141976506]
+
+[node name="Floor_5x5" parent="." unique_id=906401327 instance=ExtResource("1_xica4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

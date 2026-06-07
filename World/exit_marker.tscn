@@ -8,3 +8,8 @@ albedo_color = Color(1, 0.18039216, 0.14901961, 1)
 [node name="ExitMarker" type="MeshInstance3D" unique_id=2049237436]
 mesh = SubResource("BoxMesh_4pyhv")
 surface_material_override/0 = SubResource("StandardMaterial3D_4pyhv")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1875916054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90000004, 0)
+billboard = 1
+text = "(0,0)"
