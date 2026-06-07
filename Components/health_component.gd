@@ -17,6 +17,7 @@ class_name Health_Component
 signal health_changed
 signal health_death
 
+
 func _ready() -> void:
 	pass
 
@@ -52,6 +53,3 @@ func death():
 		#Switch to dead state, removing you from being targeted by enemies but allowing you
 		#be revived by other players.
 		#If all players are dead, go to MISSION failed screen to exit or restart
-	else:
-		#Monster death animation should start.
-		queue_free()

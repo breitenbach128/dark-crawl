@@ -10,7 +10,7 @@ func attack(damage):
 
 func _on_body_entered(body: Node) -> void:
 	if body is Enemy:
-		print("Hit Enemy ", attack_damage)
+		#print("Hit Enemy ", attack_damage)
 		if body.health_component:
 			body.health_component.take_damage(attack_damage)
 

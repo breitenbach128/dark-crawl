@@ -7,11 +7,12 @@ class_name Enemy
 
 @export var health_component : Health_Component
 @export var attack_component : Attack_Component
+@export var state_machine : StateMachine
 @export var animation_player : AnimationPlayer
 @export var animation_tree : AnimationTree
 @export var line_of_sight: RayCast3D
 
-var death_sound_index = 0
+
 var gravity = 75.5
 
 func _ready() -> void:
@@ -19,8 +20,7 @@ func _ready() -> void:
 		health_component.health_death.connect(death)
 
 func death():
-	SoundManager.play_monster_sound(death_sound_index)
-	queue_free()
+	$DeathSounds.play()
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():

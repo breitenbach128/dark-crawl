@@ -10,6 +10,12 @@ class_name StateEnemyAttack
 
 var atc: Attack_Component
 var use_animtree: bool = true
+#general purpose interrupts for states - Common actions
+var is_dead : bool = false
+
+func _ready() -> void:
+	if enemy:
+		enemy.health_component.health_death.connect(func(): is_dead = true)
 
 func attack_animation_loop_complete():
 	var target = enemy.find_closest_player_target()
@@ -31,6 +37,9 @@ func Enter():
 		use_animtree = false
 	
 func Update(delta: float):
+	#Is Dead?
+	if is_dead:
+		Transitioned.emit(self, "StateEnemyDeath")
 
 	#Do manual timer if there is no animation
 	if !use_animtree:
@@ -41,11 +50,12 @@ func Update(delta: float):
 			var target = enemy.find_closest_player_target()
 			#If there are no player targets, then transition to wander or idle	
 			if target == null:
-				Transitioned.emit(self, "StateEnemyWander")		
+				Transitioned.emit(self, "StateEnemyWander")
 			if atc && target:
 				atc.attack_target(target)
 				
 			attack_rate_count = 0
+
 
 func Physics_Update(_delta : float):
 	pass

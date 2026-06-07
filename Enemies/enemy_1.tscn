@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://cmfdvoc00jqfv" path="res://Statemachine/enemy_idle.gd" id="5_l2fd0"]
 [ext_resource type="Script" uid="uid://bxktyrxbnrj8p" path="res://Statemachine/enemy_wander.gd" id="6_l2fd0"]
 [ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="8_rknch"]
+[ext_resource type="Script" uid="uid://diy2rcwynumbt" path="res://Statemachine/enemy_death.gd" id="9_xamao"]
+[ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="10_7bagf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
@@ -39,6 +41,35 @@ tracks/1/keys = {
 "values": [{
 "args": [],
 "method": &"attack_animation_loop_complete"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_rknch"]
+resource_name = "Death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.43333334, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [12, 13, 14, 15, 16]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateMachine/StateEnemyDeath")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"death_animation_complete"
 }]
 }
 
@@ -94,6 +125,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rknch"]
 _data = {
 &"Attack": SubResource("Animation_by8t8"),
+&"Death": SubResource("Animation_rknch"),
 &"Idle": SubResource("Animation_csjqm"),
 &"RESET": SubResource("Animation_1jrr1"),
 &"Walk": SubResource("Animation_rtiul")
@@ -101,6 +133,9 @@ _data = {
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rtiul"]
 animation = &"Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xamao"]
+animation = &"Death"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_csjqm"]
 animation = &"Idle"
@@ -123,20 +158,36 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j7amk"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0jsf0"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_164jd"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3o4xe"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xamao"]
 states/Attack/node = SubResource("AnimationNodeAnimation_rtiul")
-states/Attack/position = Vector2(479, 100)
+states/Attack/position = Vector2(570, 79)
+states/Death/node = SubResource("AnimationNodeAnimation_xamao")
+states/Death/position = Vector2(781, 229)
 states/Idle/node = SubResource("AnimationNodeAnimation_csjqm")
 states/Idle/position = Vector2(315, 229)
 states/Start/position = Vector2(143, 100)
 states/Walk/node = SubResource("AnimationNodeAnimation_1jrr1")
-states/Walk/position = Vector2(658, 229)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_rtiul"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_rknch"), "Walk", "Attack", SubResource("AnimationNodeStateMachineTransition_xamao"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_7bagf"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_wys7m"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_1pslu"), "Attack", "Walk", SubResource("AnimationNodeStateMachineTransition_j7amk")]
+states/Walk/position = Vector2(570, 344)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_rtiul"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_rknch"), "Walk", "Attack", SubResource("AnimationNodeStateMachineTransition_xamao"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_7bagf"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_wys7m"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_1pslu"), "Attack", "Walk", SubResource("AnimationNodeStateMachineTransition_j7amk"), "Idle", "Death", SubResource("AnimationNodeStateMachineTransition_0jsf0"), "Attack", "Death", SubResource("AnimationNodeStateMachineTransition_164jd"), "Walk", "Death", SubResource("AnimationNodeStateMachineTransition_3o4xe")]
+graph_offset = Vector2(183.40422, 47.548744)
 
-[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "animation_player", "animation_tree", "line_of_sight")]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wys7m"]
+random_pitch = 1.005793
+random_volume_offset_db = 0.1
+streams_count = 1
+stream_0/stream = ExtResource("10_7bagf")
+
+[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight")]
 script = ExtResource("1_vy3xu")
 health_component = NodePath("HealthComponent")
 attack_component = NodePath("AttackComponent")
+state_machine = NodePath("StateMachine")
 animation_player = NodePath("AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 line_of_sight = NodePath("LineOfSign")
@@ -151,8 +202,7 @@ pixel_size = 0.15
 billboard = 2
 texture_filter = 0
 texture = ExtResource("1_mbxyh")
-hframes = 14
-region_enabled = true
+hframes = 17
 region_rect = Rect2(0, 0, 224, 16)
 
 [node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_4cuqr")]
@@ -185,6 +235,11 @@ enemy = NodePath("../..")
 attack_rate_timer = 1.5
 metadata/_custom_type_script = "uid://btwueqitmvqcq"
 
+[node name="StateEnemyDeath" type="Node" parent="StateMachine" unique_id=619789061 node_paths=PackedStringArray("enemy")]
+script = ExtResource("9_xamao")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://diy2rcwynumbt"
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1872529516]
 libraries/ = SubResource("AnimationLibrary_rknch")
 
@@ -194,3 +249,6 @@ anim_player = NodePath("../AnimationPlayer")
 
 [node name="LineOfSign" type="RayCast3D" parent="." unique_id=420305316]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="DeathSounds" type="AudioStreamPlayer3D" parent="." unique_id=2059134241]
+stream = SubResource("AudioStreamRandomizer_wys7m")
