@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dhvchogc4p288"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4pyhv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4pyhv"]
+albedo_color = Color(1, 0.18039216, 0.14901961, 1)
+
+[node name="ExitMarker" type="MeshInstance3D" unique_id=2049237436]
+mesh = SubResource("BoxMesh_4pyhv")
+surface_material_override/0 = SubResource("StandardMaterial3D_4pyhv")

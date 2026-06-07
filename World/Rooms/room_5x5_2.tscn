@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://pa2t5c4op18q"]
+
+[ext_resource type="PackedScene" uid="uid://cgstlgm26l3is" path="res://World/Floors/floor_5x5.tscn" id="1_n5sgf"]
+[ext_resource type="PackedScene" uid="uid://dhvchogc4p288" path="res://World/exit_marker.tscn" id="2_1qvqg"]
+
+[node name="Room5x5_1" type="Node3D" unique_id=2141976506]
+
+[node name="Floor_5x5" parent="." unique_id=906401327 instance=ExtResource("1_n5sgf")]
+
+[node name="ExitMarker" parent="." unique_id=2049237436 instance=ExtResource("2_1qvqg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.6, 7.4000006)
+
+[node name="ExitMarker2" parent="." unique_id=1188634754 instance=ExtResource("2_1qvqg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5000005, 0.6, -6.1000004)
