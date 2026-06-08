@@ -58,8 +58,50 @@ func create_roomdata_exits(side_locations,othersides):
 			new_roomdata.room_size = tile_size
 			new_roomdata.exit_locations.append(side)#Exit 1
 			new_roomdata.exit_locations.append(other)#Exit 2
+			new_roomdata.room_id = room_list.size()
 			room_list.append(new_roomdata)
-
+func build_walls(generated_room):
+	print("Build new wallset for ROOM")
+	#for j in range(-1,current_room.room_size.y+1):
+		#for i in range(-1,current_room.room_size.x+1):
+			##Check if external perimeter
+			#if j == -1 || j == current_room.room_size.y || i == current_room.room_size.x || i == -1: 
+				##wall 1x1 is East West
+				#if current_room.exit_locations.find(Vector2i(i,j)) == -1:
+					#if (!(i == -1 && j == -1) && 
+					#!(i == current_room.room_size.x && j == -1) && 
+					#!(i == -1 && j == current_room.room_size.y) && 
+					#!(i == current_room.room_size.x && j == current_room.room_size.y)):
+						#
+						#print("build wall at ", i, " ", j)
+						#var wall = wall_template.instantiate()
+						#var offsetX = (current_room.room_size.x/2)
+						#var offsetY = (current_room.room_size.y/2)
+						#wall.get_node("Label3D").text = str(i,",",j)
+						#generated_room.add_child(wall)
+						#if i == -1:
+							#wall.position = Vector3(i-offsetX+0.0,generated_room.position.y+0.5,j-offsetY)
+						#if i == current_room.room_size.x:
+							#wall.position = Vector3(i-offsetX-0.0,generated_room.position.y+0.5,j-offsetY)
+						#if j == -1:
+							#wall.position = Vector3(i-offsetX,generated_room.position.y+0.5,j-offsetY+0.0)
+						#if j == current_room.room_size.y:
+							#wall.position = Vector3(i-offsetX,generated_room.position.y+0.5,j-offsetY-0.0)
+	#Interior build
+	for j in range(0,current_room.room_size.y):
+		for i in range(0,current_room.room_size.x):
+			if j == 0 || j == current_room.room_size.y-1 || i == current_room.room_size.x-1 || i == 0:
+				#Check if it within range (non-diagonal) of a connector
+				
+				#Also, don't build corners twice. Maybe add all build walls to a list, and make sure it is
+				#not already in a list?
+				#Make the wall node
+				var wall = wall_template.instantiate()
+				generated_room.add_child(wall)
+				var Offset : Vector3 = Vector3(current_room.room_size.x/2,0,current_room.room_size.x/2)
+				wall.position = Vector3(i,0,j) - Offset
+				wall.get_node("Label3D").text = str(i,",",j, " : ",rooms_holder.get_child_count())
+				wall.name = str("Wall_",rooms_holder.get_child_count())
 func generate_room(tile_pos : Vector2i):
 	#Add the room to the scene
 	var gen_room = floor_template.instantiate()
@@ -77,34 +119,8 @@ func generate_room(tile_pos : Vector2i):
 		em.position = Vector3(e.x-(current_room.room_size.x/2),0,e.y-(current_room.room_size.y/2))
 		em.get_node("Label3D").text = str(e.x,",",e.y)
 	#Now, make walls for non exits
-	print("Build new wallset for ROOM")
-
-	for j in range(-1,current_room.room_size.y+1):
-		for i in range(-1,current_room.room_size.x+1):
-			#Check if external perimeter
-			if j == -1 || j == current_room.room_size.y || i == current_room.room_size.x || i == -1: 
-				#wall 1x1 is East West
-				if current_room.exit_locations.find(Vector2i(i,j)) == -1:
-					if (!(i == -1 && j == -1) && 
-					!(i == current_room.room_size.x && j == -1) && 
-					!(i == -1 && j == current_room.room_size.y) && 
-					!(i == current_room.room_size.x && j == current_room.room_size.y)):
-						
-						print("build wall at ", i, " ", j)
-						var wall = wall_template.instantiate()
-						var offsetX = (current_room.room_size.x/2)
-						var offsetY = (current_room.room_size.y/2)
-						wall.get_node("Label3D").text = str(i,",",j)
-						gen_room.add_child(wall)
-						if i == -1:
-							wall.position = Vector3(i-offsetX+0.0,gen_room.position.y+0.5,j-offsetY)
-						if i == current_room.room_size.x:
-							wall.position = Vector3(i-offsetX-0.0,gen_room.position.y+0.5,j-offsetY)
-						if j == -1:
-							wall.position = Vector3(i-offsetX,gen_room.position.y+0.5,j-offsetY+0.0)
-						if j == current_room.room_size.y:
-							wall.position = Vector3(i-offsetX,gen_room.position.y+0.5,j-offsetY-0.0)
-
+	build_walls(gen_room)
+	
 	#Foreach Exit
 	for exit in current_room.exit_locations:
 		
