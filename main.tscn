@@ -2,7 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ee4pxhsr44o6" path="res://main.gd" id="1_272bh"]
 [ext_resource type="PackedScene" uid="uid://bxrtx5xxoe0y8" path="res://Player/player.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://cgstlgm26l3is" path="res://World/Floors/floor_5x5.tscn" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://2k23cc4nm7u4" path="res://Zones/KillZone.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://cbsufhsn140b2" path="res://World/MapGenerator/dungeon_generator.gd" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://dhvchogc4p288" path="res://World/exit_marker.tscn" id="8_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bfa5o3hiytvfv" path="res://Effects/TestFrame.tscn" id="9_kek77"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
@@ -50,5 +53,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.7, -3.4)
 player = NodePath("../Player")
 
 [node name="Rooms" type="Node3D" parent="." unique_id=1858941957]
+
+[node name="Floor_5x5" parent="." unique_id=906401327 instance=ExtResource("5_7mycd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="ExitMarker" parent="." unique_id=2049237436 instance=ExtResource("8_5vw27")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.5, -2.5)
+
+[node name="ExitMarker2" parent="." unique_id=158279690 instance=ExtResource("8_5vw27")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.5, 2)
+
+[node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425]
+script = ExtResource("7_272bh")
+metadata/_custom_type_script = "uid://cbsufhsn140b2"
 
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]
