@@ -3,8 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://cshyd7khwfrvx" path="res://art/wall_1.png" id="1_3kbuu"]
 [ext_resource type="Texture2D" uid="uid://dcc3jyq6hxvuk" path="res://art/Wall/wall_1_ambient.png" id="2_eowwh"]
 [ext_resource type="Texture2D" uid="uid://ckmt1rr7ku2b4" path="res://art/Wall/wall_1_normal.png" id="3_xf0lu"]
+[ext_resource type="Script" uid="uid://frutcr4phbwe" path="res://World/Walls/wall.gd" id="4_bskge"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bskge"]
+albedo_texture = ExtResource("1_3kbuu")
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
+material = SubResource("StandardMaterial3D_bskge")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
 albedo_texture = ExtResource("1_3kbuu")
@@ -22,6 +27,7 @@ uv1_triplanar = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_0xm2m")
 surface_material_override/0 = SubResource("StandardMaterial3D_0xm2m")
+script = ExtResource("4_bskge")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=928150436]
 collision_layer = 7
