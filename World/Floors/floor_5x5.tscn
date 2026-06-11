@@ -14,6 +14,7 @@ uv1_triplanar = true
 size = Vector3(5, 1, 5)
 
 [node name="Floor_5x5" type="MeshInstance3D" unique_id=906401327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_0xm2m")
 surface_material_override/0 = SubResource("StandardMaterial3D_h2yge")
 
