@@ -108,7 +108,7 @@ func create_walls():
 				if make_wall:
 					var new_wall : Wall = wall_inst.instantiate()
 					root_room_node.add_child(new_wall)
-					new_wall.position = Vector3(i*tile_size.x,0,j*tile_size.y)
+					new_wall.position = Vector3(i*tile_size.x,1,j*tile_size.y)
 					new_wall.get_node("Label3D").text = str(new_wall.position)
 				
 func is_room_position_valid(room : RoomData):
