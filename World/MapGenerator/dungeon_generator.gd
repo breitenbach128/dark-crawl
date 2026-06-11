@@ -9,9 +9,11 @@ class_name DungeonGenerator
 @export var player: Player
 
 var astar_grid : AStarGrid2D = AStarGrid2D.new()
-var map_area : Rect2i = Rect2i(0,0,10,10)
+var map_area : Rect2i = Rect2i(0,0,20,20)
 var map_tiles : Array = []
-var tile_size: Vector2i = Vector2i(5,5) # 1m x 1m
+var tile_size: Vector2i = Vector2i(1,1) # 1m x 1m
+var room_tile_size : Vector2i = Vector2i(5,5) #5m x 5m Room Size in tiles
+var room_max_size : Vector2 = Vector2i(3,3) #This is multiplied by the tile size to get the real tile size of the room
 var room_list : Array[RoomData] = []
 var room_attempt_count : int = 10
 
@@ -48,7 +50,8 @@ func create_rooms():
 		
 		#Create a room of random size, no bigger than half the map
 		var room = RoomData.new()
-		room.rect = Rect2i(Vector2i(0,0),Vector2i(randi_range(1,floor(map_area.size.x/2)),randi_range(1,floor(map_area.size.y/2))))
+		var new_room_size = Vector2i(Vector2i(randi_range(1,room_max_size.x),randi_range(1,room_max_size.y)))
+		room.rect = Rect2i(Vector2i(0,0),new_room_size*room_tile_size)
 		#print("Creating Room ", rc, " size: ", room.rect)
 		var check_limit : int = 50 #Kill the loop after 50 attempts
 		var position_found : bool = false
@@ -62,16 +65,20 @@ func create_rooms():
 				position_found = true
 				print("Room position was valid: ",rc," ", room.rect)
 				#carve them into the space
-				for ry in room.rect.size.y:
-					for rx in room.rect.size.x:
+				for ry in range(0,room.rect.size.y):
+					for rx in range(0,room.rect.size.x):
 						var cell_x = rx+room.rect.position.x
 						var cell_y = ry+room.rect.position.y
 						map_tiles[cell_x][cell_y].type = CellData.TILETYPE.TILE
 						set_cell(map_tiles[cell_x][cell_y])
-						var tile = tile_inst.instantiate()
-						root_room_node.add_child(tile)
-						tile.position = Vector3i(cell_x*tile_size.x,0,cell_y*tile_size.y)
-				
+						#Create instance tile every [room tilesize] tiles
+						if Vector2i(rx,ry) % 5 == Vector2i(0,0):
+							print("Room Tile Create at ,", str(Vector2i(rx,ry)))
+							var tile = tile_inst.instantiate()
+							root_room_node.add_child(tile)
+							#Room is 2.5 offset to center, but wall is .5, so that reduces it to 2
+							tile.position = Vector3(cell_x*tile_size.x+2,0,cell_y*tile_size.y+2)
+							tile.get_node("Label3D").text = str(tile.position)
 	for j in range(0,map_area.size.y):
 		var strrow = ""
 		for i in range(0,map_area.size.x):
@@ -99,9 +106,10 @@ func create_walls():
 						if map_tiles[dir_point.x][dir_point.y].type == CellData.TILETYPE.TILE:
 							make_wall = true
 				if make_wall:
-					var new_wall = wall_inst.instantiate()
+					var new_wall : Wall = wall_inst.instantiate()
 					root_room_node.add_child(new_wall)
 					new_wall.position = Vector3(i*tile_size.x,0,j*tile_size.y)
+					new_wall.get_node("Label3D").text = str(new_wall.position)
 				
 func is_room_position_valid(room : RoomData):
 	if(room.rect.position.x > 0 && 
