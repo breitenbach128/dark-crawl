@@ -4,19 +4,24 @@ class_name DungeonGenerator
 
 
 @export var tile_inst : Resource
-@export var tile_1x1_inst : Resource
+@export var tile_1x1_inst : Array[Resource]
 @export var wall_inst : Resource
 @export var root_room_node : Node3D
 @export var player: Player
+@export var monster_spawner : MonsterGenerator
 
+var debug_status = false
 var astar_grid : AStarGrid2D = AStarGrid2D.new()
-var map_area : Rect2i = Rect2i(0,0,25,25)
+var map_area : Rect2i = Rect2i(0,0,20,20)
 var map_tiles : Array = []
+var tile_scale : Vector2i = Vector2i(2,2) #Give the player more space
 var tile_size: Vector2i = Vector2i(1,1) # 1m x 1m
 var room_tile_size : Vector2i = Vector2i(5,5) #5m x 5m Room Size in tiles
 var room_max_size : Vector2 = Vector2i(1,1) #This is multiplied by the tile size to get the real tile size of the room
 var room_list : Array[RoomData] = []
 var room_attempt_count : int = 100
+
+signal dungeon_created
 
 func init_grid() -> void:
 	astar_grid.region = map_area
@@ -81,19 +86,21 @@ func create_rooms():
 							var mesh_offset = tile.mesh.size/2
 							root_room_node.add_child(tile)
 							#Room is 2.5 offset to center, but wall is .5, so that reduces it to 2
-							tile.position = Vector3(cell_x*tile_size.x,0,cell_y*tile_size.y)  + mesh_offset
+							tile.position = Vector3(cell_x*tile_scale.x,0,cell_y*tile_scale.y)  + mesh_offset
 							tile.get_node("Label3D").text = str(tile.position)
 
 	#Pick exits on each room and connect to the closest room exit	
 	create_exits()
 	#Make walls. ANY TILE TOUCHING A WALL (Diagonal included) make a wall
 	create_walls()
+	#Create wall along edge of map
+	
 	#DEBUG ASTAR MAP
 	var astardebug = astar_grid.get_point_data_in_region(map_area)
 
 	#DEBUG MAP #actually, use the astar debug ID vector value to compare
-	var debug_status = false
-	if debug_status == true:
+
+	if debug_status:
 		for j in range(0,map_area.size.y):
 			var strrow = ""
 			for i in range(0,map_area.size.x):
@@ -105,42 +112,73 @@ func create_rooms():
 			print("R:", strrow)
 	#Move player to first room
 	var first_room_center : Vector2 = room_list[0].rect.get_center()
-	print("start point: ", Vector3(first_room_center.x*tile_size.x,10,first_room_center.y*tile_size.y))
-	player.position += Vector3(first_room_center.x*tile_size.x,10,first_room_center.y*tile_size.y)
-
+	print("start point: ", Vector3(first_room_center.x*tile_scale.x,10,first_room_center.y*tile_scale.y))
+	player.position += Vector3(first_room_center.x*tile_scale.x,10,first_room_center.y*tile_scale.y)
+	
+	monster_spawner.spawn_monsters()
+	
 func create_exits():
 	var pcount=0
 	for r in room_list:
-		var edge_positions = []
+		var edge_positions :Dictionary= {
+			"top":{"delta":Vector2i(0,-1),"points":[]},
+			"bottom":{"delta":Vector2i(0,1),"points":[]},
+			"left":{"delta":Vector2i(-1,0),"points":[]},
+			"right":{"delta":Vector2i(0,1),"points":[]}
+			}
 		#Get edge positions
 		for ey in range(0,r.rect.size.y):
 			for ex in range(0,r.rect.size.x):
-				if ex == 0 || ey == 0 || ex == r.rect.size.x-1 || ey == r.rect.size.y-1:
-					edge_positions.append(Vector2i(ex,ey))
+				#Skip corners
+				if (
+					!(ey==0 && ex == 0) || 
+					!(ey==r.rect.size.y-1 && ex == r.rect.size.x-1) ||
+					!(ey==r.rect.size.y-1 && ex == 0) ||
+					!(ey==0 && ex == r.rect.size.x-1)
+				):
+					if ex == 0: 
+						edge_positions.left.points.append(Vector2i(ex,ey))
+					if ey == 0:
+						edge_positions.top.points.append(Vector2i(ex,ey)) 
+					if ex == r.rect.size.x-1:
+						edge_positions.right.points.append(Vector2i(ex,ey)) 
+					if ey == r.rect.size.y-1:
+						edge_positions.bottom.points.append(Vector2i(ex,ey))
+
 		#Pick 1 exit positions
+		var edge_directions = ["top","bottom","left","right"]
 		for pick in range(0,randi_range(1,4)):
-			var edge_tile = r.rect.position + edge_positions.pick_random()
+			var edge_dir = edge_directions.pick_random()
+			
+			var edge_tile = r.rect.position + edge_positions[edge_dir].points.pick_random() + edge_positions[edge_dir].delta
+			
 			#Find closest room tile to exit position
 			var target_tile = find_closest_room_tile_by_tile(edge_tile,r)
-			print("exit tile and target tile ", edge_tile, " ", target_tile)
+			#print("exit tile and target tile ", edge_tile, " ", target_tile)
 			#match side to side, so right side goes to left side, etc.
 			#pick random from both sides.
 			if target_tile:
 				#Get a path between the two
-				var path= astar_grid.get_point_path(edge_tile,target_tile,false)	
-				print("Path : ",path)		
+				var path= astar_grid.get_point_path(edge_tile,target_tile,true)	
+				#print("Path : ",path)		
 				#Create tiles on that path
 				pcount+=1
 				for p in path:
 					map_tiles[p.x][p.y].type = CellData.TILETYPE.HALLWAY
-					create_tile_mesh(tile_1x1_inst,Vector2i(p.x,p.y),str(pcount))
+					create_tile_mesh(tile_1x1_inst.pick_random(),Vector2i(p.x,p.y),str(pcount),false)
 					
-func create_tile_mesh(res, position, text):
+func create_tile_mesh(res, p, text, overlap:bool):
 	var tile : MeshInstance3D= res.instantiate()
 	var mesh_offset = tile.mesh.size/2
+	if overlap == false:
+		#Check if mesh will have a mesh at the same position
+		for c in root_room_node.get_children():
+			if c.position == Vector3(p.x*tile_scale.x,0,p.y*tile_scale.y)  + mesh_offset:
+				tile.queue_free()
+				return 
 	root_room_node.add_child(tile)
 	#Room is 2.5 offset to center, but wall is .5, so that reduces it to 2
-	tile.position = Vector3(position.x*tile_size.x,0,position.y*tile_size.y)  + mesh_offset
+	tile.position = Vector3(p.x*tile_scale.x,0,p.y*tile_scale.y)  + mesh_offset
 	tile.get_node("Label3D").text = str(text)
 	
 func find_closest_room_tile_by_tile(src_tile : Vector2i, src_room: RoomData):
@@ -160,23 +198,29 @@ func find_closest_room_tile_by_tile(src_tile : Vector2i, src_room: RoomData):
 func create_walls():
 	for j in range(0,map_area.size.y):
 		for i in range(0,map_area.size.x):
+			var make_wall : bool = false
+			#Is it an empty tile touching a solid tile?
 			if map_tiles[i][j].type == CellData.TILETYPE.EMPTY:
 				#Check all 8 positions
-				var directions = [Vector2(-1,0),Vector2(-1,-1),Vector2(0,-1),Vector2(1,-1),Vector2(1,0),Vector2(1,1),Vector2(0,1),Vector2(-1,1)]
-				var make_wall : bool = false
+				var directions = [Vector2(-1,0),Vector2(-1,-1),Vector2(0,-1),Vector2(1,-1),Vector2(1,0),Vector2(1,1),Vector2(0,1),Vector2(-1,1)]				
 				for dir : Vector2 in directions:
 					var dir_point : Vector2 = dir+Vector2(i,j)
 					if map_area.has_point(dir_point):
 						if map_tiles[dir_point.x][dir_point.y].type == CellData.TILETYPE.TILE || map_tiles[dir_point.x][dir_point.y].type == CellData.TILETYPE.HALLWAY:
 							make_wall = true
-				if make_wall:
-					map_tiles[i][j].type = CellData.TILETYPE.WALL
-					set_cell(Vector2i(i,j),CellData.TILETYPE.WALL)
-					var new_wall : Wall = wall_inst.instantiate()
-					var mesh_offset = new_wall.mesh.size/2
-					root_room_node.add_child(new_wall)
-					new_wall.position = Vector3(i*tile_size.x,0,j*tile_size.y) + mesh_offset
-					new_wall.get_node("Label3D").text = str(new_wall.position)
+			#Is it an edge location?
+			if (i==0 || j==0 || i==map_area.size.x-1 || j==map_area.size.y-1):
+				make_wall = true
+
+			if make_wall == true:
+				map_tiles[i][j].type = CellData.TILETYPE.WALL
+				set_cell(Vector2i(i,j),CellData.TILETYPE.WALL)
+				var new_wall : Wall = wall_inst.instantiate()
+				var mesh_offset = new_wall.mesh.size/2
+				root_room_node.add_child(new_wall)
+				new_wall.position = Vector3(i*tile_scale.x,1,j*tile_scale.y) + mesh_offset
+				#new_wall.get_node("Label3D").text = str(new_wall.position)
+				new_wall.get_node("Label3D").text = str(i,"x",j)
 				
 func is_room_position_valid(room : RoomData):
 	if(room.rect.position.x > 0 && 

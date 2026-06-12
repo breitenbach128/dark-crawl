@@ -7,10 +7,15 @@
 [ext_resource type="Script" uid="uid://2k23cc4nm7u4" path="res://Zones/KillZone.gd" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://cbsufhsn140b2" path="res://World/MapGenerator/dungeon_generator.gd" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://emckrb0l4ogb" path="res://World/Floors/floor_1x1.tscn" id="7_kek77"]
+[ext_resource type="PackedScene" uid="uid://mbvx4sselk48" path="res://World/Floors/floor_1x1a.tscn" id="8_efxa6"]
+[ext_resource type="Script" uid="uid://bie8sxatextfe" path="res://World/MapGenerator/monster_generator.gd" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://bfa5o3hiytvfv" path="res://Effects/TestFrame.tscn" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://bfq6musk5k252" path="res://Enemies/enemy_1.tscn" id="10_4c57u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
 size = Vector3(60, 1, 60)
+
+[sub_resource type="Environment" id="Environment_efxa6"]
 
 [node name="Main" type="Node3D" unique_id=1325925167 node_paths=PackedStringArray("structure_root", "sound_root", "bullets_root", "enemies_root", "uieffects_root")]
 script = ExtResource("1_272bh")
@@ -55,13 +60,24 @@ player = NodePath("../Player")
 
 [node name="Rooms" type="Node3D" parent="." unique_id=1858941957]
 
-[node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425 node_paths=PackedStringArray("root_room_node", "player")]
+[node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425 node_paths=PackedStringArray("root_room_node", "player", "monster_spawner")]
 script = ExtResource("7_272bh")
 tile_inst = ExtResource("5_7mycd")
-tile_1x1_inst = ExtResource("7_kek77")
+tile_1x1_inst = Array[Resource]([ExtResource("7_kek77"), ExtResource("8_efxa6")])
 wall_inst = ExtResource("2_h2yge")
 root_room_node = NodePath("../Rooms")
 player = NodePath("../Player")
+monster_spawner = NodePath("../MonsterGenerator")
 metadata/_custom_type_script = "uid://cbsufhsn140b2"
+
+[node name="MonsterGenerator" type="Node" parent="." unique_id=679352985 node_paths=PackedStringArray("dungeon", "monster_holder")]
+script = ExtResource("9_4c57u")
+dungeon = NodePath("../DungeonGenerator")
+monster_spawns = Array[Resource]([ExtResource("10_4c57u")])
+monster_holder = NodePath("../Enemies")
+metadata/_custom_type_script = "uid://bie8sxatextfe"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1524876847]
+environment = SubResource("Environment_efxa6")
 
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]

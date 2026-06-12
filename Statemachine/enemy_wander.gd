@@ -20,7 +20,7 @@ func randomize_wander():
 
 func Enter():
 	randomize_wander()
-	print("Enter State, StateEnemyWander")
+	#print("Enter State, StateEnemyWander")
 	if enemy.animation_tree:
 		var anim_sm :AnimationNodeStateMachinePlayback = enemy.animation_tree.get("parameters/playback")
 		anim_sm.travel("Walk")

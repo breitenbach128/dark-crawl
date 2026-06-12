@@ -64,6 +64,9 @@ _data = {
 }
 point_count = 7
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_00tjw"]
+viewport_path = NodePath("CanvasLayer/SubViewport")
+
 [node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
 right_hand = NodePath("Camera3D/RightHand")
@@ -185,3 +188,17 @@ texture = ExtResource("7_vtle1")
 
 [node name="PathCardDiscard" type="Path2D" parent="CanvasLayer/UI" unique_id=1035138848]
 curve = SubResource("Curve2D_vtle1")
+
+[node name="TopDownDisplay" type="TextureRect" parent="CanvasLayer/UI" unique_id=1102881561]
+layout_mode = 0
+offset_left = 937.0
+offset_top = 3.0
+offset_right = 1087.0
+offset_bottom = 153.0
+texture = SubResource("ViewportTexture_00tjw")
+expand_mode = 1
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer" unique_id=82784115]
+
+[node name="TopDownCam" type="Camera3D" parent="CanvasLayer/SubViewport" unique_id=1349499123]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 50, 0)

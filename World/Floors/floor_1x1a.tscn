@@ -1,12 +1,12 @@
-[gd_scene format=3 uid="uid://emckrb0l4ogb"]
+[gd_scene format=3 uid="uid://mbvx4sselk48"]
 
-[ext_resource type="Texture2D" uid="uid://0cjiyd3bquol" path="res://art/floor_1.png" id="1_1oe2b"]
+[ext_resource type="Texture2D" uid="uid://svb15rd64obv" path="res://art/floor_1a.png" id="1_f1m1m"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
 size = Vector3(2, 1, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h2yge"]
-albedo_texture = ExtResource("1_1oe2b")
+albedo_texture = ExtResource("1_f1m1m")
 uv1_scale = Vector3(0.5, 0.5, 0.5)
 uv1_offset = Vector3(0.5, 0, 0.5)
 uv1_triplanar = true

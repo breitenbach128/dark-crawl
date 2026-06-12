@@ -25,7 +25,7 @@ func attack_animation_loop_complete():
 		atc.attack_target(target)
 
 func Enter():
-	print("Enter State, StateEnemyAttack")
+	#print("Enter State, StateEnemyAttack")
 	enemy.velocity = Vector3(0,0,0) #Stop Moving
 	#Setup Attack Component for easy reference
 	atc = enemy.attack_component

@@ -12,7 +12,6 @@
 [ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="10_7bagf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
-height = 1.5
 
 [sub_resource type="Animation" id="Animation_by8t8"]
 resource_name = "Attack"

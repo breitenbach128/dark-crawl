@@ -16,7 +16,7 @@ func _ready() -> void:
 		enemy.health_component.health_death.connect(func(): is_dead = true)
 
 func Enter():
-	print("Enter State, StateEnemyIdle")
+	#print("Enter State, StateEnemyIdle")
 	randomize_idle()
 	if enemy.animation_tree:
 		var anim_sm :AnimationNodeStateMachinePlayback = enemy.animation_tree.get("parameters/playback")
