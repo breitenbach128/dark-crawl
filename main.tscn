@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cgstlgm26l3is" path="res://World/Floors/floor_5x5.tscn" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://2k23cc4nm7u4" path="res://Zones/KillZone.gd" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://cbsufhsn140b2" path="res://World/MapGenerator/dungeon_generator.gd" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://emckrb0l4ogb" path="res://World/Floors/floor_1x1.tscn" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://bfa5o3hiytvfv" path="res://Effects/TestFrame.tscn" id="9_kek77"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
@@ -57,6 +58,7 @@ player = NodePath("../Player")
 [node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425 node_paths=PackedStringArray("root_room_node", "player")]
 script = ExtResource("7_272bh")
 tile_inst = ExtResource("5_7mycd")
+tile_1x1_inst = ExtResource("7_kek77")
 wall_inst = ExtResource("2_h2yge")
 root_room_node = NodePath("../Rooms")
 player = NodePath("../Player")

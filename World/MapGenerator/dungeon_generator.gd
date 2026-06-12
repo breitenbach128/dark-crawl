@@ -4,18 +4,19 @@ class_name DungeonGenerator
 
 
 @export var tile_inst : Resource
+@export var tile_1x1_inst : Resource
 @export var wall_inst : Resource
 @export var root_room_node : Node3D
 @export var player: Player
 
 var astar_grid : AStarGrid2D = AStarGrid2D.new()
-var map_area : Rect2i = Rect2i(0,0,20,20)
+var map_area : Rect2i = Rect2i(0,0,10,10)
 var map_tiles : Array = []
 var tile_size: Vector2i = Vector2i(1,1) # 1m x 1m
 var room_tile_size : Vector2i = Vector2i(5,5) #5m x 5m Room Size in tiles
-var room_max_size : Vector2 = Vector2i(3,3) #This is multiplied by the tile size to get the real tile size of the room
+var room_max_size : Vector2 = Vector2i(1,1) #This is multiplied by the tile size to get the real tile size of the room
 var room_list : Array[RoomData] = []
-var room_attempt_count : int = 10
+var room_attempt_count : int = 100
 
 func init_grid() -> void:
 	astar_grid.region = map_area
@@ -46,6 +47,7 @@ func _ready() -> void:
 
 func create_rooms():
 	#Create X rooms of various sizes. 
+	var new_room_id = 0
 	for rc in range(0,room_attempt_count):
 		
 		#Create a room of random size, no bigger than half the map
@@ -53,7 +55,7 @@ func create_rooms():
 		var new_room_size = Vector2i(Vector2i(randi_range(1,room_max_size.x),randi_range(1,room_max_size.y)))
 		room.rect = Rect2i(Vector2i(0,0),new_room_size*room_tile_size)
 		#print("Creating Room ", rc, " size: ", room.rect)
-		var check_limit : int = 50 #Kill the loop after 50 attempts
+		var check_limit : int = 150 #Kill the loop after 50 attempts
 		var position_found : bool = false
 		while check_limit > 0 && !position_found:
 			check_limit -= 1 #Safety Net
@@ -61,6 +63,8 @@ func create_rooms():
 			room.rect.position.x = randi_range(0,map_area.size.x)
 			room.rect.position.y = randi_range(0,map_area.size.y)
 			if is_room_position_valid(room):
+				room.room_id = new_room_id
+				new_room_id+=1
 				room_list.append(room)
 				position_found = true
 				print("Room position was valid: ",rc," ", room.rect)
@@ -74,24 +78,100 @@ func create_rooms():
 						#Create instance tile every [room tilesize] tiles
 						if Vector2i(rx,ry) % 5 == Vector2i(0,0):
 							print("Room Tile Create at ,", str(Vector2i(rx,ry)))
-							var tile = tile_inst.instantiate()
+							var tile : MeshInstance3D= tile_inst.instantiate()
+							var mesh_offset = tile.mesh.size/2
 							root_room_node.add_child(tile)
 							#Room is 2.5 offset to center, but wall is .5, so that reduces it to 2
-							tile.position = Vector3(cell_x*tile_size.x+2,0,cell_y*tile_size.y+2)
+							tile.position = Vector3(cell_x*tile_size.x,0,cell_y*tile_size.y)  + mesh_offset
 							tile.get_node("Label3D").text = str(tile.position)
-	for j in range(0,map_area.size.y):
-		var strrow = ""
-		for i in range(0,map_area.size.x):
-			strrow+= str(map_tiles[i][j].type," , ")
-		print("ROW:", strrow)
+
 	#Pick exits on each room and connect to the closest room exit	
+	#create_exits()
+	#DEBUG:
+	var path = astar_grid.get_point_path(Vector2i(0,0),Vector2i(10,10),true)	
+	print("Path : ",path)		
+	#print(astar_grid.get_point_data_in_region(Rect2i(0,0,10,10)))
+	#Create tiles on that path
+	for p in path:
+		#print("Point on path solid ",astar_grid.is_point_solid(Vector2i(p.x,p.y)))
+		#print(astar_grid.get_point_data_in_region(Rect2i(p.x,p.y,1,1)))
+		map_tiles[p.x][p.y].type = CellData.TILETYPE.HALLWAY
+		create_tile_mesh(tile_1x1_inst,Vector2i(p.x,p.y),"DEBUG")
+	
 	
 	#Make walls. ANY TILE TOUCHING A WALL (Diagonal included) make a wall
 	create_walls()
+	#DEBUG ASTAR MAP
+	var astardebug = astar_grid.get_point_data_in_region(map_area)
+	var strrow1 = ""
+	for d in astardebug:
+		var s = 0
+		if d.solid == true:
+			s = 1
+		strrow1 += str(s,",")
+		if d.id.x % map_area.size.x == 0:
+			print(strrow1)			
+			strrow1 =""
+	print("          ")
+	#DEBUG MAP
+	for j in range(0,map_area.size.y):
+		var strrow = ""
+		for i in range(0,map_area.size.x):
+			strrow+= str(map_tiles[i][j].type,",")
+		print("R:", strrow)
 	#Move player to first room
 	var first_room_center : Vector2 = room_list[0].rect.get_center()
 	print("start point: ", Vector3(first_room_center.x*tile_size.x,10,first_room_center.y*tile_size.y))
 	player.position += Vector3(first_room_center.x*tile_size.x,10,first_room_center.y*tile_size.y)
+
+func create_exits():
+	var pcount=0
+	for r in room_list:
+		var edge_positions = []
+		#Get edge positions
+		for ey in range(0,r.rect.size.y):
+			for ex in range(0,r.rect.size.x):
+				if ex == 0 || ey == 0 || ex == r.rect.size.x-1 || ey == r.rect.size.y-1:
+					edge_positions.append(Vector2i(ex,ey))
+		#Pick 1 exit positions
+		for pick in range(0,randi_range(1,4)):
+			var edge_tile = r.rect.position + edge_positions.pick_random()
+			#Find closest room tile to exit position
+			var target_tile = find_closest_room_tile_by_tile(edge_tile,r)
+			print("exit tile and target tile ", edge_tile, " ", target_tile)
+			#match side to side, so right side goes to left side, etc.
+			#pick random from both sides.
+			if target_tile:
+				#Get a path between the two
+				var path= astar_grid.get_point_path(edge_tile,target_tile,false)	
+				print("Path : ",path)		
+				#Create tiles on that path
+				pcount+=1
+				for p in path:
+					map_tiles[p.x][p.y].type = CellData.TILETYPE.HALLWAY
+					create_tile_mesh(tile_1x1_inst,Vector2i(p.x,p.y),str(pcount))
+					
+func create_tile_mesh(res, position, text):
+	var tile : MeshInstance3D= res.instantiate()
+	var mesh_offset = tile.mesh.size/2
+	root_room_node.add_child(tile)
+	#Room is 2.5 offset to center, but wall is .5, so that reduces it to 2
+	tile.position = Vector3(position.x*tile_size.x,0,position.y*tile_size.y)  + mesh_offset
+	tile.get_node("Label3D").text = str(text)
+	
+func find_closest_room_tile_by_tile(src_tile : Vector2i, src_room: RoomData):
+	#Search from a tile for the room with the closest tile
+	var dis = INF
+	var close_tile
+	for r in room_list.filter(func(r): return r.room_id != src_room.room_id):
+		for ey in range(0,r.rect.size.y):
+			for ex in range(0,r.rect.size.x):
+				var rm_tile = Vector2(r.rect.position.x+ex,r.rect.position.y+ey)
+				var new_dis = src_tile.distance_to(rm_tile)
+				if new_dis < dis:
+					dis = new_dis
+					close_tile = rm_tile
+	return close_tile
 
 func create_walls():
 	for j in range(0,map_area.size.y):
@@ -103,12 +183,15 @@ func create_walls():
 				for dir : Vector2 in directions:
 					var dir_point : Vector2 = dir+Vector2(i,j)
 					if map_area.has_point(dir_point):
-						if map_tiles[dir_point.x][dir_point.y].type == CellData.TILETYPE.TILE:
+						if map_tiles[dir_point.x][dir_point.y].type == CellData.TILETYPE.TILE || map_tiles[dir_point.x][dir_point.y].type == CellData.TILETYPE.HALLWAY:
 							make_wall = true
 				if make_wall:
+					map_tiles[i][j].type = CellData.TILETYPE.WALL
+					set_cell(map_tiles[i][j])
 					var new_wall : Wall = wall_inst.instantiate()
+					var mesh_offset = new_wall.mesh.size/2
 					root_room_node.add_child(new_wall)
-					new_wall.position = Vector3(i*tile_size.x,1,j*tile_size.y)
+					new_wall.position = Vector3(i*tile_size.x,0,j*tile_size.y) + mesh_offset
 					new_wall.get_node("Label3D").text = str(new_wall.position)
 				
 func is_room_position_valid(room : RoomData):
@@ -119,7 +202,7 @@ func is_room_position_valid(room : RoomData):
 		#Within Bounds of map
 		for r in room_list:
 			#Ensure it does not intersect another room. It can touch
-			if room.rect.intersects(r.rect):
+			if room.rect.grow(2).intersects(r.rect.grow(2)):
 				return false
 		return true
 	return false
