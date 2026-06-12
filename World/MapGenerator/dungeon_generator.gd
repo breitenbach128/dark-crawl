@@ -12,12 +12,12 @@ class_name DungeonGenerator
 
 var debug_status = false
 var astar_grid : AStarGrid2D = AStarGrid2D.new()
-var map_area : Rect2i = Rect2i(0,0,20,20)
+var map_area : Rect2i = Rect2i(0,0,50,50)
 var map_tiles : Array = []
 var tile_scale : Vector2i = Vector2i(2,2) #Give the player more space
 var tile_size: Vector2i = Vector2i(1,1) # 1m x 1m
 var room_tile_size : Vector2i = Vector2i(5,5) #5m x 5m Room Size in tiles
-var room_max_size : Vector2 = Vector2i(1,1) #This is multiplied by the tile size to get the real tile size of the room
+var room_max_size : Vector2 = Vector2i(3,3) #This is multiplied by the tile size to get the real tile size of the room
 var room_list : Array[RoomData] = []
 var room_attempt_count : int = 100
 

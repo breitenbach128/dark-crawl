@@ -65,14 +65,15 @@ _data = {
 point_count = 7
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_00tjw"]
-viewport_path = NodePath("CanvasLayer/SubViewport")
+viewport_path = NodePath("SubViewport")
 
-[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "health_component", "gun_sprite") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
 right_hand = NodePath("Camera3D/RightHand")
 left_hand = NodePath("Camera3D/LeftHand")
 gun_raycast = NodePath("Camera3D/RayCast3D")
 ui = NodePath("CanvasLayer/UI")
+tracking_cam = NodePath("SubViewport/TopDownCam")
 health_component = NodePath("HealthComponent")
 gun_sprite = NodePath("Camera3D/GunSprite")
 
@@ -106,6 +107,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.08550656, -0.6890518
 [node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_vtle1")]
 health = 100
 health_max = 100
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=82784115]
+render_target_update_mode = 4
+
+[node name="TopDownCam" type="Camera3D" parent="SubViewport" unique_id=1349499123]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 50, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=94397259]
 
@@ -197,8 +204,3 @@ offset_right = 1087.0
 offset_bottom = 153.0
 texture = SubResource("ViewportTexture_00tjw")
 expand_mode = 1
-
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer" unique_id=82784115]
-
-[node name="TopDownCam" type="Camera3D" parent="CanvasLayer/SubViewport" unique_id=1349499123]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 50, 0)

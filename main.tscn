@@ -74,6 +74,7 @@ metadata/_custom_type_script = "uid://cbsufhsn140b2"
 script = ExtResource("9_4c57u")
 dungeon = NodePath("../DungeonGenerator")
 monster_spawns = Array[Resource]([ExtResource("10_4c57u")])
+total_spawns = 100
 monster_holder = NodePath("../Enemies")
 metadata/_custom_type_script = "uid://bie8sxatextfe"
 

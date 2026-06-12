@@ -12,6 +12,7 @@ class_name Player
 
 @export_category("UI")
 @export var ui : UI 
+@export var tracking_cam: Camera3D
 
 var jump_velocity : float = 25.5
 var movement_speed : float = 8.0
@@ -35,7 +36,8 @@ func _ready() -> void:
 	
 	
 func _process(delta: float) -> void:
-	pass
+	if tracking_cam:
+		tracking_cam.position = tracking_cam.position.lerp(position+Vector3(0,50,0),5*delta)
 
 func _physics_process(delta: float) -> void:
 	move(delta)
