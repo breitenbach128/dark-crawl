@@ -10,7 +10,7 @@ class_name DungeonGenerator
 @export var player: Player
 
 var astar_grid : AStarGrid2D = AStarGrid2D.new()
-var map_area : Rect2i = Rect2i(0,0,10,10)
+var map_area : Rect2i = Rect2i(0,0,25,25)
 var map_tiles : Array = []
 var tile_size: Vector2i = Vector2i(1,1) # 1m x 1m
 var room_tile_size : Vector2i = Vector2i(5,5) #5m x 5m Room Size in tiles
@@ -25,24 +25,23 @@ func init_grid() -> void:
 	astar_grid.default_estimate_heuristic  = AStarGrid2D.HEURISTIC_MANHATTAN
 	astar_grid.update() #Required after change
 
-func set_cell(cell: CellData):
-	astar_grid.set_point_solid(cell.position, cell.type != CellData.TILETYPE.EMPTY)
+func set_cell(p: Vector2i, t):
+	#print("set cell:" ,p)
+	astar_grid.set_point_solid(p, t != CellData.TILETYPE.EMPTY)
 
 		
 func _ready() -> void:
 	#Setup the astar grid
 	init_grid()	
 	#Create map of empty tiles
-	for j in range(0,map_area.size.y):
-		var row_array = []
-		for i in range(0,map_area.size.x):
+	for i in range(0,map_area.size.x):
+		var row_array :Array = []
+		for j in range(0,map_area.size.y):
 			var cell = CellData.new()
 			cell.type = CellData.TILETYPE.EMPTY
 			cell.position = Vector2i(i,j)
-			#print(i," ",j)
 			row_array.append(cell)
 		map_tiles.append(row_array)
-	
 	create_rooms()
 
 func create_rooms():
@@ -52,7 +51,7 @@ func create_rooms():
 		
 		#Create a room of random size, no bigger than half the map
 		var room = RoomData.new()
-		var new_room_size = Vector2i(Vector2i(randi_range(1,room_max_size.x),randi_range(1,room_max_size.y)))
+		var new_room_size = Vector2i(randi_range(1,room_max_size.x),randi_range(1,room_max_size.y))
 		room.rect = Rect2i(Vector2i(0,0),new_room_size*room_tile_size)
 		#print("Creating Room ", rc, " size: ", room.rect)
 		var check_limit : int = 150 #Kill the loop after 50 attempts
@@ -69,12 +68,12 @@ func create_rooms():
 				position_found = true
 				print("Room position was valid: ",rc," ", room.rect)
 				#carve them into the space
-				for ry in range(0,room.rect.size.y):
-					for rx in range(0,room.rect.size.x):
+				for rx in range(0,room.rect.size.x):
+					for ry in range(0,room.rect.size.y):
 						var cell_x = rx+room.rect.position.x
 						var cell_y = ry+room.rect.position.y
 						map_tiles[cell_x][cell_y].type = CellData.TILETYPE.TILE
-						set_cell(map_tiles[cell_x][cell_y])
+						set_cell(Vector2i(cell_x,cell_y),CellData.TILETYPE.TILE)
 						#Create instance tile every [room tilesize] tiles
 						if Vector2i(rx,ry) % 5 == Vector2i(0,0):
 							print("Room Tile Create at ,", str(Vector2i(rx,ry)))
@@ -86,39 +85,24 @@ func create_rooms():
 							tile.get_node("Label3D").text = str(tile.position)
 
 	#Pick exits on each room and connect to the closest room exit	
-	#create_exits()
-	#DEBUG:
-	var path = astar_grid.get_point_path(Vector2i(0,0),Vector2i(10,10),true)	
-	print("Path : ",path)		
-	#print(astar_grid.get_point_data_in_region(Rect2i(0,0,10,10)))
-	#Create tiles on that path
-	for p in path:
-		#print("Point on path solid ",astar_grid.is_point_solid(Vector2i(p.x,p.y)))
-		#print(astar_grid.get_point_data_in_region(Rect2i(p.x,p.y,1,1)))
-		map_tiles[p.x][p.y].type = CellData.TILETYPE.HALLWAY
-		create_tile_mesh(tile_1x1_inst,Vector2i(p.x,p.y),"DEBUG")
-	
-	
+	create_exits()
 	#Make walls. ANY TILE TOUCHING A WALL (Diagonal included) make a wall
 	create_walls()
 	#DEBUG ASTAR MAP
 	var astardebug = astar_grid.get_point_data_in_region(map_area)
-	var strrow1 = ""
-	for d in astardebug:
-		var s = 0
-		if d.solid == true:
-			s = 1
-		strrow1 += str(s,",")
-		if d.id.x % map_area.size.x == 0:
-			print(strrow1)			
-			strrow1 =""
-	print("          ")
-	#DEBUG MAP
-	for j in range(0,map_area.size.y):
-		var strrow = ""
-		for i in range(0,map_area.size.x):
-			strrow+= str(map_tiles[i][j].type,",")
-		print("R:", strrow)
+
+	#DEBUG MAP #actually, use the astar debug ID vector value to compare
+	var debug_status = false
+	if debug_status == true:
+		for j in range(0,map_area.size.y):
+			var strrow = ""
+			for i in range(0,map_area.size.x):
+				var astarstatus = astardebug.filter(func(a): return a.id == Vector2i(i,j))
+				var s = "f"
+				if astarstatus[0].solid:
+					s = "t"
+				strrow+= str(map_tiles[i][j].type,"-",s,"-",i,"x",j,",")
+			print("R:", strrow)
 	#Move player to first room
 	var first_room_center : Vector2 = room_list[0].rect.get_center()
 	print("start point: ", Vector3(first_room_center.x*tile_size.x,10,first_room_center.y*tile_size.y))
@@ -187,7 +171,7 @@ func create_walls():
 							make_wall = true
 				if make_wall:
 					map_tiles[i][j].type = CellData.TILETYPE.WALL
-					set_cell(map_tiles[i][j])
+					set_cell(Vector2i(i,j),CellData.TILETYPE.WALL)
 					var new_wall : Wall = wall_inst.instantiate()
 					var mesh_offset = new_wall.mesh.size/2
 					root_room_node.add_child(new_wall)
