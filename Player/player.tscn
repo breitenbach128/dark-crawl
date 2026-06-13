@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://cm2djj3ued2uq" path="res://UI/Cards/card_template.tscn" id="4_gwnis"]
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="4_k53q1"]
 [ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="7_vtle1"]
-[ext_resource type="PackedScene" uid="uid://cotr24htyhlfv" path="res://UI/Cards/card_magicblast.tscn" id="8_00tjw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -169,9 +168,6 @@ layout_mode = 2
 texture = SubResource("AtlasTexture_vtle1")
 
 [node name="Card" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1504661029 instance=ExtResource("4_gwnis")]
-layout_mode = 0
-
-[node name="Card2" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1756610313 instance=ExtResource("8_00tjw")]
 layout_mode = 0
 
 [node name="CardHand" type="HBoxContainer" parent="CanvasLayer/UI/CardArea" unique_id=1189480962]

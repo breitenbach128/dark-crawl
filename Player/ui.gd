@@ -112,6 +112,7 @@ func take_card(top_card : Card):
 	top_card.drawn(card_hand.get_child_count() - 1,self,player)
 
 func discard_card(card : Card):
+	card.is_discarded = true
 	card.reparent(self, true) #Move back to UI parent
 	card.discarded(discard_path, self) #Setup path to follow to trash
 

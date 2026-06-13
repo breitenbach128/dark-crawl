@@ -1,25 +1,25 @@
-[gd_scene format=3 uid="uid://cm2djj3ued2uq"]
+[gd_scene format=3 uid="uid://dcef4pfnftvev"]
 
-[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/card.gd" id="1_4kgta"]
-[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="2_qlr6f"]
-[ext_resource type="Texture2D" uid="uid://bgydht8j3mgm8" path="res://art/Weapons/bullet_blast_1.png" id="3_c1kgs"]
-[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="4_4ublx"]
-[ext_resource type="Texture2D" uid="uid://d3fowu6o7omp3" path="res://art/Weapons/Veteran War Sword.png" id="5_qlr6f"]
-[ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="6_c1kgs"]
+[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/card.gd" id="1_lww3s"]
+[ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="2_1we14"]
+[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_hfv38"]
+[ext_resource type="Texture2D" uid="uid://bgydht8j3mgm8" path="res://art/Weapons/bullet_blast_1.png" id="4_xnmqc"]
+[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="5_c1u5r"]
+[ext_resource type="Texture2D" uid="uid://d3fowu6o7omp3" path="res://art/Weapons/Veteran War Sword.png" id="6_ciex5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
-atlas = ExtResource("2_qlr6f")
+atlas = ExtResource("3_hfv38")
 region = Rect2(16, 352, 64, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p0wgq"]
-atlas = ExtResource("2_qlr6f")
+atlas = ExtResource("3_hfv38")
 region = Rect2(336, 128, 64, 96)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
 font_size = 24
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxjwh"]
-atlas = ExtResource("4_4ublx")
+atlas = ExtResource("5_c1u5r")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qlr6f"]
@@ -27,10 +27,11 @@ font_color = Color(0.29729533, 0.42154697, 1, 1)
 outline_size = 2
 outline_color = Color(0, 0, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ublx"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1we14"]
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
 
-[node name="Card" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer")]
+[node name="Card_LongSword" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer")]
+visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
 layout_mode = 3
@@ -38,7 +39,8 @@ anchors_preset = 0
 offset_right = 160.0
 offset_bottom = 212.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
-script = ExtResource("1_4kgta")
+script = ExtResource("1_lww3s")
+card_name = "Long Sword"
 control_icon = NodePath("ControlIcon")
 cd_progress_bar = NodePath("CoolDownBar")
 attack_damage = {
@@ -49,7 +51,7 @@ attack_damage = {
 "shock": [0, 0],
 "soul": [0, 0]
 }
-attack_resource = ExtResource("6_c1kgs")
+attack_resource = ExtResource("2_1we14")
 cooldownTimer = NodePath("CoolDown")
 
 [node name="CardTemplate" type="TextureRect" parent="." unique_id=1514441462]
@@ -101,7 +103,7 @@ offset_left = 98.0
 offset_top = 9.0
 offset_right = 122.0
 offset_bottom = 33.0
-texture = ExtResource("3_c1kgs")
+texture = ExtResource("4_xnmqc")
 
 [node name="ControlIcon" type="TextureRect" parent="." unique_id=995841942]
 visible = false
@@ -120,7 +122,7 @@ offset_left = 27.0
 offset_top = 50.0
 offset_right = 134.0
 offset_bottom = 113.0
-texture = ExtResource("5_qlr6f")
+texture = ExtResource("6_ciex5")
 stretch_mode = 5
 
 [node name="EnergyLevel" type="Label" parent="." unique_id=1739479121]
@@ -134,14 +136,14 @@ label_settings = SubResource("LabelSettings_qlr6f")
 
 [node name="CoolDown" type="Timer" parent="." unique_id=710085231]
 
-[node name="CoolDownBar" type="ProgressBar" parent="." unique_id=2031944578]
+[node name="CoolDownBar" type="ProgressBar" parent="." unique_id=709466303]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/fill = SubResource("StyleBoxFlat_4ublx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1we14")
 fill_mode = 2
 show_percentage = false
 

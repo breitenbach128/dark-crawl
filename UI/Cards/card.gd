@@ -32,8 +32,9 @@ var control_icon_textures : Array[Dictionary] = [
 @export var card_type : CARD_CATEGORIES
 @export var card_name : String = "Card Name"
 @export var control_icon : TextureRect
+@export var cd_progress_bar : ProgressBar
 @export var energy : int = 5 #How much "Ammo" does the card have?
-
+var max_energy : int = 0
 
 @export_category("Parameters")
 @export var attack_damage : Dictionary = { #[min,max]
@@ -65,18 +66,34 @@ var card_hand_index : int  = 0
 var player : Player #Belongs to this play
 var ui : UI #UI reference for performing actions
 var card_ready : bool = true
+var is_discarded: bool = false
 
 
 func _ready() -> void:
 	$CardTitle.text = card_name
 	print("Anchors " , anchor_left, anchor_top)
 	cooldownTimer.wait_time = rate
+	max_energy = energy
+	update_energy_display()
+	#Setup Progress Bar
+	cd_progress_bar.max_value = rate
 
+	
+func _process(delta: float) -> void:
+	if card_ready == false:
+		cd_progress_bar.value -= delta
+
+func update_energy_display():
+	$EnergyLevel.text = str(energy,"/",max_energy)
+	
 func use_card():
 	energy = max(0,energy - 1)
 	cooldownTimer.start()	
 	card_ready = false
+	cd_progress_bar.value = cd_progress_bar.max_value
+		
 	print("Card Energy is now: ", energy)
+	update_energy_display()
 	match card_type:
 		CARD_CATEGORIES.MELEE:
 			attack_action()
@@ -84,7 +101,7 @@ func use_card():
 			attack_action()
 		CARD_CATEGORIES.DEFENSE:
 			pass
-		CARD_CATEGORIES.DEFENSE:
+		CARD_CATEGORIES.UTILITY:
 			pass
 
 func get_attack_origin():
@@ -168,5 +185,7 @@ func discarded(path,ui):
 	discard_tween.finished.connect(queue_free)
 
 
-func _on_cool_down_timeout() -> void:
+func _on_cool_down_timeout() -> void:	
+	if energy == 0 && is_discarded == false:
+		ui.discard_card(self)
 	card_ready = true

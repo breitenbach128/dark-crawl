@@ -27,7 +27,10 @@ font_color = Color(0.29729533, 0.42154697, 1, 1)
 outline_size = 2
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Card" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cooldownTimer")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jxuiw"]
+bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
+
+[node name="Card_MagicBlast" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer")]
 visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
@@ -40,6 +43,7 @@ script = ExtResource("1_2rpwk")
 card_type = 1
 card_name = "Magic Blast"
 control_icon = NodePath("ControlIcon")
+cd_progress_bar = NodePath("CoolDownBar")
 energy = 10
 attack_damage = {
 "cold": [0, 0],
@@ -135,5 +139,16 @@ text = "5/5"
 label_settings = SubResource("LabelSettings_qlr6f")
 
 [node name="CoolDown" type="Timer" parent="." unique_id=710085231]
+
+[node name="CoolDownBar" type="ProgressBar" parent="." unique_id=379951974]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_jxuiw")
+fill_mode = 2
+show_percentage = false
 
 [connection signal="timeout" from="CoolDown" to="." method="_on_cool_down_timeout"]
