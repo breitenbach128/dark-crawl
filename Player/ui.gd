@@ -82,7 +82,7 @@ func draw_card():
 			draw_tween_pending = draw_tween_pending + 1
 			if card_hand.get_child_count() > 0:
 				var last_card : Card = card_hand.get_child(card_hand.get_child_count()-1)
-				print("last Card position ",last_card.global_position, " ", last_card.name)
+				#print("last Card position ",last_card.global_position, " ", last_card.name)
 				drop_position = last_card.global_position + Vector2(card_hand.get_theme_constant("separation")*draw_tween_pending,0) + Vector2(last_card.custom_minimum_size.x*draw_tween_pending,0)
 			
 				
@@ -90,13 +90,13 @@ func draw_card():
 			top_card.visible = true
 			top_card.reparent(self,true)
 			
-			print("drop position: ", drop_position)
+			#print("drop position: ", drop_position)
 			var draw_card_tween = create_tween()			
 			draw_card_tween.finished.connect(take_card.bind(top_card))
 			var vp_size = get_viewport_rect().size
-			var center_position = (vp_size-top_card.custom_minimum_size)/2 + Vector2(0,128)
+			var center_position = (vp_size-top_card.custom_minimum_size)/2 + Vector2(-64,0)
 			# Tween the global position over 0.5 seconds, pause of 0.5 and then transition to hand position
-			print("center position ", center_position, " ", vp_size,  " " , top_card.size)
+			#print("center position ", center_position, " ", vp_size,  " " , top_card.size)
 			draw_card_tween.set_parallel(true)
 			draw_card_tween.tween_property(top_card, "global_position", center_position, 0.75).set_trans(Tween.TRANS_SINE)
 			draw_card_tween.tween_property(top_card, "scale", Vector2(2,2), 0.75).set_trans(Tween.TRANS_SINE)

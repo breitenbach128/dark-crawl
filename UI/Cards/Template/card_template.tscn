@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://cm2djj3ued2uq"]
 
-[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/card.gd" id="1_4kgta"]
+[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/Template/card.gd" id="1_4kgta"]
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="2_qlr6f"]
 [ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="4_4ublx"]
 [ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="4_c1kgs"]
+[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="4_tbayc"]
 [ext_resource type="Texture2D" uid="uid://d3fowu6o7omp3" path="res://art/Weapons/Veteran War Sword.png" id="5_qlr6f"]
 [ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="6_c1kgs"]
+[ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_tbayc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
 atlas = ExtResource("2_qlr6f")
@@ -16,7 +18,7 @@ atlas = ExtResource("2_qlr6f")
 region = Rect2(336, 128, 64, 96)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
-font_size = 24
+font = ExtResource("4_tbayc")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxjwh"]
 atlas = ExtResource("4_4ublx")
@@ -31,7 +33,6 @@ outline_color = Color(0, 0, 0, 1)
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
 
 [node name="Card" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer")]
-visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
 layout_mode = 3
@@ -73,25 +74,11 @@ texture = SubResource("AtlasTexture_p0wgq")
 [node name="CardTitle" type="Label" parent="." unique_id=740711605]
 texture_filter = 1
 layout_mode = 0
-offset_left = 27.0
-offset_top = 34.0
-offset_right = 247.0
-offset_bottom = 74.0
-scale = Vector2(0.5, 0.5)
+offset_left = 12.0
+offset_top = 116.0
+offset_right = 150.0
+offset_bottom = 141.0
 text = "Longsword"
-label_settings = SubResource("LabelSettings_4crdo")
-horizontal_alignment = 1
-
-[node name="CardEffect" type="Label" parent="." unique_id=232746142]
-texture_filter = 1
-layout_mode = 0
-offset_left = 24.0
-offset_top = 152.0
-offset_right = 244.0
-offset_bottom = 236.0
-scale = Vector2(0.5, 0.5)
-text = "1-8 Damage, Melee
-"
 label_settings = SubResource("LabelSettings_4crdo")
 horizontal_alignment = 1
 
@@ -118,7 +105,7 @@ expand_mode = 1
 [node name="CardImage" type="TextureRect" parent="." unique_id=327754909]
 layout_mode = 1
 offset_left = 27.0
-offset_top = 50.0
+offset_top = 40.0
 offset_right = 134.0
 offset_bottom = 113.0
 texture = ExtResource("5_qlr6f")
@@ -146,5 +133,18 @@ grow_vertical = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_4ublx")
 fill_mode = 2
 show_percentage = false
+
+[node name="EffectArea" type="HBoxContainer" parent="." unique_id=232334768]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 157.0
+offset_right = 138.0
+offset_bottom = 193.0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_tbayc")]
+layout_mode = 2
+text = "1-8"
 
 [connection signal="timeout" from="CoolDown" to="." method="_on_cool_down_timeout"]

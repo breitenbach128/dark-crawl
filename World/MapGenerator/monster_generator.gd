@@ -17,6 +17,6 @@ func spawn_monsters():
 		var spawn_location_room : RoomData = dungeon.room_list.pick_random()
 		var spawn_cell = spawn_location_room.get_random_world_cell_in_room()
 		var spawn_location = spawn_cell * dungeon.tile_scale
-		print("Room:", spawn_location_room.room_id," ", spawn_cell)
+		#print("Room:", spawn_location_room.room_id," ", spawn_cell)
 		new_monster.position = Vector3(spawn_location.x,2,spawn_location.y)
 	

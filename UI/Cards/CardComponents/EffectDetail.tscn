@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bd1kwh2idw353"]
+
+[ext_resource type="Texture2D" uid="uid://cbi1ett8728lu" path="res://art/ui/card_icons.png" id="1_maoe0"]
+[ext_resource type="Script" uid="uid://ded16upem6fwd" path="res://UI/Cards/CardComponents/effect_detail.gd" id="2_u3is7"]
+[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="3_d3xgr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tbayc"]
+atlas = ExtResource("1_maoe0")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tbayc"]
+font = ExtResource("3_d3xgr")
+
+[node name="EffectDetail" type="TextureRect" unique_id=1654437473 node_paths=PackedStringArray("label")]
+texture_filter = 1
+custom_minimum_size = Vector2(24, 24)
+offset_right = 24.0
+offset_bottom = 24.0
+texture = SubResource("AtlasTexture_tbayc")
+expand_mode = 2
+script = ExtResource("2_u3is7")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="." unique_id=1909545909]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -21.0
+offset_top = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "1-8"
+label_settings = SubResource("LabelSettings_tbayc")
+horizontal_alignment = 2
+vertical_alignment = 2
