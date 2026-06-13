@@ -84,7 +84,7 @@ func _process(delta: float) -> void:
 		cd_progress_bar.value -= delta
 
 func update_energy_display():
-	$EnergyLevel.text = str(energy,"/",max_energy)
+	$EnergyLevel.text = str(energy)
 	
 func use_card():
 	energy = max(0,energy - 1)

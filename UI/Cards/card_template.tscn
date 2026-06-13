@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/card.gd" id="1_4kgta"]
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="2_qlr6f"]
-[ext_resource type="Texture2D" uid="uid://bgydht8j3mgm8" path="res://art/Weapons/bullet_blast_1.png" id="3_c1kgs"]
 [ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="4_4ublx"]
+[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="4_c1kgs"]
 [ext_resource type="Texture2D" uid="uid://d3fowu6o7omp3" path="res://art/Weapons/Veteran War Sword.png" id="5_qlr6f"]
 [ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="6_c1kgs"]
 
@@ -23,7 +23,7 @@ atlas = ExtResource("4_4ublx")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qlr6f"]
-font_color = Color(0.29729533, 0.42154697, 1, 1)
+font_size = 24
 outline_size = 2
 outline_color = Color(0, 0, 0, 1)
 
@@ -31,6 +31,7 @@ outline_color = Color(0, 0, 0, 1)
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
 
 [node name="Card" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer")]
+visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
 layout_mode = 3
@@ -94,23 +95,23 @@ text = "1-8 Damage, Melee
 label_settings = SubResource("LabelSettings_4crdo")
 horizontal_alignment = 1
 
-[node name="Icon" type="TextureRect" parent="." unique_id=1014671199]
+[node name="EnergyIcon" type="TextureRect" parent="." unique_id=1014671199]
 texture_filter = 1
 layout_mode = 0
-offset_left = 98.0
-offset_top = 9.0
-offset_right = 122.0
-offset_bottom = 33.0
-texture = ExtResource("3_c1kgs")
+offset_left = 48.0
+offset_top = -24.0
+offset_right = 112.0
+offset_bottom = 40.0
+texture = ExtResource("4_c1kgs")
 
 [node name="ControlIcon" type="TextureRect" parent="." unique_id=995841942]
 visible = false
 texture_filter = 1
 layout_mode = 0
-offset_left = 63.0
-offset_top = 3.0
-offset_right = 95.0
-offset_bottom = 35.0
+offset_left = 64.0
+offset_top = -41.0
+offset_right = 96.0
+offset_bottom = -9.0
 texture = SubResource("AtlasTexture_vxjwh")
 expand_mode = 1
 
@@ -125,12 +126,13 @@ stretch_mode = 5
 
 [node name="EnergyLevel" type="Label" parent="." unique_id=1739479121]
 layout_mode = 0
-offset_left = 120.0
-offset_top = 9.0
-offset_right = 148.0
-offset_bottom = 32.0
-text = "5/5"
+offset_left = 67.0
+offset_top = -9.0
+offset_right = 95.0
+offset_bottom = 25.0
+text = "5"
 label_settings = SubResource("LabelSettings_qlr6f")
+horizontal_alignment = 1
 
 [node name="CoolDown" type="Timer" parent="." unique_id=710085231]
 
