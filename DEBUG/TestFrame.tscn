@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bfa5o3hiytvfv"]
 
-[ext_resource type="Script" uid="uid://bc617y8yerwuh" path="res://Effects/test_frame.gd" id="1_xia4u"]
+[ext_resource type="Script" uid="uid://bc617y8yerwuh" path="res://DEBUG/test_frame.gd" id="1_xia4u"]
 [ext_resource type="Texture2D" uid="uid://dnfoflwudl7f0" path="res://art/Enemies/testangle.png" id="2_8hi46"]
 
 [sub_resource type="Animation" id="Animation_fdypd"]

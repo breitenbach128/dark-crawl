@@ -57,7 +57,7 @@ var control_icon_textures : Array[Dictionary] = [
 @export var movement_speed: float = 0.0
 @export var rate: float = 0.5 #How fast can the card be activated / cooldown
 @export var cooldownTimer : Timer
-@export var attack_effects : Array = [] #What effects can the card cause, trigger, etc.
+@export var hit_effects : Array = [] #What effects can the card cause, trigger, etc.
 @export var self_effects : Array = []
 
 

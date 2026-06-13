@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://emckrb0l4ogb" path="res://World/Floors/floor_1x1.tscn" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://mbvx4sselk48" path="res://World/Floors/floor_1x1a.tscn" id="8_efxa6"]
 [ext_resource type="Script" uid="uid://bie8sxatextfe" path="res://World/MapGenerator/monster_generator.gd" id="9_4c57u"]
-[ext_resource type="PackedScene" uid="uid://bfa5o3hiytvfv" path="res://Effects/TestFrame.tscn" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://bfa5o3hiytvfv" path="res://DEBUG/TestFrame.tscn" id="9_kek77"]
 [ext_resource type="PackedScene" uid="uid://bfq6musk5k252" path="res://Enemies/enemy_1.tscn" id="10_4c57u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
