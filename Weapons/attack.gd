@@ -30,7 +30,7 @@ func set_direction_anim():
 		var anim_name = "attack_" + DIRECTIONS[sector]
 		if $Anim.animation != anim_name:
 			$Anim.play(anim_name)
-			$Label3D.text = str(anim_name, " " , rad_to_deg(angle_diff))
+			
 
 func attack(damage):
 	attack_damage = damage

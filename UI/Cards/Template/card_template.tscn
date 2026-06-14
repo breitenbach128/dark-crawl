@@ -32,7 +32,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ublx"]
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
 
-[node name="Card" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects")]
+[node name="Card" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects") groups=["Card"]]
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
 layout_mode = 3

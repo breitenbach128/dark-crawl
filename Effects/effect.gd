@@ -5,7 +5,9 @@ class_name Effect
 @export var effect_name : String = "Effect"
 @export var icon_texture : Resource
 @export var duration_count : int = 0 #How many ticks before this expires?
+var duration_ticks : int  = 0
 @export var duration_tick_time : int = 0 #How long is each tick?
+@export var duration_timer : Timer
 @export var reapply_on_tick : bool = false #Does this effect happen on each tick?
 @export var heal : int = 0
 @export var move_speed : int = 0
@@ -46,9 +48,14 @@ class_name Effect
 @export var mutli_projectile : int = 0 #Adds more projectiles and an angle from origin
 @export var spread_projectiles : int = 0 #Adds more projectiles to the left and right, but in parallel
 @export var card_cooldown : float = 0.0 #Modifies the global card cooldown rate (Rate of fire)
+var target
 
 ## For active effects, this runs the action
 func activate_effect():
+	if duration_count > 0 && duration_ticks == 0:
+		duration_timer.wait_time = duration_tick_time
+		duration_timer.start()
+	
 	if blast_projectiles > 0:
 		if get_parent() is Attack:
 			var parent_attack : Attack = get_parent()
@@ -66,9 +73,32 @@ func activate_effect():
 				new_attack.linear_velocity = final_velocity
 				new_attack.look_at(parent_attack.position + final_velocity, Vector3.UP)
 
+func set_target(t):
+	target = t
 ## For passive effects, such as modifications to health, this changes the base state
-func apply_effects():
-	pass
+func apply_effects(mod : int):	
+	print("Applying Effect, ", effect_name, " " , mod)
+	if duration_count > 0 && duration_ticks == 0:
+		duration_timer.wait_time = duration_tick_time
+		duration_timer.start()
+	if target.has_node("HealthComponent"):
+		var hcomp : Health_Component = target.get_node("HealthComponent")
+		#Apply Restistances
+		for dtype in restistance:
+			hcomp.restistance[dtype] += (mod*restistance[dtype])
+		
 ## For passive effects, such as modifications to health, this removes the mod value
 func remove_effects():
-	pass
+	apply_effects(-1)
+	queue_free()
+
+
+
+func _on_duration_timeout() -> void:
+	print("Timeout: ", duration_ticks, " ", duration_count)
+	if duration_ticks < duration_count:
+		duration_ticks+=1
+		duration_timer.start()
+	else:
+		remove_effects()
+		

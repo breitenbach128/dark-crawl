@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://do8q6c3rrce4b"]
+
+[ext_resource type="Script" uid="uid://xiqj8h02uv0v" path="res://Effects/effect.gd" id="1_1b110"]
+
+[node name="EffectFireResist" type="Node3D" unique_id=1298307307 node_paths=PackedStringArray("duration_timer")]
+script = ExtResource("1_1b110")
+effect_name = "Fire Resist"
+duration_count = 3
+duration_tick_time = 1
+duration_timer = NodePath("Duration")
+restistance = {
+"cold": 0.0,
+"fire": 0.3,
+"force": 0.0,
+"physical": 0.0,
+"shock": 0.0,
+"soul": 0.0
+}
+
+[node name="Duration" type="Timer" parent="." unique_id=50897816]
+one_shot = true
+
+[connection signal="timeout" from="Duration" to="." method="_on_duration_timeout"]

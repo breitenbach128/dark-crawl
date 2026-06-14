@@ -37,7 +37,7 @@ bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
 atlas = ExtResource("9_h2lhe")
 region = Rect2(0, 0, 64, 64)
 
-[node name="Card_Shortsword" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects")]
+[node name="Card_Shortsword" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects") groups=["Card"]]
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
 layout_mode = 3

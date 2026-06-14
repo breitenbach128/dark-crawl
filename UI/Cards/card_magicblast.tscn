@@ -168,7 +168,7 @@ text = "1-8"
 
 [node name="HitEffects" type="Node" parent="." unique_id=1158573680]
 
-[node name="EffectBlastBasic" parent="HitEffects" unique_id=1298307307 instance=ExtResource("3_2aboh")]
+[node name="EffectBlastBasic" parent="HitEffects" unique_id=1298307307 groups=["Card"] instance=ExtResource("3_2aboh")]
 
 [node name="SelfEffects" type="Node" parent="." unique_id=495310259]
 

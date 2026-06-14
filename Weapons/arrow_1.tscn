@@ -13,18 +13,6 @@ bounce = 0.5
 [sub_resource type="SphereShape3D" id="SphereShape3D_lqaso"]
 radius = 0.2
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2eyqt"]
-atlas = ExtResource("2_oxjqi")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_srgjv"]
-atlas = ExtResource("2_oxjqi")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_siqr5"]
-atlas = ExtResource("2_oxjqi")
-region = Rect2(192, 0, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_u2hej"]
 atlas = ExtResource("2_oxjqi")
 region = Rect2(0, 64, 64, 64)
@@ -41,21 +29,21 @@ region = Rect2(128, 64, 64, 64)
 atlas = ExtResource("2_oxjqi")
 region = Rect2(192, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bdid0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_reweg"]
 atlas = ExtResource("2_oxjqi")
-region = Rect2(0, 128, 64, 64)
+region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4c0rc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxjqi"]
 atlas = ExtResource("2_oxjqi")
-region = Rect2(64, 128, 64, 64)
+region = Rect2(64, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x1cgp"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2eyqt"]
 atlas = ExtResource("2_oxjqi")
-region = Rect2(128, 128, 64, 64)
+region = Rect2(128, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gaoc4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_srgjv"]
 atlas = ExtResource("2_oxjqi")
-region = Rect2(192, 128, 64, 64)
+region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bg6wb"]
 atlas = ExtResource("2_oxjqi")
@@ -72,6 +60,22 @@ region = Rect2(128, 192, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_8cq3a"]
 atlas = ExtResource("2_oxjqi")
 region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdid0"]
+atlas = ExtResource("2_oxjqi")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4c0rc"]
+atlas = ExtResource("2_oxjqi")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1cgp"]
+atlas = ExtResource("2_oxjqi")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gaoc4"]
+atlas = ExtResource("2_oxjqi")
+region = Rect2(192, 128, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_625yq"]
 atlas = ExtResource("2_reweg")
@@ -97,20 +101,6 @@ region = Rect2(32, 32, 16, 16)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2eyqt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_srgjv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_siqr5")
-}],
-"loop": true,
-"name": &"attack_back",
-"speed": 12.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_u2hej")
 }, {
 "duration": 1.0,
@@ -123,7 +113,41 @@ animations = [{
 "texture": SubResource("AtlasTexture_dkqoq")
 }],
 "loop": true,
+"name": &"attack_back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_reweg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxjqi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2eyqt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srgjv")
+}],
+"loop": true,
 "name": &"attack_front",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bg6wb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxuld")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w083f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8cq3a")
+}],
+"loop": true,
+"name": &"attack_left",
 "speed": 5.0
 }, {
 "frames": [{
@@ -138,23 +162,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gaoc4")
-}],
-"loop": true,
-"name": &"attack_left",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bg6wb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cxuld")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w083f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8cq3a")
 }],
 "loop": true,
 "name": &"attack_right",
@@ -206,7 +213,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 billboard = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_651ug")
-animation = &"attack_back"
+animation = &"attack_left"
 
 [node name="Lifespan" type="Timer" parent="." unique_id=329340027]
 wait_time = 5.0
@@ -220,11 +227,6 @@ autoplay = true
 [node name="SoundOnHit" type="AudioStreamPlayer3D" parent="." unique_id=1398114]
 stream = SubResource("AudioStreamRandomizer_5hyoq")
 volume_db = -10.292
-
-[node name="Label3D" type="Label3D" parent="." unique_id=98205872]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
-billboard = 2
-text = "dir"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Lifespan" to="." method="_on_lifespan_timeout"]

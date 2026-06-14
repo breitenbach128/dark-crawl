@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="4_k53q1"]
 [ext_resource type="PackedScene" uid="uid://b2m4ruh4ik1ch" path="res://UI/Cards/card_shortbow.tscn" id="7_od3ui"]
 [ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="7_vtle1"]
+[ext_resource type="PackedScene" uid="uid://4ao2f21ridly" path="res://UI/Cards/card_fireresist.tscn" id="8_00tjw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -176,6 +177,9 @@ layout_mode = 2
 texture = SubResource("AtlasTexture_vtle1")
 
 [node name="Card_Shortbow" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1504661029 instance=ExtResource("7_od3ui")]
+layout_mode = 0
+
+[node name="Card_FireResist" parent="CanvasLayer/UI/CardArea/Deck" unique_id=655722099 instance=ExtResource("8_00tjw")]
 layout_mode = 0
 
 [node name="CardHand" type="HBoxContainer" parent="CanvasLayer/UI/CardArea" unique_id=1189480962]

@@ -64,8 +64,8 @@ func create_rooms():
 		while check_limit > 0 && !position_found:
 			check_limit -= 1 #Safety Net
 			#try a position
-			room.rect.position.x = randi_range(0,map_area.size.x)
-			room.rect.position.y = randi_range(0,map_area.size.y)
+			room.rect.position.x = randi_range(1,map_area.size.x-1)
+			room.rect.position.y = randi_range(1,map_area.size.y-1)
 			if is_room_position_valid(room):
 				room.room_id = new_room_id
 				new_room_id+=1
@@ -145,21 +145,30 @@ func create_exits():
 					if ey == r.rect.size.y-1:
 						edge_positions.bottom.points.append(Vector2i(ex,ey))
 
-		#Pick 1 exit positions
+		#Pick exit positions
 		var edge_directions = ["top","bottom","left","right"]
 		for pick in range(0,randi_range(1,4)):
 			var edge_dir = edge_directions.pick_random()
 			
 			var edge_tile = r.rect.position + edge_positions[edge_dir].points.pick_random() + edge_positions[edge_dir].delta
 			
-			#Find closest room tile to exit position
-			var target_tile = find_closest_room_tile_by_tile(edge_tile,r)
-			#print("exit tile and target tile ", edge_tile, " ", target_tile)
-			#match side to side, so right side goes to left side, etc.
-			#pick random from both sides.
-			if target_tile:
+			#Find closest room tile to exit position. Look for non-connected first.
+			#then increment the tolerance
+			var connection_tolerance : int = 0
+			var connection_tolerance_max : int = 5
+			var closest_target = null
+			while(closest_target == null && connection_tolerance < connection_tolerance_max):
+				closest_target = find_closest_room_tile_by_tile(edge_tile,r,connection_tolerance)
+				if closest_target == null:
+					connection_tolerance+=1
+					print("Not found with conn tol: ", connection_tolerance)
+				#print("exit tile and target tile ", edge_tile, " ", target_tile)
+				#match side to side, so right side goes to left side, etc.
+				#pick random from both sides.
+			if closest_target.tile:
 				#Get a path between the two
-				var path= astar_grid.get_point_path(edge_tile,target_tile,true)	
+				var path= astar_grid.get_point_path(edge_tile,closest_target.tile,true)	
+				r.connected_room_ids.append(closest_target.room_id)
 				#print("Path : ",path)		
 				#Create tiles on that path
 				pcount+=1
@@ -181,11 +190,12 @@ func create_tile_mesh(res, p, text, overlap:bool):
 	tile.position = Vector3(p.x*tile_scale.x,0,p.y*tile_scale.y)  + mesh_offset
 	tile.get_node("Label3D").text = str(text)
 	
-func find_closest_room_tile_by_tile(src_tile : Vector2i, src_room: RoomData):
+func find_closest_room_tile_by_tile(src_tile : Vector2i, src_room: RoomData, conn_tolerance : int):
 	#Search from a tile for the room with the closest tile
 	var dis = INF
 	var close_tile
-	for r in room_list.filter(func(r): return r.room_id != src_room.room_id):
+	var room_id
+	for r in room_list.filter(func(r): return r.room_id != src_room.room_id && r.connected_room_ids.size() <= conn_tolerance):
 		for ey in range(0,r.rect.size.y):
 			for ex in range(0,r.rect.size.x):
 				var rm_tile = Vector2(r.rect.position.x+ex,r.rect.position.y+ey)
@@ -193,7 +203,8 @@ func find_closest_room_tile_by_tile(src_tile : Vector2i, src_room: RoomData):
 				if new_dis < dis:
 					dis = new_dis
 					close_tile = rm_tile
-	return close_tile
+					room_id = r.room_id
+	return {"tile": close_tile, "room_id": room_id}
 
 func create_walls():
 	for j in range(0,map_area.size.y):

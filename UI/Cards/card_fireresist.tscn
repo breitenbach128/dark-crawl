@@ -1,29 +1,33 @@
-[gd_scene format=3 uid="uid://b2m4ruh4ik1ch"]
+[gd_scene format=3 uid="uid://4ao2f21ridly"]
 
-[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/Template/card.gd" id="1_1ynbv"]
-[ext_resource type="PackedScene" uid="uid://dpybtl6o3swwg" path="res://Weapons/arrow_1.tscn" id="2_1ynbv"]
-[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_f31ey"]
-[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="4_b7tnb"]
-[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="5_43a4i"]
-[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="6_wg3xf"]
-[ext_resource type="Texture2D" uid="uid://ba6qyi4c326go" path="res://art/Weapons/Hunter Bow.png" id="7_jjrg6"]
-[ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_qg67a"]
-[ext_resource type="Texture2D" uid="uid://cbi1ett8728lu" path="res://art/ui/card_icons.png" id="9_hnvkl"]
+[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/Template/card.gd" id="1_kk37k"]
+[ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="2_d1mjx"]
+[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_qu1fb"]
+[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="4_8ccbn"]
+[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="5_nqdpu"]
+[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="6_5ljyy"]
+[ext_resource type="Texture2D" uid="uid://cmg764bt7mbar" path="res://art/Magic/Fire Effect and Bullet 16x16.png" id="7_7lfco"]
+[ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_xvcea"]
+[ext_resource type="PackedScene" uid="uid://do8q6c3rrce4b" path="res://Effects/fire_resistance.tscn" id="9_7lfco"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
-atlas = ExtResource("3_f31ey")
+atlas = ExtResource("3_qu1fb")
 region = Rect2(16, 352, 64, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p0wgq"]
-atlas = ExtResource("3_f31ey")
+atlas = ExtResource("3_qu1fb")
 region = Rect2(336, 128, 64, 96)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
-font = ExtResource("4_b7tnb")
+font = ExtResource("4_8ccbn")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxjwh"]
-atlas = ExtResource("6_wg3xf")
+atlas = ExtResource("6_5ljyy")
 region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6651c"]
+atlas = ExtResource("7_7lfco")
+region = Rect2(160, 160, 16, 32)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qlr6f"]
 font_size = 24
@@ -33,11 +37,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ublx"]
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_17hf5"]
-atlas = ExtResource("9_hnvkl")
-region = Rect2(0, 0, 64, 64)
-
-[node name="Card_Shortbow" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects") groups=["Card"]]
+[node name="Card_FireResist" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects") groups=["Card"]]
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
 layout_mode = 3
@@ -45,23 +45,23 @@ anchors_preset = 0
 offset_right = 160.0
 offset_bottom = 212.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
-script = ExtResource("1_1ynbv")
-card_type = 1
-card_name = "Shortbow"
+script = ExtResource("1_kk37k")
+card_type = 2
+card_name = "Fire Resist"
 control_icon = NodePath("ControlIcon")
 cd_progress_bar = NodePath("CoolDownBar")
-energy = 12
+energy = 2
 attack_damage = {
 "cold": [0, 0],
 "fire": [0, 0],
 "force": [0, 0],
-"physical": [1, 6],
+"physical": [1, 8],
 "shock": [0, 0],
 "soul": [0, 0]
 }
-attack_resource = ExtResource("2_1ynbv")
-attack_velocity = 18.0
-rate = 0.6
+attack_resource = ExtResource("2_d1mjx")
+attack_velocity = 0.0
+rate = 5.0
 cooldownTimer = NodePath("CoolDown")
 hit_effects = NodePath("HitEffects")
 self_effects = NodePath("SelfEffects")
@@ -90,7 +90,7 @@ offset_left = 12.0
 offset_top = 116.0
 offset_right = 150.0
 offset_bottom = 141.0
-text = "Short bow"
+text = "Fire Resist"
 label_settings = SubResource("LabelSettings_4crdo")
 horizontal_alignment = 1
 
@@ -101,7 +101,7 @@ offset_left = 48.0
 offset_top = -24.0
 offset_right = 112.0
 offset_bottom = 40.0
-texture = ExtResource("5_43a4i")
+texture = ExtResource("5_nqdpu")
 
 [node name="ControlIcon" type="TextureRect" parent="." unique_id=995841942]
 visible = false
@@ -120,7 +120,7 @@ offset_left = 27.0
 offset_top = 40.0
 offset_right = 134.0
 offset_bottom = 113.0
-texture = ExtResource("7_jjrg6")
+texture = SubResource("AtlasTexture_6651c")
 stretch_mode = 5
 
 [node name="EnergyLevel" type="Label" parent="." unique_id=1739479121]
@@ -155,13 +155,15 @@ offset_bottom = 193.0
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_qg67a")]
+[node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_xvcea")]
 layout_mode = 2
-texture = SubResource("AtlasTexture_17hf5")
-text = "1-6"
+icon_type = "fire"
+text = "30%"
 
-[node name="HitEffects" type="Node" parent="." unique_id=1158573680]
+[node name="HitEffects" type="Node" parent="." unique_id=1117642746]
 
-[node name="SelfEffects" type="Node" parent="." unique_id=495310259]
+[node name="SelfEffects" type="Node" parent="." unique_id=740046340]
+
+[node name="EffectFireResist" parent="SelfEffects" unique_id=1298307307 instance=ExtResource("9_7lfco")]
 
 [connection signal="timeout" from="CoolDown" to="." method="_on_cool_down_timeout"]

@@ -35,9 +35,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2)
 [node name="Player" parent="." unique_id=757762237 instance=ExtResource("3_h2yge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
 
-[node name="KillZone" type="Area3D" parent="." unique_id=1086272742]
+[node name="KillZone" type="Area3D" parent="." unique_id=1086272742 node_paths=PackedStringArray("dungeon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
 script = ExtResource("5_lquwl")
+dungeon = NodePath("../DungeonGenerator")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="KillZone" unique_id=1573174640]
 shape = SubResource("BoxShape3D_1bvp3")
