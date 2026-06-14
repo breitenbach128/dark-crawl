@@ -71,7 +71,7 @@ var is_discarded: bool = false
 
 func _ready() -> void:
 	$CardTitle.text = card_name
-	print("Anchors " , anchor_left, anchor_top)
+	#print("Anchors " , anchor_left, anchor_top)
 	cooldownTimer.wait_time = rate
 	max_energy = energy
 	update_energy_display()
@@ -92,7 +92,7 @@ func use_card():
 	card_ready = false
 	cd_progress_bar.value = cd_progress_bar.max_value
 		
-	print("Card Energy is now: ", energy)
+	#print("Card Energy is now: ", energy)
 	update_energy_display()
 	match card_type:
 		CARD_CATEGORIES.MELEE:

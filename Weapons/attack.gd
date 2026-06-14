@@ -24,10 +24,10 @@ func _on_body_entered(body: Node) -> void:
 	
 
 func _on_anim_animation_finished() -> void:
-	print("Anim finished ", name)
+	#print("Anim finished ", name)
 	queue_free()
 
 
 func _on_lifespan_timeout() -> void:
-	print("Attack Timeout ", name)
+	#print("Attack Timeout ", name)
 	queue_free()

@@ -81,7 +81,7 @@ func run_card(index):
 	if ui.card_hand.get_child_count() > index:
 		var card : Card = ui.card_hand.get_child(index)
 		if card.card_ready:
-			print("Running Card: ", card.card_name)
+			#print("Running Card: ", card.card_name)
 			gun_sprite.play("shoot")
 			card.use_card()
 
