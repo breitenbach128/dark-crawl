@@ -2,6 +2,7 @@ extends RigidBody3D
 class_name Attack
 
 var attack_damage
+var projectile_speed : float = 0.0
 
 func attack(damage):
 	attack_damage = damage
@@ -17,6 +18,9 @@ func _on_body_entered(body: Node) -> void:
 	#Play impact animation	
 	call_deferred("queue_free")
 	
+	#Check for any hit effects
+	for effect: Effect in get_children().filter(func(x): return x is Effect):
+		effect.activate_effect()
 	
 
 func _on_anim_animation_finished() -> void:

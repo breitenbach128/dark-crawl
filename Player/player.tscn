@@ -6,9 +6,8 @@
 [ext_resource type="Script" uid="uid://bga4dowpnkdoo" path="res://Player/ui.gd" id="3_fhl08"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_vtle1"]
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="4_k53q1"]
-[ext_resource type="PackedScene" uid="uid://cu2njyy3310wm" path="res://UI/Cards/card_longsword.tscn" id="7_00tjw"]
 [ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="7_vtle1"]
-[ext_resource type="PackedScene" uid="uid://dwcbhykuy2asn" path="res://UI/Cards/card_shortsword.tscn" id="8_x3vf3"]
+[ext_resource type="PackedScene" uid="uid://cotr24htyhlfv" path="res://UI/Cards/card_magicblast.tscn" id="9_x3vf3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -168,10 +167,7 @@ custom_minimum_size = Vector2(160, 212)
 layout_mode = 2
 texture = SubResource("AtlasTexture_vtle1")
 
-[node name="Card_LongSword" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1504661029 instance=ExtResource("7_00tjw")]
-layout_mode = 0
-
-[node name="Card_Shortsword" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1661535541 instance=ExtResource("8_x3vf3")]
+[node name="Card_MagicBlast" parent="CanvasLayer/UI/CardArea/Deck" unique_id=798569722 instance=ExtResource("9_x3vf3")]
 layout_mode = 0
 
 [node name="CardHand" type="HBoxContainer" parent="CanvasLayer/UI/CardArea" unique_id=1189480962]

@@ -1,28 +1,34 @@
-[gd_scene format=3 uid="uid://cm2djj3ued2uq"]
+[gd_scene format=3 uid="uid://cotr24htyhlfv"]
 
-[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/Template/card.gd" id="1_4kgta"]
-[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="2_qlr6f"]
-[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="4_4ublx"]
-[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="4_c1kgs"]
-[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="4_tbayc"]
-[ext_resource type="Texture2D" uid="uid://d3fowu6o7omp3" path="res://art/Weapons/Veteran War Sword.png" id="5_qlr6f"]
-[ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="6_c1kgs"]
-[ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_tbayc"]
+[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/Template/card.gd" id="1_fydt7"]
+[ext_resource type="PackedScene" uid="uid://chrjda13r3sbi" path="res://Weapons/magic_1.tscn" id="2_fydt7"]
+[ext_resource type="PackedScene" uid="uid://c3vq3wbkpcaq8" path="res://Effects/blast_basic.tscn" id="3_2aboh"]
+[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_17hf5"]
+[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="4_2aboh"]
+[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="5_rvjy2"]
+[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="6_s5phy"]
+[ext_resource type="Texture2D" uid="uid://bgg4hb5eueirm" path="res://art/Magic/Water Effect and Bullet 16x16.png" id="7_fydt7"]
+[ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_p06xj"]
+[ext_resource type="Texture2D" uid="uid://cbi1ett8728lu" path="res://art/ui/card_icons.png" id="9_u0ehm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
-atlas = ExtResource("2_qlr6f")
+atlas = ExtResource("3_17hf5")
 region = Rect2(16, 352, 64, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p0wgq"]
-atlas = ExtResource("2_qlr6f")
+atlas = ExtResource("3_17hf5")
 region = Rect2(336, 128, 64, 96)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
-font = ExtResource("4_tbayc")
+font = ExtResource("4_2aboh")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxjwh"]
-atlas = ExtResource("4_4ublx")
+atlas = ExtResource("6_s5phy")
 region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0ehm"]
+atlas = ExtResource("7_fydt7")
+region = Rect2(0, 112, 16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qlr6f"]
 font_size = 24
@@ -32,7 +38,11 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ublx"]
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
 
-[node name="Card" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_17hf5"]
+atlas = ExtResource("9_u0ehm")
+region = Rect2(0, 0, 64, 64)
+
+[node name="Card_MagicBlast" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects")]
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
 layout_mode = 3
@@ -40,18 +50,23 @@ anchors_preset = 0
 offset_right = 160.0
 offset_bottom = 212.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
-script = ExtResource("1_4kgta")
+script = ExtResource("1_fydt7")
+card_type = 1
+card_name = "Magic Blast"
 control_icon = NodePath("ControlIcon")
 cd_progress_bar = NodePath("CoolDownBar")
+energy = 10
 attack_damage = {
 "cold": [0, 0],
 "fire": [0, 0],
-"force": [0, 0],
-"physical": [1, 8],
+"force": [1, 8],
+"physical": [0, 0],
 "shock": [0, 0],
 "soul": [0, 0]
 }
-attack_resource = ExtResource("6_c1kgs")
+attack_resource = ExtResource("2_fydt7")
+attack_velocity = 6.0
+rate = 0.6
 cooldownTimer = NodePath("CoolDown")
 hit_effects = NodePath("HitEffects")
 self_effects = NodePath("SelfEffects")
@@ -80,7 +95,7 @@ offset_left = 12.0
 offset_top = 116.0
 offset_right = 150.0
 offset_bottom = 141.0
-text = "Longsword"
+text = "Magic Blast"
 label_settings = SubResource("LabelSettings_4crdo")
 horizontal_alignment = 1
 
@@ -91,7 +106,7 @@ offset_left = 48.0
 offset_top = -24.0
 offset_right = 112.0
 offset_bottom = 40.0
-texture = ExtResource("4_c1kgs")
+texture = ExtResource("5_rvjy2")
 
 [node name="ControlIcon" type="TextureRect" parent="." unique_id=995841942]
 visible = false
@@ -110,7 +125,7 @@ offset_left = 27.0
 offset_top = 40.0
 offset_right = 134.0
 offset_bottom = 113.0
-texture = ExtResource("5_qlr6f")
+texture = SubResource("AtlasTexture_u0ehm")
 stretch_mode = 5
 
 [node name="EnergyLevel" type="Label" parent="." unique_id=1739479121]
@@ -145,12 +160,16 @@ offset_bottom = 193.0
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_tbayc")]
+[node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_p06xj")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_17hf5")
+icon_type = "force"
 text = "1-8"
 
-[node name="HitEffects" type="Node" parent="." unique_id=1117642746]
+[node name="HitEffects" type="Node" parent="." unique_id=1158573680]
 
-[node name="SelfEffects" type="Node" parent="." unique_id=740046340]
+[node name="EffectBlastBasic" parent="HitEffects" unique_id=1298307307 instance=ExtResource("3_2aboh")]
+
+[node name="SelfEffects" type="Node" parent="." unique_id=495310259]
 
 [connection signal="timeout" from="CoolDown" to="." method="_on_cool_down_timeout"]

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c3vq3wbkpcaq8"]
+
+[ext_resource type="Script" uid="uid://xiqj8h02uv0v" path="res://Effects/effect.gd" id="1_ecjr5"]
+
+[node name="EffectBlastBasic" type="Node3D" unique_id=1298307307]
+script = ExtResource("1_ecjr5")
+blast_projectiles = 4
+
+[node name="Duration" type="Timer" parent="." unique_id=50897816]

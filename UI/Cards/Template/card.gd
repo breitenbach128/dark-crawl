@@ -58,8 +58,8 @@ var max_energy : int = 0
 @export var movement_speed: float = 0.0
 @export var rate: float = 0.5 #How fast can the card be activated / cooldown
 @export var cooldownTimer : Timer
-@export var hit_effects : Array = [] #What effects can the card cause, trigger, etc.
-@export var self_effects : Array = []
+@export var hit_effects : Node #What effects can the card cause, trigger, etc.
+@export var self_effects : Node
 
 
 var card_hand_index : int  = 0
@@ -136,6 +136,10 @@ func attack_action():
 	
 	var direction = attack_origin.global_position.direction_to(target_point)
 	attack.apply_impulse(direction * attack_velocity)
+	attack.projectile_speed = attack_velocity
+	for he in hit_effects.get_children():
+		var new_he = load(he.scene_file_path).instantiate()
+		attack.add_child(new_he)
 
 
 func drawn(index, set_ui, set_player):
