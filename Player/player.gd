@@ -19,6 +19,7 @@ var movement_speed : float = 8.0
 var movement_direction : Vector3 =  Vector3(0,0,0)
 var gravity = 75.5
 var dash_speed : float = 18.0
+var money: int = 0
 
 enum GUNS {BLASTER=0}
 
@@ -33,7 +34,7 @@ enum GUNS {BLASTER=0}
 func _ready() -> void:
 	print("Player Ready ", gravity)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	
+	Globals.local_player = self
 	
 func _process(delta: float) -> void:
 	if tracking_cam:
@@ -108,3 +109,7 @@ func move(delta):
 
 	# Move the object and handle collisions
 	move_and_slide()
+
+func collect_coin(amount: int):
+	money+=amount
+	ui.get_node("Coins").text = "Money:" + str(money)

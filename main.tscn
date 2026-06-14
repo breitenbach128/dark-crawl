@@ -17,13 +17,14 @@ size = Vector3(60, 1, 60)
 
 [sub_resource type="Environment" id="Environment_efxa6"]
 
-[node name="Main" type="Node3D" unique_id=1325925167 node_paths=PackedStringArray("structure_root", "sound_root", "bullets_root", "enemies_root", "uieffects_root")]
+[node name="Main" type="Node3D" unique_id=1325925167 node_paths=PackedStringArray("structure_root", "sound_root", "bullets_root", "enemies_root", "uieffects_root", "pickups_root")]
 script = ExtResource("1_272bh")
 structure_root = NodePath("Structure")
 sound_root = NodePath("Sounds")
 bullets_root = NodePath("Bullets")
 enemies_root = NodePath("Enemies")
 uieffects_root = NodePath("UIEffects")
+pickups_root = NodePath("Pickups")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=497114531]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -3)
@@ -50,6 +51,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 0.099999905)
 
 [node name="Bullets" type="Node3D" parent="." unique_id=1325201677]
 
+[node name="Pickups" type="Node3D" parent="." unique_id=833897230]
+
 [node name="Enemies" type="Node3D" parent="." unique_id=1787669445]
 
 [node name="UIEffects" type="Node3D" parent="." unique_id=1188170590]
@@ -74,7 +77,7 @@ metadata/_custom_type_script = "uid://cbsufhsn140b2"
 script = ExtResource("9_4c57u")
 dungeon = NodePath("../DungeonGenerator")
 monster_spawns = Array[Resource]([ExtResource("10_4c57u")])
-total_spawns = 100
+total_spawns = 1
 monster_holder = NodePath("../Enemies")
 metadata/_custom_type_script = "uid://bie8sxatextfe"
 

@@ -1,28 +1,28 @@
-[gd_scene format=3 uid="uid://dwcbhykuy2asn"]
+[gd_scene format=3 uid="uid://b2m4ruh4ik1ch"]
 
-[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/Template/card.gd" id="1_7cni3"]
-[ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="2_ig1r1"]
-[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_7cni3"]
-[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="4_h2lhe"]
-[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="5_6wvcm"]
-[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="5_xtoac"]
-[ext_resource type="Texture2D" uid="uid://cm6xwb0apc5lb" path="res://art/Weapons/Iron Adventurer Sword.png" id="6_nxxfi"]
-[ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_210mm"]
-[ext_resource type="Texture2D" uid="uid://cbi1ett8728lu" path="res://art/ui/card_icons.png" id="9_h2lhe"]
+[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/Template/card.gd" id="1_1ynbv"]
+[ext_resource type="PackedScene" uid="uid://dpybtl6o3swwg" path="res://Weapons/arrow_1.tscn" id="2_1ynbv"]
+[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_f31ey"]
+[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="4_b7tnb"]
+[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="5_43a4i"]
+[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="6_wg3xf"]
+[ext_resource type="Texture2D" uid="uid://ba6qyi4c326go" path="res://art/Weapons/Hunter Bow.png" id="7_jjrg6"]
+[ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_qg67a"]
+[ext_resource type="Texture2D" uid="uid://cbi1ett8728lu" path="res://art/ui/card_icons.png" id="9_hnvkl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
-atlas = ExtResource("3_7cni3")
+atlas = ExtResource("3_f31ey")
 region = Rect2(16, 352, 64, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p0wgq"]
-atlas = ExtResource("3_7cni3")
+atlas = ExtResource("3_f31ey")
 region = Rect2(336, 128, 64, 96)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
-font = ExtResource("4_h2lhe")
+font = ExtResource("4_b7tnb")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxjwh"]
-atlas = ExtResource("5_6wvcm")
+atlas = ExtResource("6_wg3xf")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qlr6f"]
@@ -33,11 +33,11 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ublx"]
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6wvcm"]
-atlas = ExtResource("9_h2lhe")
+[sub_resource type="AtlasTexture" id="AtlasTexture_17hf5"]
+atlas = ExtResource("9_hnvkl")
 region = Rect2(0, 0, 64, 64)
 
-[node name="Card_Shortsword" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects")]
+[node name="Card_Shortbow" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects")]
 texture_filter = 1
 custom_minimum_size = Vector2(160, 212)
 layout_mode = 3
@@ -45,11 +45,12 @@ anchors_preset = 0
 offset_right = 160.0
 offset_bottom = 212.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
-script = ExtResource("1_7cni3")
-card_name = "Short Sword"
+script = ExtResource("1_1ynbv")
+card_type = 1
+card_name = "Shortbow"
 control_icon = NodePath("ControlIcon")
 cd_progress_bar = NodePath("CoolDownBar")
-energy = 6
+energy = 12
 attack_damage = {
 "cold": [0, 0],
 "fire": [0, 0],
@@ -58,8 +59,9 @@ attack_damage = {
 "shock": [0, 0],
 "soul": [0, 0]
 }
-attack_resource = ExtResource("2_ig1r1")
-rate = 0.4
+attack_resource = ExtResource("2_1ynbv")
+attack_velocity = 6.0
+rate = 0.6
 cooldownTimer = NodePath("CoolDown")
 hit_effects = NodePath("HitEffects")
 self_effects = NodePath("SelfEffects")
@@ -88,7 +90,7 @@ offset_left = 12.0
 offset_top = 116.0
 offset_right = 150.0
 offset_bottom = 141.0
-text = "Short Sword"
+text = "Short bow"
 label_settings = SubResource("LabelSettings_4crdo")
 horizontal_alignment = 1
 
@@ -99,7 +101,7 @@ offset_left = 48.0
 offset_top = -24.0
 offset_right = 112.0
 offset_bottom = 40.0
-texture = ExtResource("5_xtoac")
+texture = ExtResource("5_43a4i")
 
 [node name="ControlIcon" type="TextureRect" parent="." unique_id=995841942]
 visible = false
@@ -118,7 +120,7 @@ offset_left = 27.0
 offset_top = 40.0
 offset_right = 134.0
 offset_bottom = 113.0
-texture = ExtResource("6_nxxfi")
+texture = ExtResource("7_jjrg6")
 stretch_mode = 5
 
 [node name="EnergyLevel" type="Label" parent="." unique_id=1739479121]
@@ -153,13 +155,13 @@ offset_bottom = 193.0
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_210mm")]
+[node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_qg67a")]
 layout_mode = 2
-texture = SubResource("AtlasTexture_6wvcm")
+texture = SubResource("AtlasTexture_17hf5")
 text = "1-6"
 
-[node name="HitEffects" type="Node" parent="." unique_id=1725884894]
+[node name="HitEffects" type="Node" parent="." unique_id=1158573680]
 
-[node name="SelfEffects" type="Node" parent="." unique_id=24407600]
+[node name="SelfEffects" type="Node" parent="." unique_id=495310259]
 
 [connection signal="timeout" from="CoolDown" to="." method="_on_cool_down_timeout"]

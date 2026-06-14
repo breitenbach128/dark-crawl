@@ -22,7 +22,7 @@ func _physics_process(delta):
 		var pos_2d_camera = Vector2(camera.global_position.x,camera.global_position.z)
 		var angle_to_camera = pos_2d.angle_to_point(pos_2d_camera)
 		
-		# Map the angle to one of the 8 directions (0 to 7)
+		# Map the angle to one of the 4 directions (0 to 3)
 		var angle_diff = dir2d.angle() - angle_to_camera
 		var sector = wrapi(int(snappedf(angle_diff, PI/2) / (PI/2)), 0, 4)
 		

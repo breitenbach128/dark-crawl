@@ -14,12 +14,17 @@ class_name Enemy
 
 
 var gravity = 75.5
+var coin_chance : float = 0.75 #75%
 
 func _ready() -> void:
 	if health_component:
 		health_component.health_death.connect(death)
 
 func death():
+	if randf() < coin_chance:
+		var coin : Coin = load("res://Pickups/coin.tscn").instantiate()
+		get_tree().current_scene.pickups_root.add_child(coin)		
+		coin.global_position = global_position
 	$DeathSounds.play()
 
 func _physics_process(delta: float) -> void:

@@ -21,6 +21,10 @@ signal health_death
 func _ready() -> void:
 	pass
 
+func heal(amount: int):
+	health=min(health+amount,health_max)
+	health_changed.emit(health, health_max, amount)
+
 func take_damage(attack_damage):
 	var physical_damage = ceil((1-physical) * randi_range(attack_damage.physical[0],attack_damage.physical[1]))
 	var fire_damage = ceil((1-fire) * randi_range(attack_damage.fire[0],attack_damage.fire[1]))

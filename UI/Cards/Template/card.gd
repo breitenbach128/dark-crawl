@@ -120,8 +120,8 @@ func get_attack_origin():
 func attack_action():
 	#print("attack card ", attack_damage)
 	var attack : Attack = attack_resource.instantiate()
-	attack.attack(attack_damage)
 	get_tree().current_scene.bullets_root.add_child(attack)
+	attack.attack(attack_damage)
 	#POSITION
 	var attack_origin = get_attack_origin()
 	
@@ -135,11 +135,13 @@ func attack_action():
 		target_point = attack_origin.global_position + (-attack_origin.global_transform.basis.z * 1000)
 	
 	var direction = attack_origin.global_position.direction_to(target_point)
+	attack.look_at(direction,Vector3.UP)
 	attack.apply_impulse(direction * attack_velocity)
 	attack.projectile_speed = attack_velocity
-	for he in hit_effects.get_children():
-		var new_he = load(he.scene_file_path).instantiate()
-		attack.add_child(new_he)
+	if hit_effects.get_child_count():
+		for he in hit_effects.get_children():
+			var new_he = load(he.scene_file_path).instantiate()
+			attack.add_child(new_he)
 
 
 func drawn(index, set_ui, set_player):

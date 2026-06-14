@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://bga4dowpnkdoo" path="res://Player/ui.gd" id="3_fhl08"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_vtle1"]
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="4_k53q1"]
+[ext_resource type="PackedScene" uid="uid://b2m4ruh4ik1ch" path="res://UI/Cards/card_shortbow.tscn" id="7_od3ui"]
 [ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="7_vtle1"]
-[ext_resource type="PackedScene" uid="uid://cotr24htyhlfv" path="res://UI/Cards/card_magicblast.tscn" id="9_x3vf3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -138,6 +138,14 @@ offset_bottom = 23.0
 text = "HP: 10"
 label_settings = SubResource("LabelSettings_lquwl")
 
+[node name="Coins" type="Label" parent="CanvasLayer/UI" unique_id=1653928742]
+layout_mode = 0
+offset_top = 37.0
+offset_right = 97.0
+offset_bottom = 82.0
+text = "Coins: 0"
+label_settings = SubResource("LabelSettings_lquwl")
+
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/UI" unique_id=1882463550]
 layout_mode = 1
 anchors_preset = 15
@@ -167,7 +175,7 @@ custom_minimum_size = Vector2(160, 212)
 layout_mode = 2
 texture = SubResource("AtlasTexture_vtle1")
 
-[node name="Card_MagicBlast" parent="CanvasLayer/UI/CardArea/Deck" unique_id=798569722 instance=ExtResource("9_x3vf3")]
+[node name="Card_Shortbow" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1504661029 instance=ExtResource("7_od3ui")]
 layout_mode = 0
 
 [node name="CardHand" type="HBoxContainer" parent="CanvasLayer/UI/CardArea" unique_id=1189480962]

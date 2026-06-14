@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bfq6musk5k252"]
 
 [ext_resource type="Texture2D" uid="uid://cqtpg0fh2vgee" path="res://art/Enemies/MerfolkImpaler.png" id="1_mbxyh"]
-[ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy_1.gd" id="1_vy3xu"]
+[ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy.gd" id="1_vy3xu"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_4cuqr"]
 [ext_resource type="Script" uid="uid://cg2vnfv2on06f" path="res://Statemachine/statemachine.gd" id="4_kvr2i"]
 [ext_resource type="PackedScene" uid="uid://cr2g8yogrqi8n" path="res://Components/Attack_Component.tscn" id="4_p1n56"]

@@ -7,8 +7,16 @@ class_name Effect
 @export var duration_count : int = 0 #How many ticks before this expires?
 @export var duration_tick_time : int = 0 #How long is each tick?
 @export var reapply_on_tick : bool = false #Does this effect happen on each tick?
-@export var health_change : int = 0
+@export var heal : int = 0
 @export var move_speed : int = 0
+@export var take_damage : Dictionary = { #[min,max]
+	"physical": [0,0],
+	"fire": [0,0],
+	"force": [0,0],
+	"shock": [0,0],
+	"cold": [0,0],
+	"soul": [0,0]
+}
 @export var restistance : Dictionary = {
 	"physical": 0.0,
 	"fire": 0.0,
@@ -39,7 +47,7 @@ class_name Effect
 @export var spread_projectiles : int = 0 #Adds more projectiles to the left and right, but in parallel
 @export var card_cooldown : float = 0.0 #Modifies the global card cooldown rate (Rate of fire)
 
-
+## For active effects, this runs the action
 func activate_effect():
 	if blast_projectiles > 0:
 		if get_parent() is Attack:
@@ -57,4 +65,10 @@ func activate_effect():
 				new_attack.position = parent_attack.position + (dir)
 				new_attack.linear_velocity = final_velocity
 				new_attack.look_at(parent_attack.position + final_velocity, Vector3.UP)
-			
+
+## For passive effects, such as modifications to health, this changes the base state
+func apply_effects():
+	pass
+## For passive effects, such as modifications to health, this removes the mod value
+func remove_effects():
+	pass
