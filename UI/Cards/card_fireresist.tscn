@@ -149,9 +149,9 @@ show_percentage = false
 [node name="EffectArea" type="HBoxContainer" parent="." unique_id=232334768]
 layout_mode = 0
 offset_left = 22.0
-offset_top = 157.0
+offset_top = 150.0
 offset_right = 138.0
-offset_bottom = 193.0
+offset_bottom = 194.0
 theme_override_constants/separation = 12
 alignment = 1
 

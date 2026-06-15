@@ -1,8 +1,9 @@
-extends TextureRect
+extends Control
 class_name EffectDetail
 
 
 @export var label: Label
+@export var icon :  TextureRect
 
 var icon_dictionary : Dictionary = {
 	"physical": Vector2(0,0),
@@ -19,5 +20,8 @@ func _ready() -> void:
 	set_icon_type_by_name(icon_type)
 	label.text = text
 func set_icon_type_by_name(key_name : String):
-	var atlas :AtlasTexture = texture
-	atlas.region.position = icon_dictionary[key_name]
+		
+	var atlas : AtlasTexture = AtlasTexture.new()
+	atlas.atlas = icon.texture.atlas
+	atlas.region = Rect2i(icon_dictionary[key_name],Vector2i(64,64))
+	icon.texture = atlas 

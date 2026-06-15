@@ -1,19 +1,17 @@
 [gd_scene format=3 uid="uid://bd1kwh2idw353"]
 
+[ext_resource type="Texture2D" uid="uid://cbi1ett8728lu" path="res://art/ui/card_icons.png" id="1_maoe0"]
 [ext_resource type="Script" uid="uid://ded16upem6fwd" path="res://UI/Cards/CardComponents/effect_detail.gd" id="2_u3is7"]
 [ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="3_d3xgr"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u3is7"]
-load_path = "res://.godot/imported/card_icons.png-183838d28373d29f19e2c7777333a35d.ctex"
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_tbayc"]
-atlas = SubResource("CompressedTexture2D_u3is7")
+atlas = ExtResource("1_maoe0")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="LabelSettings" id="LabelSettings_tbayc"]
 font = ExtResource("3_d3xgr")
 
-[node name="EffectDetail" type="Control" unique_id=1533558838 node_paths=PackedStringArray("label", "icon")]
+[node name="EffectDetail" type="Control" unique_id=1533558838 node_paths=PackedStringArray("label")]
 texture_filter = 1
 custom_minimum_size = Vector2(44, 44)
 layout_mode = 3
@@ -22,7 +20,7 @@ offset_right = 52.0
 offset_bottom = 32.0
 script = ExtResource("2_u3is7")
 label = NodePath("Label")
-icon = NodePath("Icon")
+icon_type = null
 text = "1-8"
 
 [node name="Icon" type="TextureRect" parent="." unique_id=1654437473]

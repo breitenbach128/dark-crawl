@@ -4,6 +4,9 @@ class_name UI
 @export_category("Labels")
 @export var debug_card_index : Label
 
+@export_category("HUD")
+@export var effects_area: HBoxContainer
+
 @export_category("Cards")
 @export var card_deck : TextureRect
 @export var card_hand : HBoxContainer
@@ -121,3 +124,17 @@ func _input(event):
 		get_next_card()
 	if event.is_action_pressed("select_prev_card"):
 		get_prev_card()
+		
+func ui_update_effect_display_area():
+	if player:
+		#Clear First:
+		for prev_ef_icon in effects_area.get_children():			
+			prev_ef_icon.queue_free()
+
+		for ef : Effect in player.get_children().filter(func(child): return child is Effect):
+			if ef.effect_over == false:
+				var eff_icon  = TextureRect.new()
+				eff_icon.custom_minimum_size = Vector2(64,64)
+				eff_icon.texture = ef.icon_texture
+				effects_area.add_child(eff_icon)
+			

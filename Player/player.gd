@@ -113,3 +113,13 @@ func move(delta):
 func collect_coin(amount: int):
 	money+=amount
 	ui.get_node("Coins").text = "Money:" + str(money)
+
+func player_add_effect(new_effect : Effect):
+		add_child(new_effect)
+		new_effect.set_target(self)
+		new_effect.apply_effects(1)
+		new_effect.effect_end.connect(player_remove_effect)
+		ui.ui_update_effect_display_area()
+
+func player_remove_effect():
+	ui.ui_update_effect_display_area()

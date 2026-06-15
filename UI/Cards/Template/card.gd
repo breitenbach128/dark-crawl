@@ -99,10 +99,7 @@ func activate_effects():
 	if self_effects.get_child_count():
 		for se : Effect in self_effects.get_children():
 			var new_effect : Effect = load(se.scene_file_path).instantiate()
-			player.add_child(new_effect)
-			new_effect.set_target(player)
-			new_effect.apply_effects(1)
-			
+			player.player_add_effect(new_effect)
 
 func get_attack_origin():
 	match card_hand_index:

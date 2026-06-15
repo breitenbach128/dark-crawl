@@ -49,6 +49,11 @@ var duration_ticks : int  = 0
 @export var spread_projectiles : int = 0 #Adds more projectiles to the left and right, but in parallel
 @export var card_cooldown : float = 0.0 #Modifies the global card cooldown rate (Rate of fire)
 var target
+var effect_over : bool = false
+
+#Signals
+signal effect_end
+signal effect_begin
 
 ## For active effects, this runs the action
 func activate_effect():
@@ -90,6 +95,8 @@ func apply_effects(mod : int):
 ## For passive effects, such as modifications to health, this removes the mod value
 func remove_effects():
 	apply_effects(-1)
+	effect_over = true
+	effect_end.emit()
 	queue_free()
 
 

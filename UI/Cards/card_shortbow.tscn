@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="6_wg3xf"]
 [ext_resource type="Texture2D" uid="uid://ba6qyi4c326go" path="res://art/Weapons/Hunter Bow.png" id="7_jjrg6"]
 [ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_qg67a"]
-[ext_resource type="Texture2D" uid="uid://cbi1ett8728lu" path="res://art/ui/card_icons.png" id="9_hnvkl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
 atlas = ExtResource("3_f31ey")
@@ -32,10 +31,6 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ublx"]
 bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_17hf5"]
-atlas = ExtResource("9_hnvkl")
-region = Rect2(0, 0, 64, 64)
 
 [node name="Card_Shortbow" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects") groups=["Card"]]
 texture_filter = 1
@@ -149,16 +144,14 @@ show_percentage = false
 [node name="EffectArea" type="HBoxContainer" parent="." unique_id=232334768]
 layout_mode = 0
 offset_left = 22.0
-offset_top = 157.0
+offset_top = 150.0
 offset_right = 138.0
-offset_bottom = 193.0
+offset_bottom = 194.0
 theme_override_constants/separation = 12
 alignment = 1
 
 [node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_qg67a")]
 layout_mode = 2
-texture = SubResource("AtlasTexture_17hf5")
-text = "1-6"
 
 [node name="HitEffects" type="Node" parent="." unique_id=1158573680]
 
