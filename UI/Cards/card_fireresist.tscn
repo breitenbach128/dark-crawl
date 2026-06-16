@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="6_5ljyy"]
 [ext_resource type="Texture2D" uid="uid://cmg764bt7mbar" path="res://art/Magic/Fire Effect and Bullet 16x16.png" id="7_7lfco"]
 [ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_xvcea"]
-[ext_resource type="PackedScene" uid="uid://do8q6c3rrce4b" path="res://Effects/fire_resistance.tscn" id="9_7lfco"]
+[ext_resource type="PackedScene" uid="uid://do8q6c3rrce4b" path="res://Effects/effect_fire_resistance.tscn" id="9_7lfco"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
 atlas = ExtResource("3_qu1fb")

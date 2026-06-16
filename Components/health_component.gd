@@ -26,6 +26,7 @@ func _ready() -> void:
 func heal(amount: int):
 	health=min(health+amount,health_max)
 	health_changed.emit(health, health_max, amount)
+	print("healed ", amount)
 
 func take_damage(attack_damage):
 	var physical_damage = ceil((1-restistance.physical) * randi_range(attack_damage.physical[0],attack_damage.physical[1]))

@@ -6,9 +6,10 @@
 [ext_resource type="Script" uid="uid://bga4dowpnkdoo" path="res://Player/ui.gd" id="3_fhl08"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_vtle1"]
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="4_k53q1"]
+[ext_resource type="Texture2D" uid="uid://j6mtvmwlc185" path="res://art/Player/wizard.png" id="4_x3vf3"]
 [ext_resource type="PackedScene" uid="uid://b2m4ruh4ik1ch" path="res://UI/Cards/card_shortbow.tscn" id="7_od3ui"]
 [ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="7_vtle1"]
-[ext_resource type="PackedScene" uid="uid://4ao2f21ridly" path="res://UI/Cards/card_fireresist.tscn" id="8_00tjw"]
+[ext_resource type="PackedScene" uid="uid://cqvh2kldx8kjl" path="res://UI/Cards/card_healthpotion.tscn" id="9_x3vf3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -82,7 +83,7 @@ gun_sprite = NodePath("Camera3D/GunSprite")
 shape = SubResource("CapsuleShape3D_lquwl")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1302084531]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6855066, -0.0889481)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.043368697, -0.0889481)
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1152142937]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.050963998, -0.56583035)
@@ -108,6 +109,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.08550656, -0.6890518
 [node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_vtle1")]
 health = 100
 health_max = 100
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1167071204]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1726234, 0)
+pixel_size = 0.04
+billboard = 2
+texture_filter = 0
+texture = ExtResource("4_x3vf3")
+hframes = 8
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=82784115]
 render_target_update_mode = 4
@@ -181,7 +190,7 @@ texture = SubResource("AtlasTexture_vtle1")
 [node name="Card_Shortbow" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1504661029 instance=ExtResource("7_od3ui")]
 layout_mode = 0
 
-[node name="Card_FireResist" parent="CanvasLayer/UI/CardArea/Deck" unique_id=655722099 instance=ExtResource("8_00tjw")]
+[node name="Card_HealthPotion" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1711284108 instance=ExtResource("9_x3vf3")]
 layout_mode = 0
 
 [node name="CardHand" type="HBoxContainer" parent="CanvasLayer/UI/CardArea" unique_id=1189480962]

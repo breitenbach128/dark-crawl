@@ -9,7 +9,7 @@ var duration_ticks : int  = 0
 @export var duration_tick_time : int = 0 #How long is each tick?
 @export var duration_timer : Timer
 @export var reapply_on_tick : bool = false #Does this effect happen on each tick?
-@export var heal : int = 0
+@export var heal : Array[int] = [0,0]
 @export var move_speed : int = 0
 @export var take_damage : Dictionary = { #[min,max]
 	"physical": [0,0],
@@ -82,7 +82,7 @@ func set_target(t):
 	target = t
 ## For passive effects, such as modifications to health, this changes the base state
 func apply_effects(mod : int):	
-	print("Applying Effect, ", effect_name, " " , mod)
+	print("Applying Effect, ", effect_name, " " , mod, " duration_count ", duration_count)
 	if duration_count > 0 && duration_ticks == 0:
 		duration_timer.wait_time = duration_tick_time
 		duration_timer.start()
@@ -91,6 +91,10 @@ func apply_effects(mod : int):
 		#Apply Restistances
 		for dtype in restistance:
 			hcomp.restistance[dtype] += (mod*restistance[dtype])
+		#Apply Heal
+		if mod > 0:
+			if heal[1] > 0: #max on range is greather than zero
+				hcomp.heal(randi_range(heal[0],heal[1]))
 		
 ## For passive effects, such as modifications to health, this removes the mod value
 func remove_effects():

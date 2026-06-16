@@ -1,0 +1,164 @@
+[gd_scene format=3 uid="uid://cqvh2kldx8kjl"]
+
+[ext_resource type="Script" uid="uid://cnugrcrn6t8" path="res://UI/Cards/Template/card.gd" id="1_achfy"]
+[ext_resource type="PackedScene" uid="uid://dwg5sydgquur" path="res://Weapons/sword_slash.tscn" id="2_eic7c"]
+[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_f8wut"]
+[ext_resource type="FontFile" uid="uid://q0ip5bpu3v7g" path="res://art/fonts/Kurotsyma DEMO.ttf" id="4_xa7lq"]
+[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="5_f8g6n"]
+[ext_resource type="Texture2D" uid="uid://b28tcf1teew25" path="res://art/ui/ui_mouse_icons.png" id="6_in6ve"]
+[ext_resource type="Texture2D" uid="uid://cuppm3o5g5jb6" path="res://art/icons/Free - Raven Fantasy Icons/Separated Files/32x32/fb959.png" id="7_vhlpv"]
+[ext_resource type="PackedScene" uid="uid://bd1kwh2idw353" path="res://UI/Cards/CardComponents/EffectDetail.tscn" id="8_8r04y"]
+[ext_resource type="PackedScene" uid="uid://3sj5tme58pcb" path="res://Effects/effect_healthpotion.tscn" id="9_achfy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4crdo"]
+atlas = ExtResource("3_f8wut")
+region = Rect2(16, 352, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0wgq"]
+atlas = ExtResource("3_f8wut")
+region = Rect2(336, 128, 64, 96)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4crdo"]
+font = ExtResource("4_xa7lq")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxjwh"]
+atlas = ExtResource("6_in6ve")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qlr6f"]
+font_size = 24
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ublx"]
+bg_color = Color(0.25882354, 0.25882354, 0.25882354, 0.70980394)
+
+[node name="Card_HealthPotion" type="Control" unique_id=1504661029 node_paths=PackedStringArray("control_icon", "cd_progress_bar", "cooldownTimer", "hit_effects", "self_effects") groups=["Card"]]
+texture_filter = 1
+custom_minimum_size = Vector2(160, 212)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 160.0
+offset_bottom = 212.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+script = ExtResource("1_achfy")
+card_type = 3
+card_name = "Health Potion"
+control_icon = NodePath("ControlIcon")
+cd_progress_bar = NodePath("CoolDownBar")
+energy = 1
+attack_damage = {
+"cold": [0, 0],
+"fire": [0, 0],
+"force": [0, 0],
+"physical": [1, 8],
+"shock": [0, 0],
+"soul": [0, 0]
+}
+attack_resource = ExtResource("2_eic7c")
+attack_velocity = 0.0
+rate = 5.0
+cooldownTimer = NodePath("CoolDown")
+hit_effects = NodePath("HitEffects")
+self_effects = NodePath("SelfEffects")
+
+[node name="CardTemplate" type="TextureRect" parent="." unique_id=1514441462]
+texture_filter = 1
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 212.0
+texture = SubResource("AtlasTexture_4crdo")
+
+[node name="SelectedBorder" type="TextureRect" parent="." unique_id=570596803]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 1.0
+offset_right = 161.0
+offset_bottom = 212.0
+texture = SubResource("AtlasTexture_p0wgq")
+
+[node name="CardTitle" type="Label" parent="." unique_id=740711605]
+texture_filter = 1
+layout_mode = 0
+offset_left = 12.0
+offset_top = 116.0
+offset_right = 150.0
+offset_bottom = 141.0
+text = "Health Potion"
+label_settings = SubResource("LabelSettings_4crdo")
+horizontal_alignment = 1
+
+[node name="EnergyIcon" type="TextureRect" parent="." unique_id=1014671199]
+texture_filter = 1
+layout_mode = 0
+offset_left = 48.0
+offset_top = -24.0
+offset_right = 112.0
+offset_bottom = 40.0
+texture = ExtResource("5_f8g6n")
+
+[node name="ControlIcon" type="TextureRect" parent="." unique_id=995841942]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 64.0
+offset_top = -41.0
+offset_right = 96.0
+offset_bottom = -9.0
+texture = SubResource("AtlasTexture_vxjwh")
+expand_mode = 1
+
+[node name="CardImage" type="TextureRect" parent="." unique_id=327754909]
+layout_mode = 1
+offset_left = 27.0
+offset_top = 40.0
+offset_right = 134.0
+offset_bottom = 113.0
+texture = ExtResource("7_vhlpv")
+stretch_mode = 5
+
+[node name="EnergyLevel" type="Label" parent="." unique_id=1739479121]
+layout_mode = 0
+offset_left = 67.0
+offset_top = -9.0
+offset_right = 95.0
+offset_bottom = 25.0
+text = "5"
+label_settings = SubResource("LabelSettings_qlr6f")
+horizontal_alignment = 1
+
+[node name="CoolDown" type="Timer" parent="." unique_id=710085231]
+
+[node name="CoolDownBar" type="ProgressBar" parent="." unique_id=2031944578]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_4ublx")
+fill_mode = 2
+show_percentage = false
+
+[node name="EffectArea" type="HBoxContainer" parent="." unique_id=232334768]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 150.0
+offset_right = 138.0
+offset_bottom = 194.0
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_8r04y")]
+layout_mode = 2
+text = "+1-8"
+
+[node name="HitEffects" type="Node" parent="." unique_id=1117642746]
+
+[node name="SelfEffects" type="Node" parent="." unique_id=740046340]
+
+[node name="EffectHealthPotion" parent="SelfEffects" unique_id=1298307307 instance=ExtResource("9_achfy")]
+
+[connection signal="timeout" from="CoolDown" to="." method="_on_cool_down_timeout"]

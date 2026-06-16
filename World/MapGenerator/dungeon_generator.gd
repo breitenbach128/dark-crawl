@@ -12,7 +12,7 @@ class_name DungeonGenerator
 
 var debug_status = false
 var astar_grid : AStarGrid2D = AStarGrid2D.new()
-var map_area : Rect2i = Rect2i(0,0,50,50)
+var map_area : Rect2i = Rect2i(0,0,25,25)
 var map_tiles : Array = []
 var tile_scale : Vector2i = Vector2i(2,2) #Give the player more space
 var tile_size: Vector2i = Vector2i(1,1) # 1m x 1m

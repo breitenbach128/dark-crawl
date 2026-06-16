@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://3sj5tme58pcb"]
+
+[ext_resource type="Script" uid="uid://xiqj8h02uv0v" path="res://Effects/effect.gd" id="1_x5h0o"]
+[ext_resource type="Texture2D" uid="uid://cuppm3o5g5jb6" path="res://art/icons/Free - Raven Fantasy Icons/Separated Files/32x32/fb959.png" id="2_1td58"]
+
+[node name="EffectHealthPotion" type="Node3D" unique_id=1298307307 node_paths=PackedStringArray("duration_timer")]
+script = ExtResource("1_x5h0o")
+effect_name = "Health Potion"
+icon_texture = ExtResource("2_1td58")
+duration_count = 1
+duration_tick_time = 1
+duration_timer = NodePath("Duration")
+heal = Array[int]([4, 16])
+
+[node name="Duration" type="Timer" parent="." unique_id=50897816]
+
+[connection signal="timeout" from="Duration" to="." method="_on_duration_timeout"]

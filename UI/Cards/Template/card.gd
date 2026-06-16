@@ -92,8 +92,8 @@ func use_card():
 			attack_action()
 		CARD_CATEGORIES.DEFENSE:
 			activate_effects()
-		CARD_CATEGORIES.UTILITY:
-			pass
+		CARD_CATEGORIES.UTILITY:			
+			activate_effects()
 
 func activate_effects():
 	if self_effects.get_child_count():
