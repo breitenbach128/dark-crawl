@@ -47,6 +47,7 @@ var duration_ticks : int  = 0
 @export var blast_projectiles : int = 0 #Create these projectiles evenly spread shooting outward from impact
 @export var mutli_projectile : int = 0 #Adds more projectiles and an angle from origin
 @export var spread_projectiles : int = 0 #Adds more projectiles to the left and right, but in parallel
+@export var chain_projectiles : int = 0 #Makes projectiles that hops X times
 @export var card_cooldown : float = 0.0 #Modifies the global card cooldown rate (Rate of fire)
 var target
 var effect_over : bool = false

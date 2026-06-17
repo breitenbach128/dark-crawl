@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b2m4ruh4ik1ch" path="res://UI/Cards/card_shortbow.tscn" id="7_od3ui"]
 [ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="7_vtle1"]
 [ext_resource type="PackedScene" uid="uid://cqvh2kldx8kjl" path="res://UI/Cards/card_healthpotion.tscn" id="9_x3vf3"]
+[ext_resource type="Texture2D" uid="uid://bn4pyeftitr3y" path="res://art/Magic/heal_1.png" id="11_apopc"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -67,6 +68,27 @@ point_count = 7
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_00tjw"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_apopc"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p5o4e"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(4, 4, 4)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = -128.4
+angle_max = 69.80001
+direction = Vector3(0, 1, 0)
+initial_velocity_max = 35.04
+gravity = Vector3(0, 98, 0)
+scale_min = 1.5
+scale_max = 2.5
+anim_speed_min = 1.68
+anim_speed_max = 3.0
 
 [node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
@@ -126,7 +148,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 5
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=94397259]
 
-[node name="UI" type="Control" parent="CanvasLayer" unique_id=1780232396 node_paths=PackedStringArray("debug_card_index", "effects_area", "card_deck", "card_hand", "discard_path", "player")]
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1780232396 node_paths=PackedStringArray("debug_card_index", "effects_area", "healing_particles", "healing_particles_timer", "card_deck", "card_hand", "discard_path", "player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -138,6 +160,8 @@ size_flags_vertical = 3
 script = ExtResource("3_fhl08")
 debug_card_index = NodePath("Health")
 effects_area = NodePath("Effects")
+healing_particles = NodePath("../HealingParticles")
+healing_particles_timer = NodePath("../HealingParticlesTimer")
 card_deck = NodePath("CardArea/Deck")
 card_hand = NodePath("CardArea/CardHand")
 discard_path = NodePath("PathCardDiscard")
@@ -231,3 +255,19 @@ offset_left = 140.0
 offset_right = 740.0
 offset_bottom = 48.0
 alignment = 2
+
+[node name="HealingParticles" type="GPUParticles2D" parent="CanvasLayer" unique_id=1114957318]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_apopc")
+position = Vector2(79, 4)
+emitting = false
+amount = 3
+texture = ExtResource("11_apopc")
+lifetime = 1.2
+explosiveness = 0.2
+randomness = 0.07
+process_material = SubResource("ParticleProcessMaterial_p5o4e")
+
+[node name="HealingParticlesTimer" type="Timer" parent="CanvasLayer" unique_id=1908088405]
+
+[connection signal="timeout" from="CanvasLayer/HealingParticlesTimer" to="CanvasLayer/UI" method="_on_healing_particles_timer_timeout"]

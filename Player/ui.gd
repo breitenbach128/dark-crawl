@@ -6,6 +6,8 @@ class_name UI
 
 @export_category("HUD")
 @export var effects_area: HBoxContainer
+@export var healing_particles : GPUParticles2D
+@export var healing_particles_timer : Timer
 
 @export_category("Cards")
 @export var card_deck : TextureRect
@@ -39,6 +41,9 @@ func update_ui_display_health(hp : float,hpmax : float,change):
 		screen_flash(SCREEN_FLASH_TYPE.HURT, 1-hp_change_percent)
 		pass
 	$Health.text = "HP: " + str(hp)
+	if change > 0:
+		start_healing_particles()
+	
 
 func screen_flash(type : SCREEN_FLASH_TYPE, intensity : float):
 	match type:
@@ -138,3 +143,10 @@ func ui_update_effect_display_area():
 				eff_icon.texture = ef.icon_texture
 				effects_area.add_child(eff_icon)
 			
+
+func start_healing_particles():
+	healing_particles.emitting = true
+	healing_particles_timer.start()
+
+func _on_healing_particles_timer_timeout() -> void:
+	healing_particles.emitting = false
