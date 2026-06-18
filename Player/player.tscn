@@ -90,9 +90,16 @@ scale_max = 2.5
 anim_speed_min = 1.68
 anim_speed_max = 3.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_apopc"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:sync_velocity")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
-mouse_sensitivity = null
 right_hand = NodePath("Camera3D/RightHand")
 left_hand = NodePath("Camera3D/LeftHand")
 gun_raycast = NodePath("Camera3D/RayCast3D")
@@ -269,5 +276,8 @@ randomness = 0.07
 process_material = SubResource("ParticleProcessMaterial_p5o4e")
 
 [node name="HealingParticlesTimer" type="Timer" parent="CanvasLayer" unique_id=1908088405]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1971870562]
+replication_config = SubResource("SceneReplicationConfig_apopc")
 
 [connection signal="timeout" from="CanvasLayer/HealingParticlesTimer" to="CanvasLayer/UI" method="_on_healing_particles_timer_timeout"]

@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cgqsltg088ai5"]
+
+[ext_resource type="Script" uid="uid://cjagl7bag25cr" path="res://Screens/main_menu.gd" id="1_gpyco"]
+
+[node name="MainMenu" type="Control" unique_id=2013632263]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gpyco")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1227075089]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer" unique_id=216839627]
+custom_minimum_size = Vector2(224, 360)
+layout_mode = 2
+
+[node name="VBoxButtons" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=507325457]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BtnHostGame" type="Button" parent="CenterContainer/Panel/VBoxButtons" unique_id=1771878342]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Host Game"
+
+[node name="BtnJoinGame" type="Button" parent="CenterContainer/Panel/VBoxButtons" unique_id=1360688474]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Join Game"
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/Panel/VBoxButtons" unique_id=1012186526]
+layout_mode = 2
+placeholder_text = "192.168.0.1"
+alignment = 1
+
+[connection signal="pressed" from="CenterContainer/Panel/VBoxButtons/BtnHostGame" to="." method="_on_btn_host_game_pressed"]
+[connection signal="pressed" from="CenterContainer/Panel/VBoxButtons/BtnJoinGame" to="." method="_on_btn_join_game_pressed"]

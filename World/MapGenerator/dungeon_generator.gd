@@ -7,7 +7,8 @@ class_name DungeonGenerator
 @export var tile_1x1_inst : Array[Resource]
 @export var wall_inst : Resource
 @export var root_room_node : Node3D
-@export var player: Player
+@export var players_root:  Node3D
+@export var local_player: Player
 @export var monster_spawner : MonsterGenerator
 
 var debug_status = false
@@ -36,18 +37,19 @@ func set_cell(p: Vector2i, t):
 
 		
 func _ready() -> void:
-	#Setup the astar grid
-	init_grid()	
-	#Create map of empty tiles
-	for i in range(0,map_area.size.x):
-		var row_array :Array = []
-		for j in range(0,map_area.size.y):
-			var cell = CellData.new()
-			cell.type = CellData.TILETYPE.EMPTY
-			cell.position = Vector2i(i,j)
-			row_array.append(cell)
-		map_tiles.append(row_array)
-	create_rooms()
+	if multiplayer.is_server():
+		#Setup the astar grid
+		init_grid()	
+		#Create map of empty tiles
+		for i in range(0,map_area.size.x):
+			var row_array :Array = []
+			for j in range(0,map_area.size.y):
+				var cell = CellData.new()
+				cell.type = CellData.TILETYPE.EMPTY
+				cell.position = Vector2i(i,j)
+				row_array.append(cell)
+			map_tiles.append(row_array)
+		create_rooms()
 
 func create_rooms():
 	#Create X rooms of various sizes. 
@@ -110,12 +112,11 @@ func create_rooms():
 					s = "t"
 				strrow+= str(map_tiles[i][j].type,"-",s,"-",i,"x",j,",")
 			print("R:", strrow)
-	#Move player to first room
-	var first_room_center : Vector2 = room_list[0].rect.get_center()
-	print("start point: ", Vector3(first_room_center.x*tile_scale.x,10,first_room_center.y*tile_scale.y))
-	player.position += Vector3(first_room_center.x*tile_scale.x,10,first_room_center.y*tile_scale.y)
 	
+
 	monster_spawner.spawn_monsters()
+	dungeon_created.emit()
+	
 	
 func create_exits():
 	var pcount=0

@@ -117,7 +117,7 @@ func get_attack_origin():
 func attack_action():
 	#print("attack card ", attack_damage)
 	var attack : Attack = attack_resource.instantiate()
-	get_tree().current_scene.bullets_root.add_child(attack)
+	get_tree().current_scene.attacks_root.add_child(attack)
 	attack.attack(attack_damage)
 	#POSITION
 	var attack_origin = get_attack_origin()

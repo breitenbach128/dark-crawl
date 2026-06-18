@@ -1,15 +1,13 @@
 [gd_scene format=3 uid="uid://cfwhwwyjnc46e"]
 
-[ext_resource type="Script" uid="uid://ee4pxhsr44o6" path="res://main.gd" id="1_272bh"]
+[ext_resource type="Script" uid="uid://ee4pxhsr44o6" path="res://Screens/main.gd" id="1_272bh"]
 [ext_resource type="PackedScene" uid="uid://dnx5jcppv40ne" path="res://World/Walls/wall_1x1.tscn" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://bxrtx5xxoe0y8" path="res://Player/player.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cgstlgm26l3is" path="res://World/Floors/floor_5x5.tscn" id="5_7mycd"]
 [ext_resource type="Script" uid="uid://2k23cc4nm7u4" path="res://Zones/KillZone.gd" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://cbsufhsn140b2" path="res://World/MapGenerator/dungeon_generator.gd" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://emckrb0l4ogb" path="res://World/Floors/floor_1x1.tscn" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://mbvx4sselk48" path="res://World/Floors/floor_1x1a.tscn" id="8_efxa6"]
 [ext_resource type="Script" uid="uid://bie8sxatextfe" path="res://World/MapGenerator/monster_generator.gd" id="9_4c57u"]
-[ext_resource type="PackedScene" uid="uid://bfa5o3hiytvfv" path="res://DEBUG/TestFrame.tscn" id="9_kek77"]
 [ext_resource type="PackedScene" uid="uid://bfq6musk5k252" path="res://Enemies/enemy_1.tscn" id="10_4c57u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
@@ -17,14 +15,16 @@ size = Vector3(60, 1, 60)
 
 [sub_resource type="Environment" id="Environment_efxa6"]
 
-[node name="Main" type="Node3D" unique_id=1325925167 node_paths=PackedStringArray("structure_root", "sound_root", "bullets_root", "enemies_root", "uieffects_root", "pickups_root")]
+[node name="Main" type="Node3D" unique_id=1325925167 node_paths=PackedStringArray("structure_root", "sound_root", "attacks_root", "enemies_root", "uieffects_root", "pickups_root", "players_root", "dungeon_creator")]
 script = ExtResource("1_272bh")
 structure_root = NodePath("Structure")
 sound_root = NodePath("Sounds")
-bullets_root = NodePath("Bullets")
+attacks_root = NodePath("Attacks")
 enemies_root = NodePath("Enemies")
 uieffects_root = NodePath("UIEffects")
 pickups_root = NodePath("Pickups")
+players_root = NodePath("Players")
+dungeon_creator = NodePath("DungeonGenerator")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=497114531]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -3)
@@ -33,9 +33,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -3)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2)
 
 [node name="Players" type="Node3D" parent="." unique_id=45488061]
-
-[node name="Player" parent="Players" unique_id=757762237 instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
 
 [node name="KillZone" type="Area3D" parent="." unique_id=1086272742 node_paths=PackedStringArray("dungeon")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
@@ -52,7 +49,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 0.099999905)
 
 [node name="Sounds" type="Node3D" parent="." unique_id=553492699]
 
-[node name="Bullets" type="Node3D" parent="." unique_id=1325201677]
+[node name="Attacks" type="Node3D" parent="." unique_id=1325201677]
 
 [node name="Pickups" type="Node3D" parent="." unique_id=833897230]
 
@@ -60,19 +57,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 0.099999905)
 
 [node name="UIEffects" type="Node3D" parent="." unique_id=1188170590]
 
-[node name="TestFrame" parent="." unique_id=107425910 node_paths=PackedStringArray("player") instance=ExtResource("9_kek77")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 1.7, -3.4)
-player = NodePath("../Players/Player")
-
 [node name="Rooms" type="Node3D" parent="." unique_id=1858941957]
 
-[node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425 node_paths=PackedStringArray("root_room_node", "player", "monster_spawner")]
+[node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425 node_paths=PackedStringArray("root_room_node", "players_root", "monster_spawner")]
 script = ExtResource("7_272bh")
 tile_inst = ExtResource("5_7mycd")
 tile_1x1_inst = Array[Resource]([ExtResource("7_kek77"), ExtResource("8_efxa6")])
 wall_inst = ExtResource("2_h2yge")
 root_room_node = NodePath("../Rooms")
-player = NodePath("../Players/Player")
+players_root = NodePath("../Players")
 monster_spawner = NodePath("../MonsterGenerator")
 metadata/_custom_type_script = "uid://cbsufhsn140b2"
 
@@ -87,7 +80,11 @@ metadata/_custom_type_script = "uid://bie8sxatextfe"
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1524876847]
 environment = SubResource("Environment_efxa6")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1656431739]
+[node name="MultiplayerSpawnerPlayers" type="MultiplayerSpawner" parent="." unique_id=1656431739]
+_spawnable_scenes = PackedStringArray("uid://bxrtx5xxoe0y8")
 spawn_path = NodePath("../Players")
+
+[node name="Floor_5x5" parent="." unique_id=906401327 instance=ExtResource("5_7mycd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4492798, -1.1290894, 0.38098145)
 
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]

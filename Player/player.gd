@@ -1,6 +1,9 @@
 extends CharacterBody3D
 class_name Player
 
+@export_category("CharacterBody")
+@export var sync_velocity := Vector3.ZERO
+
 @export_category("Mouse Control")
 @export var mouse_sensitivity : float = 0.002
 
@@ -31,8 +34,13 @@ enum GUNS {BLASTER=0}
 @export_category("Sprites")
 @export var gun_sprite : AnimatedSprite3D
 
+func _enter_tree():
+	# 2. Set the owner's multiplayer ID
+	set_multiplayer_authority(str(name).to_int())
+	print("Setting as MP authority: ",str(name).to_int(), " ", name)
+	
 func _ready() -> void:
-	print("Player Ready ", gravity)
+	print("Player Ready Gravity-> ", gravity)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	Globals.local_player = self
 	
@@ -87,26 +95,33 @@ func run_card(index):
 			card.use_card()
 
 func move(delta):
-	var input_dir: Vector2 = Input.get_vector("strafe_left", "strafe_right", "move_forward", "move_backwards")
-	var direction: Vector3 = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	var speed = movement_speed
-	
-	if Input.is_action_pressed("dash"):
-		speed = dash_speed
-	if not is_on_floor():
-		velocity.y -= gravity * delta
+	if is_multiplayer_authority():
+		var input_dir: Vector2 = Input.get_vector("strafe_left", "strafe_right", "move_forward", "move_backwards")
+		var direction: Vector3 = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		var speed = movement_speed
 		
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = jump_velocity
+		if Input.is_action_pressed("dash"):
+			speed = dash_speed
+		if not is_on_floor():
+			velocity.y -= gravity * delta
+			
+		if Input.is_action_just_pressed("jump") and is_on_floor():
+			velocity.y = jump_velocity
+			
+		# Apply velocity
+		if direction != Vector3.ZERO:
+			velocity.x = direction.x * speed
+			velocity.z = direction.z * speed
+		else:
+			velocity.x = move_toward(velocity.x, 0, speed)
+			velocity.z = move_toward(velocity.z, 0, speed)
 		
-	# Apply velocity
-	if direction != Vector3.ZERO:
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
+		#Load to sync_velocity for replication	
+		sync_velocity = velocity
 	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
-		velocity.z = move_toward(velocity.z, 0, speed)
-
+		#Network Player, so sync position and velocity
+		velocity = sync_velocity
+		
 	# Move the object and handle collisions
 	move_and_slide()
 
