@@ -81,15 +81,7 @@ func create_rooms():
 						var cell_y = ry+room.rect.position.y
 						map_tiles[cell_x][cell_y].type = CellData.TILETYPE.TILE
 						set_cell(Vector2i(cell_x,cell_y),CellData.TILETYPE.TILE)
-						#Create instance tile every [room tilesize] tiles
-						if Vector2i(rx,ry) % 5 == Vector2i(0,0):
-							print("Room Tile Create at ,", str(Vector2i(rx,ry)))
-							var tile : MeshInstance3D= tile_inst.instantiate()
-							var mesh_offset = tile.mesh.size/2
-							root_room_node.add_child(tile)
-							#Room is 2.5 offset to center, but wall is .5, so that reduces it to 2
-							tile.position = Vector3(cell_x*tile_scale.x,0,cell_y*tile_scale.y)  + mesh_offset
-							tile.get_node("Label3D").text = str(tile.position)
+
 
 	#Pick exits on each room and connect to the closest room exit	
 	create_exits()
@@ -99,9 +91,7 @@ func create_rooms():
 	
 	#DEBUG ASTAR MAP
 	var astardebug = astar_grid.get_point_data_in_region(map_area)
-
 	#DEBUG MAP #actually, use the astar debug ID vector value to compare
-
 	if debug_status:
 		for j in range(0,map_area.size.y):
 			var strrow = ""
@@ -113,9 +103,13 @@ func create_rooms():
 				strrow+= str(map_tiles[i][j].type,"-",s,"-",i,"x",j,",")
 			print("R:", strrow)
 	
-
+	create_meshes_from_tile_data()
 	monster_spawner.spawn_monsters()
 	dungeon_created.emit()
+	
+	#TODO: Clear and rebuild astar grid to allow for pathfinding within the rooms
+	#this will reset the grid and then rebuild it to set all walls and empty tiles
+	#as solid, so they are not calc in path building
 	
 	
 func create_exits():
@@ -175,8 +169,31 @@ func create_exits():
 				pcount+=1
 				for p in path:
 					map_tiles[p.x][p.y].type = CellData.TILETYPE.HALLWAY
-					create_tile_mesh(tile_1x1_inst.pick_random(),Vector2i(p.x,p.y),str(pcount),false)
+					map_tiles[p.x][p.y].mesh_resource = tile_1x1_inst.pick_random()
+
+
+func create_meshes_from_tile_data():
+	#For each room, create tile at each position that matches the room set tile size
+	for r in room_list:
+		for rx in range(0,r.rect.size.x):
+			for ry in range(0,r.rect.size.y):
+				var cell_x = rx+r.rect.position.x
+				var cell_y = ry+r.rect.position.y
+				var room_tile_position = Vector2i(cell_x,cell_y)
+				#Create instance tile every [room tilesize] tiles
+				if Vector2i(rx,ry) % 5 == Vector2i(0,0):
+					create_tile_mesh(tile_inst,room_tile_position,str(cell_x,"x",cell_y),false)
 					
+	#For walls and hallways, just set the map tile that matches
+	for j in range(0,map_area.size.y):
+		for i in range(0,map_area.size.x):
+			var cell : CellData= map_tiles[i][j]
+			match cell.type:
+				CellData.TILETYPE.HALLWAY:
+					create_tile_mesh(cell.mesh_resource,cell.position,str(i,"x",j),false)
+				CellData.TILETYPE.WALL:
+					create_tile_mesh(cell.mesh_resource,cell.position,str(i,"x",j),false)
+
 func create_tile_mesh(res, p, text, overlap:bool):
 	var tile : MeshInstance3D= res.instantiate()
 	var mesh_offset = tile.mesh.size/2
@@ -226,13 +243,8 @@ func create_walls():
 
 			if make_wall == true:
 				map_tiles[i][j].type = CellData.TILETYPE.WALL
+				map_tiles[i][j].mesh_resource = wall_inst
 				set_cell(Vector2i(i,j),CellData.TILETYPE.WALL)
-				var new_wall : Wall = wall_inst.instantiate()
-				var mesh_offset = new_wall.mesh.size/2
-				root_room_node.add_child(new_wall)
-				new_wall.position = Vector3(i*tile_scale.x,1,j*tile_scale.y) + mesh_offset
-				#new_wall.get_node("Label3D").text = str(new_wall.position)
-				new_wall.get_node("Label3D").text = str(i,"x",j)
 				
 func is_room_position_valid(room : RoomData):
 	if(room.rect.position.x > 0 && 
