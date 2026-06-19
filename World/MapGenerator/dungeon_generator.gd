@@ -37,19 +37,46 @@ func set_cell(p: Vector2i, t):
 
 		
 func _ready() -> void:
+	#Server
 	if multiplayer.is_server():
 		#Setup the astar grid
 		init_grid()	
 		#Create map of empty tiles
-		for i in range(0,map_area.size.x):
-			var row_array :Array = []
-			for j in range(0,map_area.size.y):
-				var cell = CellData.new()
-				cell.type = CellData.TILETYPE.EMPTY
-				cell.position = Vector2i(i,j)
-				row_array.append(cell)
-			map_tiles.append(row_array)
+		create_empty_map_tile_grid()
 		create_rooms()
+	else:
+	#Client
+		if Network.client_dungeon_data:
+			#print("Setup Dungeon Client: ",Network.client_dungeon_data.map_area)
+			map_area = Network.client_dungeon_data.map_area
+			init_grid()
+			create_empty_map_tile_grid()
+			#Load the client tile data
+			for mt in Network.client_dungeon_data.map_tiles:
+				map_tiles[mt[0]][mt[1]].position.x = mt[2]
+				map_tiles[mt[0]][mt[1]].position.y = mt[3]
+				map_tiles[mt[0]][mt[1]].type = mt[4]
+				map_tiles[mt[0]][mt[1]].mesh_resource = load(mt[5]) if mt[5] != "" else null
+			#load the client room data
+			for r in Network.client_dungeon_data.room_list:
+				var room = RoomData.new()
+				room.room_id = r.room_id
+				room.rect = r.rect
+				room.is_connected = r.room_connected
+				room.connected_room_ids = r.connected_rooms
+				room_list.append(room)
+			#Create all meshes
+			create_meshes_from_tile_data()
+				
+func create_empty_map_tile_grid():
+	for i in range(0,map_area.size.x):
+		var row_array :Array = []
+		for j in range(0,map_area.size.y):
+			var cell = CellData.new()
+			cell.type = CellData.TILETYPE.EMPTY
+			cell.position = Vector2i(i,j)
+			row_array.append(cell)
+		map_tiles.append(row_array)
 
 func create_rooms():
 	#Create X rooms of various sizes. 
@@ -81,6 +108,7 @@ func create_rooms():
 						var cell_y = ry+room.rect.position.y
 						map_tiles[cell_x][cell_y].type = CellData.TILETYPE.TILE
 						set_cell(Vector2i(cell_x,cell_y),CellData.TILETYPE.TILE)
+						map_tiles[cell_x][cell_y].mesh_resource = tile_inst
 
 
 	#Pick exits on each room and connect to the closest room exit	

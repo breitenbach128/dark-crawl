@@ -5,18 +5,23 @@ var peer = ENetMultiplayerPeer.new()
 const MAIN_GAME_SCENE = "res://Screens/main.tscn"
 const PLAYER_SCENE = "res://Player/player.tscn"
 
+#Game Setup Variables for Clients
+var client_dungeon_data : Dictionary
+
 func host_game():
 	peer.create_server(PORT)
 	multiplayer.multiplayer_peer = peer
 	print("Server started!")
 	Globals.local_player_id = 1
 	launch_game()
+	Globals.current_main.spawn_player(1)
 	
 func join_game(ip_address):
 	peer.create_client(ip_address, PORT)
 	multiplayer.multiplayer_peer = peer
-	print("Connecting...")
-
+	print("Connecting...")	
+	launch_game()
+	
 func _ready():
 	# Connect client-specific signals
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
@@ -34,38 +39,49 @@ func _on_connection_failed():
 	print("Connection failed.")
 
 func _on_peer_connected(id: int):
-	print("Peer joined the server with ID: ", id)
-	Globals.local_player_id = id
+	print("Peer joined the server with ID: ", id)	
 	if multiplayer.is_server():
-		#send the clients the dungone information from the host session main scene
-		client_send_gamesetup_info(id)
-	#launch_game()# need a new function to wait until it has received all the data.
-	#If I am the server, just launch and create. if I am not, then I need to wait until 
-	#I have all the items I need to launch, such as monster positions, dungeon layout, etc.
+			client_send_gamesetup_info(id)
+	#send the clients the dungeon information from the host session main scene		
+	print("Spawn Player -> ",id)
+	Globals.local_player_id = id
+
+	Globals.current_main.spawn_player(id)
 	
 	
 
 func _on_peer_disconnected(id: int):
 	print("Peer left the server: ", id)	
-	
-func launch_game():
+
+func launch_game():	
 	var main_scene : MainScene = load(MAIN_GAME_SCENE).instantiate()
 	get_tree().change_scene_to_node(main_scene)
+	Globals.current_main = main_scene
 
 @rpc("authority", "call_remote", "reliable")
 func client_recv_gamesetup_info(dungeon_data : Dictionary):
-	print("Client Recevied Setup Info from host")
-	print(dungeon_data)
-
+	print("Client Recevied Setup Info from host: Client->", multiplayer.get_unique_id())
+	#print("map_area: ", dungeon_data.map_area)
+	client_dungeon_data = dungeon_data
+	
+	
 func client_send_gamesetup_info(id : int):
 	if Globals.current_main is not MainScene:
 		print("Current Scene incorrect. Cant send dungeon data")
 		return
 	
 	var dungeon_creator :DungeonGenerator = Globals.current_main.dungeon_creator
+	var map_tile_package = []
+	#Gather all the tile data
+	for y in dungeon_creator.map_area.size.y:
+		for x in dungeon_creator.map_area.size.x:
+			var mt = dungeon_creator.map_tiles[x][y]
+			var mtres = mt.mesh_resource.resource_path if mt.mesh_resource != null else ""
+			map_tile_package.append([x,y,mt.position.x,mt.position.y,mt.type,mtres])
+	#Create General Dungeon Package to send
 	var dungeon_data : Dictionary = {
 		map_area = dungeon_creator.map_area,
-		map_tiles = dungeon_creator.map_tiles,
+		map_tiles = map_tile_package,
 		room_list = []
 	}
 	#Roomlist must be rebuilt to only include what is required
@@ -74,7 +90,7 @@ func client_send_gamesetup_info(id : int):
 			room_id = r.room_id,
 			rect = r.rect,
 			room_connected = r.is_connected,
-			coonected_rooms = r.connected_room_ids
+			connected_rooms = r.connected_room_ids
 		}
 		dungeon_data.room_list.append(room_data)
 	
