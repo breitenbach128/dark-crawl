@@ -8,7 +8,7 @@ class_name Player
 @export var mouse_sensitivity : float = 0.002
 
 @export_category("Aimming")
-@onready var camera : Camera3D = $Camera3D
+@export var camera : Camera3D
 @export var right_hand : Node3D
 @export var left_hand : Node3D
 @export var gun_raycast : RayCast3D
@@ -36,57 +36,64 @@ enum GUNS {BLASTER=0}
 
 func _enter_tree():
 	# 2. Set the owner's multiplayer ID
-	set_multiplayer_authority(str(name).to_int())
-	print("Setting as MP authority: ",str(name).to_int(), " ", name)
+	var peer_id = str(name).to_int()
+	set_multiplayer_authority(peer_id)
+	print("Setting as MP authority: ",peer_id)
+	if peer_id == multiplayer.get_unique_id():
+		camera.make_current()
+	else:
+		camera.queue_free()
 	
 func _ready() -> void:
-	print("Player Ready Gravity-> ", gravity)
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	Globals.local_player = self
+	if is_multiplayer_authority():
+		print("Player Ready Gravity-> ", gravity)
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		Globals.local_player = self
 	
 func _process(delta: float) -> void:
-	if tracking_cam:
-		tracking_cam.position = tracking_cam.position.lerp(position+Vector3(0,50,0),5*delta)
+	if is_multiplayer_authority():
+		if tracking_cam:
+			tracking_cam.position = tracking_cam.position.lerp(position+Vector3(0,50,0),5*delta)
 
 func _physics_process(delta: float) -> void:
 	move(delta)
 	
 func _input(event):
-	#MOUSE LOOK CODE
-	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		# Rotate the player horizontally (Y axis)
-		rotate_y(-event.relative.x * mouse_sensitivity)
+	if is_multiplayer_authority():
+		#MOUSE LOOK CODE	
+		if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			# Rotate the player horizontally (Y axis)
+			rotate_y(-event.relative.x * mouse_sensitivity)
 
-		# Tilt the camera vertically (X axis)
-		camera.rotate_x(-event.relative.y * mouse_sensitivity)
+			# Tilt the camera vertically (X axis)
+			camera.rotate_x(-event.relative.y * mouse_sensitivity)
 
-		# Clamp the vertical look angle so the player can't do a 360 flip
-		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-80), deg_to_rad(80))
-	#escape key press
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		print("Escape was pressed!")
-		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		else:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			run_card(0)
-		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-			run_card(1)
-		if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
-			run_card(1)
-	
-	if event is InputEventKey:
-		if Input.is_action_just_pressed("draw_card_force"):
-			ui.draw_card()
-		if Input.is_action_just_pressed("discard_card_force"):
-			if ui.card_hand.get_child_count() > 0:
-				ui.discard_card(ui.card_hand.get_children()[0])
+			# Clamp the vertical look angle so the player can't do a 360 flip
+			camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+		#escape key press
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			print("Escape was pressed!")
+			if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			else:
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		
+		if event is InputEventMouseButton:
+			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+				run_card(0)
+			if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+				run_card(1)
+			if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+				run_card(1)
+		
+		if event is InputEventKey:
+			if Input.is_action_just_pressed("draw_card_force"):
+				ui.draw_card()
+			if Input.is_action_just_pressed("discard_card_force"):
+				if ui.card_hand.get_child_count() > 0:
+					ui.discard_card(ui.card_hand.get_children()[0])
 
-func run_card(index):
-	
+func run_card(index):	
 	if ui.card_hand.get_child_count() > index:
 		var card : Card = ui.card_hand.get_child(index)
 		if card.card_ready:

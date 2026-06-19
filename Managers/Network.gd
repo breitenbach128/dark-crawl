@@ -14,6 +14,7 @@ func host_game():
 	print("Server started!")
 	Globals.local_player_id = 1
 	launch_game()
+	Globals.current_main.dungeon_creator.build_dungeon(true)
 	Globals.current_main.spawn_player(1)
 	
 func join_game(ip_address):
@@ -45,8 +46,8 @@ func _on_peer_connected(id: int):
 	#send the clients the dungeon information from the host session main scene		
 	print("Spawn Player -> ",id)
 	Globals.local_player_id = id
-
 	Globals.current_main.spawn_player(id)
+	
 	
 	
 
@@ -63,6 +64,7 @@ func client_recv_gamesetup_info(dungeon_data : Dictionary):
 	print("Client Recevied Setup Info from host: Client->", multiplayer.get_unique_id())
 	#print("map_area: ", dungeon_data.map_area)
 	client_dungeon_data = dungeon_data
+	Globals.current_main.dungeon_creator.build_dungeon(false)
 	
 	
 func client_send_gamesetup_info(id : int):

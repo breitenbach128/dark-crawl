@@ -97,9 +97,13 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:sync_velocity")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "health_component", "gun_sprite") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("camera", "right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
+camera = NodePath("Camera3D")
 right_hand = NodePath("Camera3D/RightHand")
 left_hand = NodePath("Camera3D/LeftHand")
 gun_raycast = NodePath("Camera3D/RayCast3D")

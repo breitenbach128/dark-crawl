@@ -35,10 +35,9 @@ func set_cell(p: Vector2i, t):
 	#print("set cell:" ,p)
 	astar_grid.set_point_solid(p, t != CellData.TILETYPE.EMPTY)
 
-		
-func _ready() -> void:
+func build_dungeon(isServer: bool):
 	#Server
-	if multiplayer.is_server():
+	if isServer:
 		#Setup the astar grid
 		init_grid()	
 		#Create map of empty tiles
@@ -67,7 +66,10 @@ func _ready() -> void:
 				room_list.append(room)
 			#Create all meshes
 			create_meshes_from_tile_data()
-				
+
+func _ready() -> void:
+	pass
+
 func create_empty_map_tile_grid():
 	for i in range(0,map_area.size.x):
 		var row_array :Array = []
