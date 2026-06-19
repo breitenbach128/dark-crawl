@@ -23,6 +23,7 @@ var room_list : Array[RoomData] = []
 var room_attempt_count : int = 100
 
 signal dungeon_created
+signal dungeon_built 
 
 func init_grid() -> void:
 	astar_grid.region = map_area
@@ -42,7 +43,7 @@ func build_dungeon(isServer: bool):
 		init_grid()	
 		#Create map of empty tiles
 		create_empty_map_tile_grid()
-		create_rooms()
+		create_rooms()		
 	else:
 	#Client
 		if Network.client_dungeon_data:
@@ -66,6 +67,8 @@ func build_dungeon(isServer: bool):
 				room_list.append(room)
 			#Create all meshes
 			create_meshes_from_tile_data()
+			
+	dungeon_built.emit()
 
 func _ready() -> void:
 	pass

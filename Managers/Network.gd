@@ -2,8 +2,10 @@ extends Node
 
 const PORT = 9999
 var peer = ENetMultiplayerPeer.new()
-const MAIN_GAME_SCENE = "res://Screens/main.tscn"
-const PLAYER_SCENE = "res://Player/player.tscn"
+const MAIN_GAME_RES = "res://Screens/main.tscn"
+const PLAYER_RES = "res://Player/player.tscn"
+var main_scene
+var player_scene
 
 #Game Setup Variables for Clients
 var client_dungeon_data : Dictionary
@@ -14,15 +16,16 @@ func host_game():
 	print("Server started!")
 	Globals.local_player_id = 1
 	launch_game()
-	Globals.current_main.dungeon_creator.build_dungeon(true)
-	Globals.current_main.spawn_player(1)
+	main_scene.dungeon_creator.build_dungeon(true)
+	var p = main_scene.spawn_player(1)
+	main_scene.set_player_spawn_locations(p)
 	
 func join_game(ip_address):
 	peer.create_client(ip_address, PORT)
 	multiplayer.multiplayer_peer = peer
 	print("Connecting...")	
 	launch_game()
-	
+
 func _ready():
 	# Connect client-specific signals
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
@@ -36,32 +39,41 @@ func _on_connected_to_server():
 	print("Successfully connected to the server!")
 	# Spawn your local player here or send an RPC to the server
 
+	
 func _on_connection_failed():
 	print("Connection failed.")
 
 func _on_peer_connected(id: int):
-	print("Peer joined the server with ID: ", id)	
-	if multiplayer.is_server():
-			client_send_gamesetup_info(id)
-	#send the clients the dungeon information from the host session main scene		
-	print("Spawn Player -> ",id)
-	Globals.local_player_id = id
-	Globals.current_main.spawn_player(id)
-	
-	
-	
-
+	print("Host: ",multiplayer.get_unique_id()," Peer joined the server with ID: ", id)
+	Globals.local_player_id = id	
+	#send the clients the dungeon information from the host session main scene	
+	var p = main_scene.spawn_player(id)
+	#print("Spawn position: ", p.position)
+	if multiplayer.is_server():	
+		#print("Host Action->Client")		
+		#var p = main_scene.multiplayer_spawner_players.spawn(id)
+		#var p = main_scene.spawn_player(id)
+		client_send_gamesetup_info(id)
+		#Globals.current_main.set_player_spawn_locations(p)
+		var host = main_scene.players_root.get_node_or_null(str(1))
+		rpc_id(id, "client_recv_spawn_position", host.position)
+			
 func _on_peer_disconnected(id: int):
 	print("Peer left the server: ", id)	
 
 func launch_game():	
-	var main_scene : MainScene = load(MAIN_GAME_SCENE).instantiate()
+	main_scene = load(MAIN_GAME_RES).instantiate()	
 	get_tree().change_scene_to_node(main_scene)
 	Globals.current_main = main_scene
 
 @rpc("authority", "call_remote", "reliable")
+func client_recv_spawn_position(spawn_position):
+	var client = main_scene.players_root.get_node_or_null(str(multiplayer.get_unique_id()))
+	client.position = spawn_position
+
+@rpc("authority", "call_remote", "reliable")
 func client_recv_gamesetup_info(dungeon_data : Dictionary):
-	print("Client Recevied Setup Info from host: Client->", multiplayer.get_unique_id())
+	#print("Client Recevied Setup Info from host: Client->", multiplayer.get_unique_id())
 	#print("map_area: ", dungeon_data.map_area)
 	client_dungeon_data = dungeon_data
 	Globals.current_main.dungeon_creator.build_dungeon(false)

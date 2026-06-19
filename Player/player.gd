@@ -23,6 +23,7 @@ var movement_direction : Vector3 =  Vector3(0,0,0)
 var gravity = 75.5
 var dash_speed : float = 18.0
 var money: int = 0
+var has_spawned : bool = false
 
 enum GUNS {BLASTER=0}
 
@@ -46,7 +47,6 @@ func _enter_tree():
 	
 func _ready() -> void:
 	if is_multiplayer_authority():
-		print("Player Ready Gravity-> ", gravity)
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		Globals.local_player = self
 	
