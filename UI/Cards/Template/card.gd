@@ -55,7 +55,7 @@ var max_energy : int = 0
 
 var card_hand_index : int  = 0
 var player : Player #Belongs to this play
-var ui : UI #UI reference for performing actions
+var ui : HUD #UI reference for performing actions
 var card_ready : bool = true
 var is_discarded: bool = false
 
@@ -76,7 +76,8 @@ func _process(delta: float) -> void:
 
 func update_energy_display():
 	$EnergyLevel.text = str(energy)
-	
+
+#@rpc("any_peer", "call_local", "reliable", 0)
 func use_card():
 	energy = max(0,energy - 1)
 	cooldownTimer.start()	
@@ -117,7 +118,7 @@ func get_attack_origin():
 func attack_action():
 	#print("attack card ", attack_damage)
 	var attack : Attack = attack_resource.instantiate()
-	get_tree().current_scene.attacks_root.add_child(attack)
+	get_tree().current_scene.attacks_root.add_child(attack, true)
 	attack.attack(attack_damage)
 	#POSITION
 	var attack_origin = get_attack_origin()

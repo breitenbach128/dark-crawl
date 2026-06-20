@@ -9,6 +9,7 @@ class_name MainScene
 @export var pickups_root : Node3D
 @export var players_root : Node3D
 @export var dungeon_creator: DungeonGenerator
+@export var monster_generator: MonsterGenerator
 @export var multiplayer_spawner_players: MultiplayerSpawner
 
 func _ready() -> void:
@@ -35,5 +36,8 @@ func spawn_player(id : int):
 func _on_multiplayer_spawner_players_spawned(p: Player) -> void:
 	print("Spawned Player, " , p)
 
+func _on_multiplayer_spawner_attacks_spawned(node: Node) -> void:
+	pass # Replace with function body.
 
-	
+func _on_multiplayer_spawner_monsters_spawned(node: Node) -> void:
+	pass # Replace with function body.

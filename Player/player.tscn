@@ -2,15 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dmm444c58awv8" path="res://Player/player.gd" id="1_l8h54"]
 [ext_resource type="Texture2D" uid="uid://bwlu1sxucefu3" path="res://art/Weapons/gun_1.png" id="2_4ntmi"]
-[ext_resource type="Texture2D" uid="uid://cun5efmq4qhh6" path="res://art/Weapons/crosshair_1.png" id="3_btcbx"]
-[ext_resource type="Script" uid="uid://bga4dowpnkdoo" path="res://Player/ui.gd" id="3_fhl08"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_vtle1"]
-[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="4_k53q1"]
 [ext_resource type="Texture2D" uid="uid://j6mtvmwlc185" path="res://art/Player/wizard.png" id="4_x3vf3"]
-[ext_resource type="PackedScene" uid="uid://b2m4ruh4ik1ch" path="res://UI/Cards/card_shortbow.tscn" id="7_od3ui"]
-[ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="7_vtle1"]
-[ext_resource type="PackedScene" uid="uid://cqvh2kldx8kjl" path="res://UI/Cards/card_healthpotion.tscn" id="9_x3vf3"]
-[ext_resource type="Texture2D" uid="uid://bn4pyeftitr3y" path="res://art/Magic/heal_1.png" id="11_apopc"]
+[ext_resource type="PackedScene" uid="uid://dql37iq21ntuu" path="res://UI/ui.tscn" id="5_fhl08"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -53,43 +47,6 @@ animations = [{
 "speed": 16.0
 }]
 
-[sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
-font_size = 32
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vtle1"]
-atlas = ExtResource("4_k53q1")
-region = Rect2(336, 16, 64, 96)
-
-[sub_resource type="Curve2D" id="Curve2D_vtle1"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 405, 416, 0, 0, 0, 0, 579, 317, 0, 0, 0, 0, 896, 349, 0, 0, 0, 0, 1013, 441, 0, 0, 0, 0, 1066, 503, 0, 0, 0, 0, 1105, 563, 0, 0, 0, 0, 1119, 600)
-}
-point_count = 7
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_00tjw"]
-viewport_path = NodePath("SubViewport")
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_apopc"]
-particles_animation = true
-particles_anim_h_frames = 4
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p5o4e"]
-particle_flag_disable_z = true
-emission_shape_scale = Vector3(4, 4, 4)
-emission_shape = 1
-emission_sphere_radius = 1.0
-angle_min = -128.4
-angle_max = 69.80001
-direction = Vector3(0, 1, 0)
-initial_velocity_max = 35.04
-gravity = Vector3(0, 98, 0)
-scale_min = 1.5
-scale_max = 2.5
-anim_speed_min = 1.68
-anim_speed_max = 3.0
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_apopc"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
@@ -101,7 +58,7 @@ properties/2/path = NodePath(".:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("camera", "right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "health_component", "gun_sprite") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("camera", "right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
 camera = NodePath("Camera3D")
 right_hand = NodePath("Camera3D/RightHand")
@@ -109,6 +66,7 @@ left_hand = NodePath("Camera3D/LeftHand")
 gun_raycast = NodePath("Camera3D/RayCast3D")
 ui = NodePath("CanvasLayer/UI")
 tracking_cam = NodePath("SubViewport/TopDownCam")
+subviewport = NodePath("SubViewport")
 health_component = NodePath("HealthComponent")
 gun_sprite = NodePath("Camera3D/GunSprite")
 
@@ -159,129 +117,8 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 5
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=94397259]
 
-[node name="UI" type="Control" parent="CanvasLayer" unique_id=1780232396 node_paths=PackedStringArray("debug_card_index", "effects_area", "healing_particles", "healing_particles_timer", "card_deck", "card_hand", "discard_path", "player")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource("3_fhl08")
-debug_card_index = NodePath("Health")
-effects_area = NodePath("Effects")
-healing_particles = NodePath("../HealingParticles")
-healing_particles_timer = NodePath("../HealingParticlesTimer")
-card_deck = NodePath("CardArea/Deck")
-card_hand = NodePath("CardArea/CardHand")
-discard_path = NodePath("PathCardDiscard")
+[node name="UI" parent="CanvasLayer" unique_id=2132627804 node_paths=PackedStringArray("player") instance=ExtResource("5_fhl08")]
 player = NodePath("../..")
-
-[node name="Health" type="Label" parent="CanvasLayer/UI" unique_id=770317034]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "HP: 10"
-label_settings = SubResource("LabelSettings_lquwl")
-
-[node name="Coins" type="Label" parent="CanvasLayer/UI" unique_id=1653928742]
-layout_mode = 0
-offset_top = 37.0
-offset_right = 97.0
-offset_bottom = 82.0
-text = "Coins: 0"
-label_settings = SubResource("LabelSettings_lquwl")
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/UI" unique_id=1882463550]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Crosshair" type="TextureRect" parent="CanvasLayer/UI/CenterContainer" unique_id=766713277]
-layout_mode = 2
-texture = ExtResource("3_btcbx")
-stretch_mode = 3
-
-[node name="CardArea" type="HBoxContainer" parent="CanvasLayer/UI" unique_id=13525101]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -212.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Deck" type="TextureRect" parent="CanvasLayer/UI/CardArea" unique_id=1863535712]
-texture_filter = 1
-custom_minimum_size = Vector2(160, 212)
-layout_mode = 2
-texture = SubResource("AtlasTexture_vtle1")
-
-[node name="Card_Shortbow" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1504661029 instance=ExtResource("7_od3ui")]
-layout_mode = 0
-
-[node name="Card_HealthPotion" parent="CanvasLayer/UI/CardArea/Deck" unique_id=1711284108 instance=ExtResource("9_x3vf3")]
-layout_mode = 0
-
-[node name="CardHand" type="HBoxContainer" parent="CanvasLayer/UI/CardArea" unique_id=1189480962]
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 12
-
-[node name="DiscardIcon" type="TextureRect" parent="CanvasLayer/UI" unique_id=437597687]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -64.0
-offset_top = -64.0
-grow_horizontal = 0
-grow_vertical = 0
-texture = ExtResource("7_vtle1")
-
-[node name="PathCardDiscard" type="Path2D" parent="CanvasLayer/UI" unique_id=1035138848]
-curve = SubResource("Curve2D_vtle1")
-
-[node name="TopDownDisplay" type="TextureRect" parent="CanvasLayer/UI" unique_id=1102881561]
-layout_mode = 0
-offset_left = 937.0
-offset_top = 3.0
-offset_right = 1087.0
-offset_bottom = 153.0
-texture = SubResource("ViewportTexture_00tjw")
-expand_mode = 1
-
-[node name="Effects" type="HBoxContainer" parent="CanvasLayer/UI" unique_id=418944243]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 0
-offset_left = 140.0
-offset_right = 740.0
-offset_bottom = 48.0
-alignment = 2
-
-[node name="HealingParticles" type="GPUParticles2D" parent="CanvasLayer" unique_id=1114957318]
-texture_filter = 1
-material = SubResource("CanvasItemMaterial_apopc")
-position = Vector2(79, 4)
-emitting = false
-amount = 3
-texture = ExtResource("11_apopc")
-lifetime = 1.2
-explosiveness = 0.2
-randomness = 0.07
-process_material = SubResource("ParticleProcessMaterial_p5o4e")
-
-[node name="HealingParticlesTimer" type="Timer" parent="CanvasLayer" unique_id=1908088405]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1971870562]
 replication_config = SubResource("SceneReplicationConfig_apopc")
-
-[connection signal="timeout" from="CanvasLayer/HealingParticlesTimer" to="CanvasLayer/UI" method="_on_healing_particles_timer_timeout"]

@@ -1,5 +1,5 @@
 extends Control
-class_name UI
+class_name HUD
 
 @export_category("Labels")
 @export var debug_card_index : Label
@@ -8,6 +8,7 @@ class_name UI
 @export var effects_area: HBoxContainer
 @export var healing_particles : GPUParticles2D
 @export var healing_particles_timer : Timer
+@export var TopDownDisplay : TextureRect
 
 @export_category("Cards")
 @export var card_deck : TextureRect

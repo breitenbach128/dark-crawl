@@ -14,8 +14,9 @@ class_name Player
 @export var gun_raycast : RayCast3D
 
 @export_category("UI")
-@export var ui : UI 
+@export var ui : HUD 
 @export var tracking_cam: Camera3D
+@export var subviewport : SubViewport
 
 var jump_velocity : float = 25.5
 var movement_speed : float = 8.0
@@ -42,8 +43,12 @@ func _enter_tree():
 	print("Setting as MP authority: ",peer_id)
 	if peer_id == multiplayer.get_unique_id():
 		camera.make_current()
+		var viewport_texture: ViewportTexture = subviewport.get_texture()
+		ui.TopDownDisplay.texture = viewport_texture
 	else:
+		#Remove on UX stuff for puppets
 		camera.queue_free()
+		ui.queue_free()
 	
 func _ready() -> void:
 	if is_multiplayer_authority():
@@ -92,6 +97,7 @@ func _input(event):
 			if Input.is_action_just_pressed("discard_card_force"):
 				if ui.card_hand.get_child_count() > 0:
 					ui.discard_card(ui.card_hand.get_children()[0])
+					
 
 func run_card(index):	
 	if ui.card_hand.get_child_count() > index:

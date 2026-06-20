@@ -9,7 +9,7 @@ class_name DungeonGenerator
 @export var root_room_node : Node3D
 @export var players_root:  Node3D
 @export var local_player: Player
-@export var monster_spawner : MonsterGenerator
+@export var monster_generator : MonsterGenerator
 
 var debug_status = false
 var astar_grid : AStarGrid2D = AStarGrid2D.new()
@@ -137,7 +137,7 @@ func create_rooms():
 			print("R:", strrow)
 	
 	create_meshes_from_tile_data()
-	monster_spawner.spawn_monsters()
+	#monster_generator.spawn_monsters()
 	dungeon_created.emit()
 	
 	#TODO: Clear and rebuild astar grid to allow for pathfinding within the rooms

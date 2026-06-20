@@ -15,7 +15,7 @@ size = Vector3(60, 1, 60)
 
 [sub_resource type="Environment" id="Environment_efxa6"]
 
-[node name="Main" type="Node3D" unique_id=1325925167 node_paths=PackedStringArray("structure_root", "sound_root", "attacks_root", "enemies_root", "uieffects_root", "pickups_root", "players_root", "dungeon_creator", "multiplayer_spawner_players")]
+[node name="Main" type="Node3D" unique_id=1325925167 node_paths=PackedStringArray("structure_root", "sound_root", "attacks_root", "enemies_root", "uieffects_root", "pickups_root", "players_root", "dungeon_creator", "monster_generator", "multiplayer_spawner_players")]
 script = ExtResource("1_272bh")
 structure_root = NodePath("Structure")
 sound_root = NodePath("Sounds")
@@ -25,6 +25,7 @@ uieffects_root = NodePath("UIEffects")
 pickups_root = NodePath("Pickups")
 players_root = NodePath("Players")
 dungeon_creator = NodePath("DungeonGenerator")
+monster_generator = NodePath("MonsterGenerator")
 multiplayer_spawner_players = NodePath("MultiplayerSpawnerPlayers")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=497114531]
@@ -60,14 +61,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 0.099999905)
 
 [node name="Rooms" type="Node3D" parent="." unique_id=1858941957]
 
-[node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425 node_paths=PackedStringArray("root_room_node", "players_root", "monster_spawner")]
+[node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425 node_paths=PackedStringArray("root_room_node", "players_root", "monster_generator")]
 script = ExtResource("7_272bh")
 tile_inst = ExtResource("5_7mycd")
 tile_1x1_inst = Array[Resource]([ExtResource("7_kek77"), ExtResource("8_efxa6")])
 wall_inst = ExtResource("2_h2yge")
 root_room_node = NodePath("../Rooms")
 players_root = NodePath("../Players")
-monster_spawner = NodePath("../MonsterGenerator")
+monster_generator = NodePath("../MonsterGenerator")
 metadata/_custom_type_script = "uid://cbsufhsn140b2"
 
 [node name="MonsterGenerator" type="Node" parent="." unique_id=679352985 node_paths=PackedStringArray("dungeon", "monster_holder")]
@@ -85,8 +86,18 @@ environment = SubResource("Environment_efxa6")
 _spawnable_scenes = PackedStringArray("uid://bxrtx5xxoe0y8")
 spawn_path = NodePath("../Players")
 
+[node name="MultiplayerSpawnerAttacks" type="MultiplayerSpawner" parent="." unique_id=1670846507]
+_spawnable_scenes = PackedStringArray("uid://dpybtl6o3swwg", "uid://dbwflkox1ee0q", "uid://chrjda13r3sbi", "uid://dwg5sydgquur")
+spawn_path = NodePath("../Attacks")
+
+[node name="MultiplayerSpawnerMonsters" type="MultiplayerSpawner" parent="." unique_id=1449917541]
+_spawnable_scenes = PackedStringArray("uid://bfq6musk5k252")
+spawn_path = NodePath("../Enemies")
+
 [node name="Floor_5x5" parent="." unique_id=906401327 instance=ExtResource("5_7mycd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4492798, -1.1290894, 0.38098145)
 
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]
 [connection signal="spawned" from="MultiplayerSpawnerPlayers" to="." method="_on_multiplayer_spawner_players_spawned"]
+[connection signal="spawned" from="MultiplayerSpawnerAttacks" to="." method="_on_multiplayer_spawner_attacks_spawned"]
+[connection signal="spawned" from="MultiplayerSpawnerMonsters" to="." method="_on_multiplayer_spawner_monsters_spawned"]

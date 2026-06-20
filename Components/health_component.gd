@@ -29,6 +29,7 @@ func heal(amount: int):
 	print("healed ", amount)	
 
 func take_damage(attack_damage):
+
 	var physical_damage = ceil((1-restistance.physical) * randi_range(attack_damage.physical[0],attack_damage.physical[1]))
 	var fire_damage = ceil((1-restistance.fire) * randi_range(attack_damage.fire[0],attack_damage.fire[1]))
 	var shock_damage = ceil((1-restistance.shock) * randi_range(attack_damage.shock[0],attack_damage.shock[1]))

@@ -57,6 +57,7 @@ func _on_peer_connected(id: int):
 		#Globals.current_main.set_player_spawn_locations(p)
 		var host = main_scene.players_root.get_node_or_null(str(1))
 		rpc_id(id, "client_recv_spawn_position", host.position)
+		main_scene.monster_generator.spawn_monsters()
 			
 func _on_peer_disconnected(id: int):
 	print("Peer left the server: ", id)	

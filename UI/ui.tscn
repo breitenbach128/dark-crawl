@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://dql37iq21ntuu"]
+
+[ext_resource type="Script" uid="uid://bga4dowpnkdoo" path="res://Player/ui.gd" id="1_nm1m0"]
+[ext_resource type="Texture2D" uid="uid://cun5efmq4qhh6" path="res://art/Weapons/crosshair_1.png" id="2_c7tqi"]
+[ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_cbfhl"]
+[ext_resource type="PackedScene" uid="uid://b2m4ruh4ik1ch" path="res://UI/Cards/card_shortbow.tscn" id="4_4fiuh"]
+[ext_resource type="PackedScene" uid="uid://cqvh2kldx8kjl" path="res://UI/Cards/card_healthpotion.tscn" id="5_h81ot"]
+[ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="6_6rr40"]
+[ext_resource type="Texture2D" uid="uid://bn4pyeftitr3y" path="res://art/Magic/heal_1.png" id="7_c7tqi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
+font_size = 32
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vtle1"]
+atlas = ExtResource("3_cbfhl")
+region = Rect2(336, 16, 64, 96)
+
+[sub_resource type="Curve2D" id="Curve2D_vtle1"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 405, 416, 0, 0, 0, 0, 579, 317, 0, 0, 0, 0, 896, 349, 0, 0, 0, 0, 1013, 441, 0, 0, 0, 0, 1066, 503, 0, 0, 0, 0, 1105, 563, 0, 0, 0, 0, 1119, 600)
+}
+point_count = 7
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_c7tqi"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cbfhl"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4fiuh"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(4, 4, 4)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = -128.4
+angle_max = 69.80001
+direction = Vector3(0, 1, 0)
+initial_velocity_max = 35.04
+gravity = Vector3(0, 98, 0)
+scale_min = 1.5
+scale_max = 2.5
+anim_speed_min = 1.68
+anim_speed_max = 3.0
+
+[node name="UI" type="Control" unique_id=2132627804 node_paths=PackedStringArray("debug_card_index", "effects_area", "healing_particles", "healing_particles_timer", "TopDownDisplay", "card_deck", "card_hand", "discard_path")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_nm1m0")
+debug_card_index = NodePath("Health")
+effects_area = NodePath("Effects")
+healing_particles = NodePath("HealingParticles")
+healing_particles_timer = NodePath("HealingParticlesTimer")
+TopDownDisplay = NodePath("TopDownDisplay")
+card_deck = NodePath("CardArea/Deck")
+card_hand = NodePath("CardArea/CardHand")
+discard_path = NodePath("PathCardDiscard")
+
+[node name="Health" type="Label" parent="." unique_id=1458704866]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "HP: 10"
+label_settings = SubResource("LabelSettings_lquwl")
+
+[node name="Coins" type="Label" parent="." unique_id=1601716640]
+layout_mode = 0
+offset_top = 37.0
+offset_right = 97.0
+offset_bottom = 82.0
+text = "Coins: 0"
+label_settings = SubResource("LabelSettings_lquwl")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1215736918]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Crosshair" type="TextureRect" parent="CenterContainer" unique_id=1113127113]
+layout_mode = 2
+texture = ExtResource("2_c7tqi")
+stretch_mode = 3
+
+[node name="CardArea" type="HBoxContainer" parent="." unique_id=1839801625]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -212.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Deck" type="TextureRect" parent="CardArea" unique_id=711090691]
+texture_filter = 1
+custom_minimum_size = Vector2(160, 212)
+layout_mode = 2
+texture = SubResource("AtlasTexture_vtle1")
+
+[node name="Card_Shortbow" parent="CardArea/Deck" unique_id=1504661029 instance=ExtResource("4_4fiuh")]
+layout_mode = 0
+
+[node name="Card_HealthPotion" parent="CardArea/Deck" unique_id=209688312 instance=ExtResource("5_h81ot")]
+layout_mode = 0
+
+[node name="CardHand" type="HBoxContainer" parent="CardArea" unique_id=613333371]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="DiscardIcon" type="TextureRect" parent="." unique_id=1535012520]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("6_6rr40")
+
+[node name="PathCardDiscard" type="Path2D" parent="." unique_id=840453708]
+curve = SubResource("Curve2D_vtle1")
+
+[node name="TopDownDisplay" type="TextureRect" parent="." unique_id=118296382]
+layout_mode = 0
+offset_left = 937.0
+offset_top = 3.0
+offset_right = 1087.0
+offset_bottom = 153.0
+texture = SubResource("ViewportTexture_c7tqi")
+expand_mode = 1
+
+[node name="Effects" type="HBoxContainer" parent="." unique_id=54060364]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 0
+offset_left = 140.0
+offset_right = 740.0
+offset_bottom = 48.0
+alignment = 2
+
+[node name="HealingParticles" type="GPUParticles2D" parent="." unique_id=63229506]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_cbfhl")
+position = Vector2(79, 4)
+emitting = false
+amount = 3
+texture = ExtResource("7_c7tqi")
+lifetime = 1.2
+explosiveness = 0.2
+randomness = 0.07
+process_material = SubResource("ParticleProcessMaterial_4fiuh")
+
+[node name="HealingParticlesTimer" type="Timer" parent="." unique_id=1459848168]
