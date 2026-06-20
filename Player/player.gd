@@ -42,6 +42,7 @@ func _enter_tree():
 	set_multiplayer_authority(peer_id)
 	print("Setting as MP authority: ",peer_id)
 	if peer_id == multiplayer.get_unique_id():
+		#If this is the active player instance for MP
 		camera.make_current()
 		var viewport_texture: ViewportTexture = subviewport.get_texture()
 		ui.TopDownDisplay.texture = viewport_texture
@@ -139,8 +140,9 @@ func move(delta):
 	move_and_slide()
 
 func collect_coin(amount: int):
-	money+=amount
-	ui.get_node("Coins").text = "Money:" + str(money)
+	if is_multiplayer_authority():
+		money+=amount
+		ui.get_node("Coins").text = "Money:" + str(money)
 
 func player_add_effect(new_effect : Effect):
 		add_child(new_effect)

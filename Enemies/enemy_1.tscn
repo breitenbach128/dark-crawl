@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="8_rknch"]
 [ext_resource type="Script" uid="uid://diy2rcwynumbt" path="res://Statemachine/enemy_death.gd" id="9_xamao"]
 [ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="10_7bagf"]
+[ext_resource type="Script" uid="uid://cs03yabyedopu" path="res://Statemachine/mp_sm_receiver.gd" id="11_wys7m"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
@@ -263,3 +264,8 @@ stream = SubResource("AudioStreamRandomizer_wys7m")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1609139329]
 replication_config = SubResource("SceneReplicationConfig_7bagf")
+
+[node name="MultiplayerAnimSMReceiver" type="Node" parent="." unique_id=1205830126 node_paths=PackedStringArray("enemy")]
+script = ExtResource("11_wys7m")
+enemy = NodePath("..")
+metadata/_custom_type_script = "uid://cs03yabyedopu"

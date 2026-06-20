@@ -57,7 +57,7 @@ func death():
 	health_death.emit()
 	
 	if get_parent() is Player:
-		print("GAME OVER")
+		print("player dead!")
 		#Switch to dead state, removing you from being targeted by enemies but allowing you
 		#be revived by other players.
 		#If all players are dead, go to MISSION failed screen to exit or restart

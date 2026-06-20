@@ -11,14 +11,21 @@ class_name Enemy
 @export var animation_player : AnimationPlayer
 @export var animation_tree : AnimationTree
 @export var line_of_sight: RayCast3D
+@export var mp_anim_states : MultiplayerAnimSMReceiver
 
 
 var gravity = 75.5
 var coin_chance : float = 0.75 #75%
 
+func _enter_tree() -> void:
+	if not multiplayer.is_server():
+		#Remove State machine
+		state_machine.queue_free()
+
 func _ready() -> void:
-	if health_component:
-		health_component.health_death.connect(death)
+	if multiplayer.is_server():
+		if health_component:
+			health_component.health_death.connect(death)
 
 func death():
 	if randf() < coin_chance:
