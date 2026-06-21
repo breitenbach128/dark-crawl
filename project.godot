@@ -27,6 +27,8 @@ Network="*uid://34tiuucikhpi"
 
 [display]
 
+window/size/viewport_width=1536
+window/size/viewport_height=864
 window/stretch/mode="canvas_items"
 
 [global_group]

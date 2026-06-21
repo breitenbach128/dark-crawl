@@ -31,9 +31,18 @@ enum SCREEN_FLASH_TYPE {HURT, HEAL, AURA, ZONE}
 func _ready() -> void:
 	
 	
-	var cards = card_hand.get_children()
-	if cards.size() > 0:
-		select_card(selected_card_index)
+	#Create first hand of cards
+	for i in range(0,5):
+		var pick_hand_card = load(Globals.card_db.pick_random().res).instantiate()
+		card_hand.add_child(pick_hand_card,true)
+		pick_hand_card.player = player
+		pick_hand_card.ui = self
+		var pick_deck_card = load(Globals.card_db.pick_random().res).instantiate()
+		card_deck.add_child(pick_deck_card,true)
+		pick_deck_card.player = player
+		pick_deck_card.ui = self
+		pick_deck_card.visible = false
+		
 	#Connect UI to Player Signals
 	if player:
 		player.health_component.health_changed.connect(update_ui_display_health)
@@ -89,7 +98,7 @@ func select_card(index):
 		selected_card.selected()
 		debug_card_index.text = str(selected_card_index)
 
-func draw_card():
+func draw_card():	
 	#ASSUMPTION - STARTING DECK EXISTS
 	#print("DECK COUNT PRE SHUFFLE ", card_deck.get_child_count())
 	if card_deck.get_child_count() <= 0:
@@ -99,15 +108,14 @@ func draw_card():
 		return
 	#Only allow if hand is not max size
 	if card_hand.get_child_count() < max_hand_size:		
+		is_drawing_hand = true
 		var drop_position = card_hand.global_position
 		if drop_position.x == 0:
 			drop_position.x = 164.0
-		print("Global drop position, ", drop_position)
 		draw_tween_pending = draw_tween_pending + 1
 		var hand_count = card_hand.get_child_count()
 		var min_card_size_x = 160	
 		drop_position += Vector2((min_card_size_x+card_hand.get_theme_constant("separation"))*hand_count,0)
-		print(drop_position)
 		var top_card : Card = card_deck.get_child(0)
 		top_card.visible = true
 		top_card.reparent(self,true)
@@ -117,12 +125,12 @@ func draw_card():
 		var vp_size = get_viewport_rect().size
 		var center_position = (vp_size-top_card.custom_minimum_size)/2 + Vector2(-64,0)
 		draw_card_tween.set_parallel(true)
-		draw_card_tween.tween_property(top_card, "global_position", center_position, 0.75).set_trans(Tween.TRANS_SINE)
-		draw_card_tween.tween_property(top_card, "scale", Vector2(1.3,1.3), 0.75).set_trans(Tween.TRANS_SINE)
-		draw_card_tween.chain().tween_interval(1)
+		draw_card_tween.tween_property(top_card, "global_position", center_position, 0.4).set_trans(Tween.TRANS_SINE)
+		draw_card_tween.tween_property(top_card, "scale", Vector2(1.3,1.3), 0.4).set_trans(Tween.TRANS_SINE)
+		draw_card_tween.chain().tween_interval(.6)
 		draw_card_tween.set_parallel(true)
-		draw_card_tween.tween_property(top_card, "global_position", drop_position, 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.8)
-		draw_card_tween.tween_property(top_card, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.8)
+		draw_card_tween.tween_property(top_card, "global_position", drop_position, 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.4)
+		draw_card_tween.tween_property(top_card, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.4)
 		draw_card_tween.finished.connect(take_card.bind(top_card))
 
 func take_card(top_card : Card):
@@ -132,13 +140,17 @@ func take_card(top_card : Card):
 	update_card_control_icons()
 	deck_count_label.text = str(card_deck.get_child_count())
 	if card_hand.get_child_count() < max_hand_size:
+		print("need more cards for max hand")
 		draw_card()
+	else:
+		is_drawing_hand = false
+
 
 func discard_complete():
 	print("Discard Complete")
 	discard_count_label.text = str(discard_deck.get_child_count())
 	#Hand is empty, so start drawing again
-	if card_hand.get_child_count() == 0:
+	if card_hand.get_child_count() == 0 && is_drawing_hand == false:
 		print("Hand Empty")
 		draw_card()
 	
