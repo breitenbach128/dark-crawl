@@ -4,7 +4,7 @@ const PORT = 9999
 var peer = ENetMultiplayerPeer.new()
 const MAIN_GAME_RES = "res://Screens/main.tscn"
 const PLAYER_RES = "res://Player/player.tscn"
-var main_scene
+var main_scene : MainScene
 var player_scene
 
 #Game Setup Variables for Clients
@@ -18,8 +18,9 @@ func host_game():
 	launch_game()
 	main_scene.dungeon_creator.build_dungeon(true)
 	main_scene.player_peers.append(1)
-	#var p = main_scene.spawn_player(1)
-	#main_scene.set_player_spawn_locations(p)
+	
+	if main_scene.max_players == 1:
+		start_network_game()
 	
 func join_game(ip_address):
 	peer.create_client(ip_address, PORT)
@@ -54,15 +55,18 @@ func _on_peer_connected(id: int):
 		#print("Host Action->Client")
 		client_send_gamesetup_info(id)
 		main_scene.player_peers.append(id)
-		
-		if main_scene.player_peers.size() >= main_scene.max_players:
-			for pid in main_scene.player_peers:
-				var p = main_scene.spawn_player(pid)
+		start_network_game()
 
-			main_scene.start_game()
 			
 func _on_peer_disconnected(id: int):
 	print("Peer left the server: ", id)	
+
+func start_network_game():
+	if main_scene.player_peers.size() >= main_scene.max_players:
+		for pid in main_scene.player_peers:
+			var p = main_scene.spawn_player(pid)
+
+		main_scene.start_game()
 
 func launch_game():	
 	main_scene = load(MAIN_GAME_RES).instantiate()	

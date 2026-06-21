@@ -73,7 +73,7 @@ func activate_effect():
 				var dir: Vector3 = Vector3(cos(ds*rot_step), 0.0, sin(ds*rot_step))
 				var final_velocity: Vector3 = dir*parent_attack.projectile_speed
 				var new_attack : Attack = load(parent_attack.scene_file_path).instantiate()
-				get_tree().current_scene.get_node("Bullets").add_child(new_attack)
+				get_tree().current_scene.get_node("Attacks").add_child(new_attack,true)
 				new_attack.attack(parent_attack.attack_damage)
 				new_attack.position = parent_attack.position + (dir)
 				new_attack.linear_velocity = final_velocity
@@ -83,7 +83,7 @@ func set_target(t):
 	target = t
 ## For passive effects, such as modifications to health, this changes the base state
 func apply_effects(mod : int):	
-	print("Applying Effect, ", effect_name, " " , mod, " duration_count ", duration_count)
+	#print("Applying Effect, ", effect_name, " " , mod, " duration_count ", duration_count)
 	if duration_count > 0 && duration_ticks == 0:
 		duration_timer.wait_time = duration_tick_time
 		duration_timer.start()
@@ -107,7 +107,7 @@ func remove_effects():
 
 
 func _on_duration_timeout() -> void:
-	print("Timeout: ", duration_ticks, " ", duration_count)
+	#print("Timeout: ", duration_ticks, " ", duration_count)
 	if duration_ticks < duration_count:
 		duration_ticks+=1
 		duration_timer.start()

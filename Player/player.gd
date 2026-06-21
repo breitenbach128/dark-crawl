@@ -93,9 +93,13 @@ func _input(event):
 			if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 				run_card(1)
 			if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
-				run_card(1)
+				run_card(2)
 		
 		if event is InputEventKey:
+			if Input.is_action_just_pressed("action_slot_four"):
+				run_card(3)
+			if Input.is_action_just_pressed("action_slot_five"):
+				run_card(4)
 			if Input.is_action_just_pressed("draw_card_force"):
 				ui.draw_card()
 			if Input.is_action_just_pressed("discard_card_force"):
@@ -103,6 +107,7 @@ func _input(event):
 					ui.discard_card(ui.card_hand.get_children()[0])
 					
 
+#@rpc("any_peer", "call_remote", "reliable")
 func run_card(index):	
 	if ui.card_hand.get_child_count() > index:
 		var card : Card = ui.card_hand.get_child(index)

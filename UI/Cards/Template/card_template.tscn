@@ -147,7 +147,6 @@ alignment = 1
 
 [node name="EffectDetail" parent="EffectArea" unique_id=1654437473 instance=ExtResource("8_tbayc")]
 layout_mode = 2
-text = "1-8"
 
 [node name="HitEffects" type="Node" parent="." unique_id=1117642746]
 

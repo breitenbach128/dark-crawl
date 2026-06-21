@@ -26,7 +26,7 @@ func _ready() -> void:
 func heal(amount: int):
 	health=min(health+amount,health_max)
 	health_changed.emit(health, health_max, amount)
-	print("healed ", amount)	
+	#print("healed ", amount)	
 
 func take_damage(attack_damage):
 
@@ -57,7 +57,8 @@ func death():
 	health_death.emit()
 	
 	if get_parent() is Player:
-		print("player dead!")
+		#print("player dead!")
+		pass
 		#Switch to dead state, removing you from being targeted by enemies but allowing you
 		#be revived by other players.
 		#If all players are dead, go to MISSION failed screen to exit or restart

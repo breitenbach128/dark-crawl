@@ -34,7 +34,7 @@ var control_icon_textures : Array[Dictionary] = [
 @export var control_icon : TextureRect
 @export var cd_progress_bar : ProgressBar
 @export var energy : int = 5 #How much "Ammo" does the card have?
-var max_energy : int = 0
+var max_energy : int = 5
 
 @export_category("Parameters")
 @export var attack_damage : Dictionary = { #[min,max]
@@ -59,6 +59,7 @@ var ui : HUD #UI reference for performing actions
 var card_ready : bool = true
 var is_discarded: bool = false
 
+signal was_discarded
 
 func _ready() -> void:
 	$CardTitle.text = card_name
@@ -112,7 +113,7 @@ func get_attack_origin():
 			return player.camera
 		3:
 			return player.left_hand
-		0:
+		4:
 			return player.right_hand
 
 func attack_action():
@@ -137,7 +138,7 @@ func attack_action():
 	attack.apply_impulse(direction * attack_velocity)	
 	attack.projectile_speed = attack_velocity
 	attack.rotation = player.rotation
-	print(player.rotation_degrees, " ", attack.rotation_degrees)
+	
 	
 	if hit_effects.get_child_count():
 		for he in hit_effects.get_children():
@@ -148,7 +149,10 @@ func attack_action():
 func drawn(index, set_ui, set_player):
 	player = set_player
 	ui = set_ui
-	print("Card Drawn from Deck, in hand index ", index)
+	#print("Card Drawn/Moved, in hand index ", index)
+	update_control_texture(index)
+
+func update_control_texture(index):
 	card_hand_index = index
 	var new_texture = AtlasTexture.new()
 	new_texture.atlas =  control_icon_textures[card_hand_index].atlas
@@ -163,13 +167,14 @@ func selected():
 func deselected():
 	$SelectedBorder.visible = false
 	
-func discarded(path,ui):
+func discarded(path,hud):
 	var holder_node = Control.new()
+	holder_node.name = "DiscardHolder"
 	var follow_path = PathFollow2D.new()
 	var refrect= ReferenceRect.new()
-	holder_node.add_child(refrect)
-	path.add_child(follow_path)
-	ui.add_child(holder_node)
+	holder_node.add_child(refrect,true)
+	path.add_child(follow_path,true)
+	hud.add_child(holder_node,true)
 	holder_node.global_position = global_position
 	holder_node.custom_minimum_size = self.custom_minimum_size
 	holder_node.size = self.size
@@ -189,8 +194,15 @@ func discarded(path,ui):
 	)
 	discard_tween.parallel().tween_property(self, "rotation_degrees", 720.0, travel_time)
 	discard_tween.parallel().tween_property(self, "scale", Vector2(0.3,0.3), travel_time)
-	discard_tween.finished.connect(queue_free)
+	discard_tween.finished.connect(add_to_discard_pile.bind(holder_node))
 
+func add_to_discard_pile(holder_node : Control):
+	
+	visible = false
+	reparent(ui.discard_deck,false)	
+	holder_node.queue_free()
+	print(card_name, " added to discard pile")
+	ui.discard_complete()
 
 func _on_cool_down_timeout() -> void:	
 	if energy == 0 && is_discarded == false:

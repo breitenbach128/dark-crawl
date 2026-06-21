@@ -40,18 +40,23 @@ func attack(damage):
 		$Anim.play("attack")
 
 func _on_body_entered(body: Node) -> void:
-	if body is Enemy:
-		#print("Hit Enemy ", attack_damage)
-		if body.health_component:
-			body.health_component.take_damage(attack_damage)
-			$SoundOnHit.play()
-
+	if multiplayer.is_server():
+		if body is Enemy:
+			#print("Hit Enemy ", attack_damage)
+			if body.health_component:
+				body.health_component.take_damage(attack_damage)
+				$SoundOnHit.play()
+		#Check for any hit effects
+		for effect: Effect in get_children().filter(func(x): return x is Effect):
+			effect.activate_effect()
+		#Free
+		call_deferred("queue_free")
+		
 	#Play impact animation	
-	call_deferred("queue_free")
 	
-	#Check for any hit effects
-	for effect: Effect in get_children().filter(func(x): return x is Effect):
-		effect.activate_effect()
+
+	
+
 	
 
 func _on_anim_animation_finished() -> void:
