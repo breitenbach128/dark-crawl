@@ -9,6 +9,7 @@ class_name HUD
 @export var healing_particles : GPUParticles2D
 @export var healing_particles_timer : Timer
 @export var TopDownDisplay : TextureRect
+@export var mp_id_label : Label
 
 @export_category("Cards")
 @export var card_deck : TextureRect

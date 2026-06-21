@@ -1,7 +1,7 @@
 extends State
 class_name StateEnemyIdle
 
-@export var enemy : CharacterBody3D
+@export var enemy : Enemy
 @export var bored_level : float = 0.50
 
 var idle_time : float
@@ -21,6 +21,9 @@ func Enter():
 	if enemy.animation_tree:
 		var anim_sm :AnimationNodeStateMachinePlayback = enemy.animation_tree.get("parameters/playback")
 		anim_sm.travel("Idle")
+		#Broadcast to clients to change their animations
+		print("Entering Idle for SM on client : ", multiplayer.get_unique_id())
+		#enemy.mp_anim_states.client_receive_anim_state.rpc("Idle")
 		
 func Update(delta: float):
 	#Is Dead?

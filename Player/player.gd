@@ -17,6 +17,7 @@ class_name Player
 @export var ui : HUD 
 @export var tracking_cam: Camera3D
 @export var subviewport : SubViewport
+@export var playernamelabel: Label3D
 
 var jump_velocity : float = 25.5
 var movement_speed : float = 8.0
@@ -50,11 +51,13 @@ func _enter_tree():
 		#Remove on UX stuff for puppets
 		camera.queue_free()
 		ui.queue_free()
-	
+	ui.mp_id_label.text = str("Multiplayer ID:",peer_id , " " , multiplayer.is_server())
+	playernamelabel.text = str(peer_id)
 func _ready() -> void:
 	if is_multiplayer_authority():
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		Globals.local_player = self
+		
 	
 func _process(delta: float) -> void:
 	if is_multiplayer_authority():

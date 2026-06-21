@@ -94,9 +94,6 @@ spawn_path = NodePath("../Attacks")
 _spawnable_scenes = PackedStringArray("uid://bfq6musk5k252")
 spawn_path = NodePath("../Enemies")
 
-[node name="Floor_5x5" parent="." unique_id=906401327 instance=ExtResource("5_7mycd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4492798, -1.1290894, 0.38098145)
-
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]
 [connection signal="spawned" from="MultiplayerSpawnerPlayers" to="." method="_on_multiplayer_spawner_players_spawned"]
 [connection signal="spawned" from="MultiplayerSpawnerAttacks" to="." method="_on_multiplayer_spawner_attacks_spawned"]

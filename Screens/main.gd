@@ -12,6 +12,9 @@ class_name MainScene
 @export var monster_generator: MonsterGenerator
 @export var multiplayer_spawner_players: MultiplayerSpawner
 
+var player_peers = []
+var max_players = 2
+
 func _ready() -> void:
 	print("Main Ready")	
 	multiplayer_spawner_players.spawn_function = spawn_player
@@ -31,7 +34,13 @@ func spawn_player(id : int):
 		print("Host: ",multiplayer.get_unique_id()," player added to main, :", id)
 	else:
 		print("Host: ","localhost"," player added to main, :", id)
+	set_player_spawn_locations(new_player)
+
+	
 	return new_player
+
+func start_game():
+	monster_generator.spawn_monsters()
 
 func _on_multiplayer_spawner_players_spawned(p: Player) -> void:
 	print("Spawned Player, " , p)

@@ -18,10 +18,8 @@ var gravity = 75.5
 var coin_chance : float = 0.75 #75%
 
 func _enter_tree() -> void:
-	if not multiplayer.is_server():
-		#Remove State machine
-		state_machine.queue_free()
-
+	pass
+	
 func _ready() -> void:
 	if multiplayer.is_server():
 		if health_component:

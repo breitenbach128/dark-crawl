@@ -44,7 +44,7 @@ scale_max = 2.5
 anim_speed_min = 1.68
 anim_speed_max = 3.0
 
-[node name="UI" type="Control" unique_id=2132627804 node_paths=PackedStringArray("debug_card_index", "effects_area", "healing_particles", "healing_particles_timer", "TopDownDisplay", "card_deck", "card_hand", "discard_path")]
+[node name="UI" type="Control" unique_id=2132627804 node_paths=PackedStringArray("debug_card_index", "effects_area", "healing_particles", "healing_particles_timer", "TopDownDisplay", "mp_id_label", "card_deck", "card_hand", "discard_path")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,6 +59,7 @@ effects_area = NodePath("Effects")
 healing_particles = NodePath("HealingParticles")
 healing_particles_timer = NodePath("HealingParticlesTimer")
 TopDownDisplay = NodePath("TopDownDisplay")
+mp_id_label = NodePath("MPIDLabel")
 card_deck = NodePath("CardArea/Deck")
 card_hand = NodePath("CardArea/CardHand")
 discard_path = NodePath("PathCardDiscard")
@@ -165,3 +166,12 @@ randomness = 0.07
 process_material = SubResource("ParticleProcessMaterial_4fiuh")
 
 [node name="HealingParticlesTimer" type="Timer" parent="." unique_id=1459848168]
+
+[node name="MPIDLabel" type="Label" parent="." unique_id=1827346667]
+layout_mode = 0
+offset_left = 389.0
+offset_top = 1.0
+offset_right = 689.0
+offset_bottom = 47.0
+text = "Multiplayer ID: -1"
+horizontal_alignment = 1

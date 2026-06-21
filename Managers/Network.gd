@@ -17,8 +17,9 @@ func host_game():
 	Globals.local_player_id = 1
 	launch_game()
 	main_scene.dungeon_creator.build_dungeon(true)
-	var p = main_scene.spawn_player(1)
-	main_scene.set_player_spawn_locations(p)
+	main_scene.player_peers.append(1)
+	#var p = main_scene.spawn_player(1)
+	#main_scene.set_player_spawn_locations(p)
 	
 func join_game(ip_address):
 	peer.create_client(ip_address, PORT)
@@ -45,19 +46,20 @@ func _on_connection_failed():
 
 func _on_peer_connected(id: int):
 	print("Host: ",multiplayer.get_unique_id()," Peer joined the server with ID: ", id)
-	Globals.local_player_id = id	
+	Globals.local_player_id = multiplayer.get_unique_id()		
 	#send the clients the dungeon information from the host session main scene	
-	var p = main_scene.spawn_player(id)
+	#var p = main_scene.spawn_player(id)
 	#print("Spawn position: ", p.position)
 	if multiplayer.is_server():	
-		#print("Host Action->Client")		
-		#var p = main_scene.multiplayer_spawner_players.spawn(id)
-		#var p = main_scene.spawn_player(id)
+		#print("Host Action->Client")
 		client_send_gamesetup_info(id)
-		#Globals.current_main.set_player_spawn_locations(p)
-		var host = main_scene.players_root.get_node_or_null(str(1))
-		rpc_id(id, "client_recv_spawn_position", host.position)
-		main_scene.monster_generator.spawn_monsters()
+		main_scene.player_peers.append(id)
+		
+		if main_scene.player_peers.size() >= main_scene.max_players:
+			for pid in main_scene.player_peers:
+				var p = main_scene.spawn_player(pid)
+
+			main_scene.start_game()
 			
 func _on_peer_disconnected(id: int):
 	print("Peer left the server: ", id)	
