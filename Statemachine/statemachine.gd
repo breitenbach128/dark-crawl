@@ -7,13 +7,11 @@ class_name StateMachine
 var current_state : State
 var states: Dictionary = {}
 
-func _ready() -> void:
-	print("Spawn Enemy on ", multiplayer.get_unique_id(), " " , multiplayer.has_multiplayer_peer())
+func _ready() -> void:	
 	if !multiplayer.is_server():
 		#disable non-server State machine
-		print("MP authority for Enemy ", multiplayer.get_unique_id())
 		process_mode = Node.PROCESS_MODE_DISABLED
-		print("Enemy Process Node ,", process_mode)
+		return
 	
 	for child in get_children():
 		if child is State:

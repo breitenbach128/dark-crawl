@@ -13,7 +13,7 @@ func spawn_monsters():
 	print("Spawning monsters")
 	for spawn in range(0,total_spawns):
 		var new_monster = monster_spawns.pick_random().instantiate()
-		monster_holder.add_child(new_monster)
+		monster_holder.add_child(new_monster,true)
 		var spawn_location_room : RoomData = dungeon.room_list.pick_random()
 		var spawn_cell = spawn_location_room.get_random_world_cell_in_room()
 		var spawn_location = spawn_cell * dungeon.tile_scale

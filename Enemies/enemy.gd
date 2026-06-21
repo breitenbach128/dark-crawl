@@ -11,8 +11,13 @@ class_name Enemy
 @export var animation_player : AnimationPlayer
 @export var animation_tree : AnimationTree
 @export var line_of_sight: RayCast3D
-@export var mp_anim_states : MultiplayerAnimSMReceiver
 
+@export var behavior : String = "Idle":
+	set(new_value):
+		behavior = new_value
+		var anim_sm :AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+		anim_sm.travel(new_value)
+		print("New Behavior State: ", multiplayer.get_unique_id(), " ", new_value)
 
 var gravity = 75.5
 var coin_chance : float = 0.75 #75%

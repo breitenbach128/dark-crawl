@@ -31,8 +31,7 @@ func Enter():
 	atc = enemy.attack_component
 	#Use animation tree for attack timing. If no Anim Tree, then use the set values
 	if enemy.animation_tree:
-		var anim_sm :AnimationNodeStateMachinePlayback = enemy.animation_tree.get("parameters/playback")
-		anim_sm.travel("Attack")
+		enemy.behavior = "Attack"
 	else:
 		use_animtree = false
 	
