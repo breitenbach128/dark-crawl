@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_vtle1"]
 [ext_resource type="Texture2D" uid="uid://j6mtvmwlc185" path="res://art/Player/wizard.png" id="4_x3vf3"]
 [ext_resource type="PackedScene" uid="uid://dql37iq21ntuu" path="res://UI/ui.tscn" id="5_fhl08"]
+[ext_resource type="Script" uid="uid://b3lt0cepn1406" path="res://Managers/CardManager.gd" id="6_fhl08"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -128,3 +129,8 @@ replication_config = SubResource("SceneReplicationConfig_apopc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1036476, 0)
 billboard = 2
 text = "Player"
+
+[node name="CardManager" type="Node2D" parent="." unique_id=1436815673]
+position = Vector2(-240, -240)
+script = ExtResource("6_fhl08")
+metadata/_custom_type_script = "uid://b3lt0cepn1406"

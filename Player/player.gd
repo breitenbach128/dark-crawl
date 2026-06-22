@@ -51,6 +51,7 @@ func _enter_tree():
 		#Remove on UX stuff for puppets
 		camera.queue_free()
 		ui.queue_free()
+		
 	ui.mp_id_label.text = str("Multiplayer ID:",peer_id , " " , multiplayer.is_server())
 	playernamelabel.text = str(peer_id)
 func _ready() -> void:
