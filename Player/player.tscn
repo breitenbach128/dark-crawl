@@ -130,7 +130,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1036476, 0)
 billboard = 2
 text = "Player"
 
-[node name="CardManager" type="Node2D" parent="." unique_id=1436815673]
+[node name="CardManager" type="Node2D" parent="." unique_id=1436815673 node_paths=PackedStringArray("ui", "player")]
 position = Vector2(-240, -240)
 script = ExtResource("6_fhl08")
+ui = NodePath("../CanvasLayer/UI")
+player = NodePath("..")
 metadata/_custom_type_script = "uid://b3lt0cepn1406"

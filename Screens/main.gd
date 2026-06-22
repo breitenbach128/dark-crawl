@@ -13,7 +13,7 @@ class_name MainScene
 @export var multiplayer_spawner_players: MultiplayerSpawner
 
 var player_peers = []
-var max_players = 2
+var max_players = Network.max_players
 
 func _ready() -> void:
 	print("Main Ready")	

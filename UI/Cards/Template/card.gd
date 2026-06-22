@@ -31,6 +31,7 @@ var control_icon_textures : Array[Dictionary] = [
 @export_category("General")
 @export var card_type : CARD_CATEGORIES
 @export var card_name : String = "Card Name"
+@export var card_data : Dictionary = {"id":-1,"res":""} #Card Id for each distinct card. There can be copies
 @export var control_icon : TextureRect
 @export var cd_progress_bar : ProgressBar
 @export var energy : int = 5 #How much "Ammo" does the card have?
@@ -203,6 +204,12 @@ func add_to_discard_pile(holder_node : Control):
 	holder_node.queue_free()
 	print(card_name, " added to discard pile")
 	ui.discard_complete()
+
+func reset_card():
+	is_discarded = false
+	energy = max_energy
+	card_ready = true
+	update_energy_display()
 
 func _on_cool_down_timeout() -> void:	
 	if energy == 0 && is_discarded == false:

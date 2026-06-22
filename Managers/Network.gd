@@ -6,6 +6,7 @@ const MAIN_GAME_RES = "res://Screens/main.tscn"
 const PLAYER_RES = "res://Player/player.tscn"
 var main_scene : MainScene
 var player_scene
+var max_players = 1
 
 #Game Setup Variables for Clients
 var client_dungeon_data : Dictionary

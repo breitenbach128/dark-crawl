@@ -29,25 +29,12 @@ enum SCREEN_FLASH_TYPE {HURT, HEAL, AURA, ZONE}
 
 
 func _ready() -> void:
-	
-	
-	#Create first hand of cards
-	for i in range(0,5):
-		var pick_hand_card = load(Globals.card_db.pick_random().res).instantiate()
-		card_hand.add_child(pick_hand_card,true)
-		pick_hand_card.player = player
-		pick_hand_card.ui = self
-		var pick_deck_card = load(Globals.card_db.pick_random().res).instantiate()
-		card_deck.add_child(pick_deck_card,true)
-		pick_deck_card.player = player
-		pick_deck_card.ui = self
-		pick_deck_card.visible = false
 		
 	#Connect UI to Player Signals
 	if player:
 		player.health_component.health_changed.connect(update_ui_display_health)
 		update_ui_display_health(player.health_component.health,player.health_component.health_max,0)
-		draw_card()#Initial Draw
+		
 
 
 func update_ui_display_health(hp : float,hpmax : float,change):
@@ -164,10 +151,7 @@ func shuffle_discard_into_desk():
 	print("SHUFFLE DISCARD INTO DECK ", discard_deck.get_child_count())
 	for card : Card in discard_deck.get_children():
 		card.reparent(card_deck, false)
-		card.is_discarded = false
-		card.energy = card.max_energy
-		card.card_ready = true
-		card.update_energy_display()
+		card.reset_card()
 	print("DECK COUNT POST SHUFFLE ", card_deck.get_child_count())
 	discard_count_label.text = str(discard_deck.get_child_count())
 	
