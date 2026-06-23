@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_vtle1"]
 [ext_resource type="Texture2D" uid="uid://j6mtvmwlc185" path="res://art/Player/wizard.png" id="4_x3vf3"]
 [ext_resource type="PackedScene" uid="uid://dql37iq21ntuu" path="res://UI/ui.tscn" id="5_fhl08"]
-[ext_resource type="Script" uid="uid://b3lt0cepn1406" path="res://Managers/CardManager.gd" id="6_fhl08"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -59,7 +58,7 @@ properties/2/path = NodePath(".:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("camera", "right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "playernamelabel", "health_component", "gun_sprite") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("camera", "right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "playernamelabel", "health_component", "gun_sprite", "card_manager") groups=["Player"]]
 script = ExtResource("1_l8h54")
 camera = NodePath("Camera3D")
 right_hand = NodePath("Camera3D/RightHand")
@@ -71,6 +70,7 @@ subviewport = NodePath("SubViewport")
 playernamelabel = NodePath("PlayerName")
 health_component = NodePath("HealthComponent")
 gun_sprite = NodePath("Camera3D/GunSprite")
+card_manager = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=976178556]
 shape = SubResource("CapsuleShape3D_lquwl")
@@ -129,10 +129,3 @@ replication_config = SubResource("SceneReplicationConfig_apopc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1036476, 0)
 billboard = 2
 text = "Player"
-
-[node name="CardManager" type="Node2D" parent="." unique_id=1436815673 node_paths=PackedStringArray("ui", "player")]
-position = Vector2(-240, -240)
-script = ExtResource("6_fhl08")
-ui = NodePath("../CanvasLayer/UI")
-player = NodePath("..")
-metadata/_custom_type_script = "uid://b3lt0cepn1406"

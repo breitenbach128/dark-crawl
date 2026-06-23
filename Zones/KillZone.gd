@@ -14,7 +14,7 @@ func _ready() -> void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	print("Killzone: ",body)
+	#print("Killzone: ",body)
 	if body is Player:
 		body.position = get_node("/root/Main/Rooms").get_child(0).position
 		

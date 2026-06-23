@@ -24,6 +24,7 @@ buses/default_bus_layout="uid://xwoerv2jfisw"
 SoundManager="*uid://cwdhxl7qg44mc"
 Globals="*uid://w62jw118cavu"
 Network="*uid://34tiuucikhpi"
+CardManager="*uid://b3lt0cepn1406"
 
 [display]
 

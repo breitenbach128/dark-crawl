@@ -36,6 +36,7 @@ enum GUNS {BLASTER=0}
 #nodes
 @export_category("Sprites")
 @export var gun_sprite : AnimatedSprite3D
+@export var card_manager: CardManager
 
 func _enter_tree():
 	# 2. Set the owner's multiplayer ID
@@ -47,6 +48,7 @@ func _enter_tree():
 		camera.make_current()
 		var viewport_texture: ViewportTexture = subviewport.get_texture()
 		ui.TopDownDisplay.texture = viewport_texture
+		
 	else:
 		#Remove on UX stuff for puppets
 		camera.queue_free()
@@ -58,7 +60,7 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		Globals.local_player = self
-		
+		CardManager.init_card_manager(self)
 	
 func _process(delta: float) -> void:
 	if is_multiplayer_authority():
