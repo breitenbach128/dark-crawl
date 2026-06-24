@@ -49,9 +49,7 @@ func _on_connection_failed():
 func _on_peer_connected(id: int):
 	print("Host: ",multiplayer.get_unique_id()," Peer joined the server with ID: ", id)
 	Globals.local_player_id = multiplayer.get_unique_id()		
-	#send the clients the dungeon information from the host session main scene	
-	#var p = main_scene.spawn_player(id)
-	#print("Spawn position: ", p.position)
+
 	if multiplayer.is_server():	
 		#print("Host Action->Client")
 		client_send_gamesetup_info(id)
@@ -85,6 +83,9 @@ func client_recv_gamesetup_info(dungeon_data : Dictionary):
 	client_dungeon_data = dungeon_data
 	Globals.current_main.dungeon_creator.build_dungeon(false)
 	
+func get_local_player_instance():	
+	var p = Globals.current_main.players_root.get_children().filter(func(p): return p.name.to_int() == multiplayer.get_unique_id())
+	return p
 	
 func client_send_gamesetup_info(id : int):
 	if Globals.current_main is not MainScene:

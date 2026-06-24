@@ -8,6 +8,8 @@ var discard_pile : Array = []
 var player_cards : Array[Dictionary] = []
 var ui : HUD #Reference to HUD for actions
 var player : Player
+var card_db : Array[Dictionary] = []
+
 signal gain_card #Add a card to the deck
 signal discard_card #Remove a card from your hand
 signal remove_card #Remove a card from the game
@@ -32,6 +34,24 @@ signal draw_card #Add a card to the hand
 
 #Client presses "use card" and it sends to server, which replies back to call use_card func
 
+func _ready() -> void:
+	var card_scenes = Globals.get_scenes_in_folder("res://UI/Cards/")
+	card_scenes.sort_custom(func(a, b): return a < b)
+	
+	for cs in range(0,card_scenes.size()):
+		card_db.append({
+			"id":cs,
+			"res":card_scenes[cs]
+		})
+	#print("CardDB: ", card_db)
+
+func get_carddb_index_by_id(id: int):
+	var f = -1
+	for c in range(0,card_db.size()-1):
+		if card_db[c].id == id:
+			f = card_db[c].id
+	return f
+
 func init_host_card_manager(p: Player) -> void:
 	player = p
 	ui = player.ui
@@ -42,26 +62,29 @@ func init_host_card_manager(p: Player) -> void:
 		"player": player,
 		"deck" : [],
 		"hand" : [],
-		"discard" : []
+		"discard" : [],
+		"client_ready" : false
 	})
 	for i in range(0,hand_size*2):
 		build_starting_deck(player_cards.size()-1)	
-		
-	draw_new_hand(player_cards.size()-1)
+
+
 	var pid = player.name.to_int()
 	if pid != 1:
-		var card_hand_ids : Array = player_cards[player_cards.size()-1].hand.map(func(card): return {"id":card.card_data.id,"name":card.name})
-		client_rcv_starting_hand.rpc_id(pid,{"hand":card_hand_ids})
+		var card_deck_ids : Array = player_cards[player_cards.size()-1].deck.map(func(card): return {"id":card.card_data.id,"name":card.name})
+		client_rcv_starting_deck.rpc_id(pid,{"deck":card_deck_ids})
+	
+	draw_new_hand(player_cards.size()-1)
 
-		
 
-		
-@rpc("any_peer", "call_local", "reliable")
+
+@rpc("any_peer", "call_remote", "reliable")
 func server_receive_client_ready_status():
-	print("Client Card Manager Ready: ", multiplayer.get_remote_sender_id(), " for player:" ,player.name.to_int(), " server: ", multiplayer.get_unique_id())
-	#var card_ids = card_deck.map(func(obj): return obj.card_data)	
-	print("Card Deck:", card_deck)
-	#client_receive_starting_deck_info.rpc_id(multiplayer.get_remote_sender_id(),card_ids)
+	print("Client Card Manager Ready: Client:", multiplayer.get_remote_sender_id(), " server: ", multiplayer.get_unique_id())
+	var p_card_index = player_cards.find_custom(func(p): return p.pid == multiplayer.get_remote_sender_id())
+	if p_card_index != -1:
+		print("Server Card Deck: for client -> ", player_cards[p_card_index].deck)
+	
 	
 @rpc("authority", "call_remote", "reliable")
 func client_receive_starting_deck_info( deck_ids: Array):
@@ -69,7 +92,7 @@ func client_receive_starting_deck_info( deck_ids: Array):
 
 func build_starting_deck(player_index):
 	
-	var rand_card = Globals.card_db.pick_random()
+	var rand_card = card_db.pick_random()
 	var pick_card = load(rand_card.res).instantiate()
 	player_cards[player_index].deck.append(pick_card)
 	if ui:		
@@ -99,9 +122,19 @@ func draw_new_hand(player_index):
 	print("Drew New Hand for ", player_cards[player_index].player.name)
 
 @rpc("authority", "call_remote", "reliable")
-func client_rcv_starting_hand(data : Dictionary):
-	print("Client Rcv, hand: ", data)
+func client_rcv_starting_deck(data : Dictionary):
+	print("Client Rcv, Deck: ", data)
 	
+	for c in data.deck:		
+		var card_data = card_db[get_carddb_index_by_id(c.id)]
+		var new_card = load(card_data.res).instantiate()
+		#print("Client, Local Player: ", Network.get_local_player_instance())
+		#Globals.local_player.ui.card_deck.add_child(new_card,true)
+		#new_card.player = Globals.local_player
+		#new_card.ui = Globals.local_player.ui
+		#new_card.card_data = card_data
+		#new_card.visible = false
+		
 @rpc("authority", "call_remote", "reliable")
 func client_rcv_draw_card(data : Dictionary):
 	print("Client Rcv, draw card: ", data)
@@ -110,6 +143,7 @@ func draw_card_from_deck(player_index):
 	var card: Card = player_cards[player_index].deck.pop_front()
 	player_cards[player_index].hand.append(card)
 	if player_cards[player_index].pid != 1:
+		#RPC CALL TO CLIENT - DRAW CARD
 		client_rcv_draw_card.rpc_id(player_cards[player_index].pid,{"cardname":card.name})
 	if ui:
 		pass

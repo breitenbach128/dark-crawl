@@ -52,6 +52,8 @@ func _enter_tree():
 		ui.TopDownDisplay.texture = viewport_texture		
 		ui.mp_id_label.text = str("Multiplayer ID:",peer_id , " " , multiplayer.is_server())		
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		if peer_id != 1:
+			CardManager.server_receive_client_ready_status.rpc_id(1)
 	else:
 		#Remove on UX stuff for puppets
 		print("Puppet: removing UI")

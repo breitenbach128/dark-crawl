@@ -5,19 +5,11 @@ var local_player : Player
 var local_player_id : int 
 var current_main : Node3D
 
-var card_db : Array[Dictionary] = []
+
 
 
 func _ready() -> void:
-	var card_scenes = get_scenes_in_folder("res://UI/Cards/")
-	card_scenes.sort_custom(func(a, b): return a < b)
-	
-	for cs in range(0,card_scenes.size()):
-		card_db.append({
-			"id":cs,
-			"res":card_scenes[cs]
-		})
-	#print("CardDB: ", card_db)
+	pass
 	
 	
 func get_scenes_in_folder(folder_path: String) -> Array[String]:
