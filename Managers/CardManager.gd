@@ -5,6 +5,7 @@ var card_deck : Array= []
 var card_hand : Array = []
 var hand_size : int = 5
 var discard_pile : Array = []
+var player_cards : Array[Dictionary] = []
 var ui : HUD #Reference to HUD for actions
 var player : Player
 signal gain_card #Add a card to the deck
@@ -31,24 +32,29 @@ signal draw_card #Add a card to the hand
 
 #Client presses "use card" and it sends to server, which replies back to call use_card func
 
-func init_card_manager(p: Player) -> void:
+func init_host_card_manager(p: Player) -> void:
 	player = p
 	ui = player.ui
-	print("Card Manager Setup")
-	#Create first hand of cards
-	#if multiplayer.is_server():
-		#create_starting_deck()
-		#
-	#if multiplayer.get_unique_id() != 1:
-		#if player.name.to_int() == multiplayer.get_unique_id():
-			#server_receive_client_ready_status.rpc_id(1)
-		
-func create_starting_deck():
-	print("Player: ", player.name, " starting deck created on server")
+	print("Card Manager Setup for: ", player.name, " on host")	
+	
+	player_cards.append({
+		"pid": player.name.to_int(),
+		"player": player,
+		"deck" : [],
+		"hand" : [],
+		"discard" : []
+	})
 	for i in range(0,hand_size*2):
-		draw_starting_card()	
-	if ui:
-		ui.draw_card()#Initial Draw
+		build_starting_deck(player_cards.size()-1)	
+		
+	draw_new_hand(player_cards.size()-1)
+	var pid = player.name.to_int()
+	if pid != 1:
+		var card_hand_ids : Array = player_cards[player_cards.size()-1].hand.map(func(card): return {"id":card.card_data.id,"name":card.name})
+		client_rcv_starting_hand.rpc_id(pid,{"hand":card_hand_ids})
+
+		
+
 		
 @rpc("any_peer", "call_local", "reliable")
 func server_receive_client_ready_status():
@@ -61,18 +67,20 @@ func server_receive_client_ready_status():
 func client_receive_starting_deck_info( deck_ids: Array):
 	print(player.name.to_int(), " - Received Starting Deck info-> ", deck_ids)
 
-func draw_starting_card():
+func build_starting_deck(player_index):
+	
 	var rand_card = Globals.card_db.pick_random()
 	var pick_card = load(rand_card.res).instantiate()
-	card_deck.append(pick_card)
-	if ui:
+	player_cards[player_index].deck.append(pick_card)
+	if ui:		
 		ui.card_deck.add_child(pick_card,true)
 		pick_card.player = player
 		pick_card.ui = ui
 		pick_card.card_data = rand_card
 		pick_card.visible = false
-	else:
-		add_child(pick_card,true)
+	else:		
+		player.client_cards.add_child(pick_card,true)
+	
 
 func is_hand_space_available():
 	if card_hand.size() < hand_size:
@@ -85,9 +93,24 @@ func add_card_to_deck(card: Card):
 	if ui:
 		pass
 
-func draw_card_from_deck():
-	var card: Card = card_deck.pop_front()
-	card_hand.append(card)
+func draw_new_hand(player_index):
+	for i in range(0,hand_size):
+		draw_card_from_deck(player_index)
+	print("Drew New Hand for ", player_cards[player_index].player.name)
+
+@rpc("authority", "call_remote", "reliable")
+func client_rcv_starting_hand(data : Dictionary):
+	print("Client Rcv, hand: ", data)
+	
+@rpc("authority", "call_remote", "reliable")
+func client_rcv_draw_card(data : Dictionary):
+	print("Client Rcv, draw card: ", data)
+	
+func draw_card_from_deck(player_index):
+	var card: Card = player_cards[player_index].deck.pop_front()
+	player_cards[player_index].hand.append(card)
+	if player_cards[player_index].pid != 1:
+		client_rcv_draw_card.rpc_id(player_cards[player_index].pid,{"cardname":card.name})
 	if ui:
 		pass
 

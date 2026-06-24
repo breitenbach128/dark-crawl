@@ -18,6 +18,7 @@ class_name Player
 @export var tracking_cam: Camera3D
 @export var subviewport : SubViewport
 @export var playernamelabel: Label3D
+@export var client_cards : Control
 
 var jump_velocity : float = 25.5
 var movement_speed : float = 8.0
@@ -39,28 +40,31 @@ enum GUNS {BLASTER=0}
 @export var card_manager: CardManager
 
 func _enter_tree():
-	# 2. Set the owner's multiplayer ID
+	#Set the owner's multiplayer ID
 	var peer_id = str(name).to_int()
 	set_multiplayer_authority(peer_id)
 	print("Setting as MP authority: ",peer_id)
 	if peer_id == multiplayer.get_unique_id():
-		#If this is the active player instance for MP
+		Globals.local_player = self
+		#Local Player UI stuff
 		camera.make_current()
 		var viewport_texture: ViewportTexture = subviewport.get_texture()
-		ui.TopDownDisplay.texture = viewport_texture
-		
+		ui.TopDownDisplay.texture = viewport_texture		
+		ui.mp_id_label.text = str("Multiplayer ID:",peer_id , " " , multiplayer.is_server())		
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
 		#Remove on UX stuff for puppets
-		camera.queue_free()
-		ui.queue_free()
-		
-	ui.mp_id_label.text = str("Multiplayer ID:",peer_id , " " , multiplayer.is_server())
+		print("Puppet: removing UI")
+		camera.free()
+		ui.free()
+
+	if multiplayer.is_server():
+		print("Player UI? ", ui)
+		CardManager.init_host_card_manager(self)		
+
 	playernamelabel.text = str(peer_id)
 func _ready() -> void:
-	if is_multiplayer_authority():
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		Globals.local_player = self
-		CardManager.init_card_manager(self)
+	pass
 	
 func _process(delta: float) -> void:
 	if is_multiplayer_authority():

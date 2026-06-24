@@ -66,7 +66,6 @@ func start_network_game():
 	if main_scene.player_peers.size() >= main_scene.max_players:
 		for pid in main_scene.player_peers:
 			var p : Player= main_scene.spawn_player(pid)
-		
 		main_scene.start_game()
 
 func launch_game():	

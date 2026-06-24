@@ -17,7 +17,7 @@ func _ready() -> void:
 			"id":cs,
 			"res":card_scenes[cs]
 		})
-	print(card_db)
+	#print("CardDB: ", card_db)
 	
 	
 func get_scenes_in_folder(folder_path: String) -> Array[String]:

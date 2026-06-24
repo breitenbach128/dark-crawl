@@ -42,6 +42,10 @@ offset_bottom = 212.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
 script = ExtResource("1_7cni3")
 card_name = "Short Sword"
+card_data = {
+"id": 6,
+"res": ""
+}
 control_icon = NodePath("ControlIcon")
 cd_progress_bar = NodePath("CoolDownBar")
 energy = 6

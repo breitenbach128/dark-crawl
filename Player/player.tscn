@@ -58,7 +58,7 @@ properties/2/path = NodePath(".:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("camera", "right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "playernamelabel", "health_component", "gun_sprite", "card_manager") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("camera", "right_hand", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "playernamelabel", "client_cards", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
 camera = NodePath("Camera3D")
 right_hand = NodePath("Camera3D/RightHand")
@@ -68,9 +68,9 @@ ui = NodePath("CanvasLayer/UI")
 tracking_cam = NodePath("SubViewport/TopDownCam")
 subviewport = NodePath("SubViewport")
 playernamelabel = NodePath("PlayerName")
+client_cards = NodePath("ClientCards")
 health_component = NodePath("HealthComponent")
 gun_sprite = NodePath("Camera3D/GunSprite")
-card_manager = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=976178556]
 shape = SubResource("CapsuleShape3D_lquwl")
@@ -129,3 +129,9 @@ replication_config = SubResource("SceneReplicationConfig_apopc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1036476, 0)
 billboard = 2
 text = "Player"
+
+[node name="ClientCards" type="Control" parent="." unique_id=1088971101]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
