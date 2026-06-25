@@ -67,29 +67,21 @@ func init_host_card_manager(p: Player) -> void:
 	})
 	for i in range(0,hand_size*2):
 		build_starting_deck(player_cards.size()-1)	
-
-
-	var pid = player.name.to_int()
-	if pid != 1:
-		var card_deck_ids : Array = player_cards[player_cards.size()-1].deck.map(func(card): return {"id":card.card_data.id,"name":card.name})
-		client_rcv_starting_deck.rpc_id(pid,{"deck":card_deck_ids})
 	
-	draw_new_hand(player_cards.size()-1)
+	#draw_new_hand(player_cards.size()-1)
 
 
-
+## Run this function when the clients card manager responds it is ready to receive data
 @rpc("any_peer", "call_remote", "reliable")
 func server_receive_client_ready_status():
 	print("Client Card Manager Ready: Client:", multiplayer.get_remote_sender_id(), " server: ", multiplayer.get_unique_id())
 	var p_card_index = player_cards.find_custom(func(p): return p.pid == multiplayer.get_remote_sender_id())
 	if p_card_index != -1:
 		print("Server Card Deck: for client -> ", player_cards[p_card_index].deck)
-	
-	
-@rpc("authority", "call_remote", "reliable")
-func client_receive_starting_deck_info( deck_ids: Array):
-	print(player.name.to_int(), " - Received Starting Deck info-> ", deck_ids)
+		var card_deck_ids : Array = player_cards[p_card_index].deck.map(func(card): return {"id":card.card_data.id,"name":card.name})
+		client_rcv_starting_deck.rpc_id(multiplayer.get_remote_sender_id(),{"deck":card_deck_ids})
 
+## Server only. Building the server starting deck for each player that is in game.
 func build_starting_deck(player_index):
 	
 	var rand_card = card_db.pick_random()
@@ -103,8 +95,23 @@ func build_starting_deck(player_index):
 		pick_card.visible = false
 	else:		
 		player.client_cards.add_child(pick_card,true)
-	
 
+## Client Only. Build starting deck from server information
+@rpc("authority", "call_remote", "reliable")
+func client_rcv_starting_deck(data : Dictionary):
+	print("Client Rcv, Deck: ", data)
+	
+	for c in data.deck:		
+		var card_data = card_db[get_carddb_index_by_id(c.id)]
+		var new_card = load(card_data.res).instantiate()
+		#print("Client, Local Player: ", Network.get_local_player_instance())
+		Globals.local_player.ui.card_deck.add_child(new_card,true)
+		new_card.player = Globals.local_player
+		new_card.ui = Globals.local_player.ui
+		new_card.card_data = card_data
+		new_card.visible = false	
+
+## Check if there is space to draw a card
 func is_hand_space_available():
 	if card_hand.size() < hand_size:
 		return true
@@ -121,30 +128,21 @@ func draw_new_hand(player_index):
 		draw_card_from_deck(player_index)
 	print("Drew New Hand for ", player_cards[player_index].player.name)
 
-@rpc("authority", "call_remote", "reliable")
-func client_rcv_starting_deck(data : Dictionary):
-	print("Client Rcv, Deck: ", data)
-	
-	for c in data.deck:		
-		var card_data = card_db[get_carddb_index_by_id(c.id)]
-		var new_card = load(card_data.res).instantiate()
-		#print("Client, Local Player: ", Network.get_local_player_instance())
-		#Globals.local_player.ui.card_deck.add_child(new_card,true)
-		#new_card.player = Globals.local_player
-		#new_card.ui = Globals.local_player.ui
-		#new_card.card_data = card_data
-		#new_card.visible = false
-		
+
+## Client Only. Receive the action to draw a new card from the deck.
 @rpc("authority", "call_remote", "reliable")
 func client_rcv_draw_card(data : Dictionary):
 	print("Client Rcv, draw card: ", data)
-	
+
+
+
 func draw_card_from_deck(player_index):
 	var card: Card = player_cards[player_index].deck.pop_front()
 	player_cards[player_index].hand.append(card)
 	if player_cards[player_index].pid != 1:
 		#RPC CALL TO CLIENT - DRAW CARD
-		client_rcv_draw_card.rpc_id(player_cards[player_index].pid,{"cardname":card.name})
+		#client_rcv_draw_card.rpc_id(player_cards[player_index].pid,{"cardname":card.name})
+		pass
 	if ui:
 		pass
 

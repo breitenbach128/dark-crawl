@@ -10,6 +10,7 @@ class_name Player
 @export_category("Aimming")
 @export var camera : Camera3D
 @export var right_hand : Node3D
+@export var center_aim : Node3D
 @export var left_hand : Node3D
 @export var gun_raycast : RayCast3D
 

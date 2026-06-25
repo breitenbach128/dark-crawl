@@ -111,7 +111,7 @@ func get_attack_origin():
 		1:
 			return player.right_hand
 		2:
-			return player.camera
+			return player.center_aim
 		3:
 			return player.left_hand
 		4:
