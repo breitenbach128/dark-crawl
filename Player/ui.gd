@@ -39,8 +39,6 @@ func _ready() -> void:
 
 func update_ui_display_health(hp : float,hpmax : float,change):
 	var hp_change_percent : float = snapped((hp/hpmax),0.01)
-	#print("HP: ", hp, " HPMAX: ", hpmax)
-	#print(hp_change_percent," ",(hp/hpmax))
 	if change < 0:
 		screen_flash(SCREEN_FLASH_TYPE.HURT, 1-hp_change_percent)
 		pass
@@ -59,31 +57,6 @@ func screen_flash(type : SCREEN_FLASH_TYPE, intensity : float):
 			var tween = create_tween()
 			tween.tween_property(hurt_rect,"color",Color(1,0,0,0),0.2)
 			tween.tween_callback(func(): hurt_rect.queue_free())
-
-
-func get_next_card():
-	var cards = card_hand.get_children()
-	if cards.size() > 0:
-		var next_index = selected_card_index + 1
-		if next_index >= card_hand.get_child_count():
-			next_index = 0
-		select_card(next_index)
-		
-func get_prev_card():
-	var cards = card_hand.get_children()
-	if cards.size() > 0:
-		var next_index = selected_card_index - 1
-		if next_index < 0:
-			next_index = card_hand.get_child_count()-1
-		select_card(next_index)
-		
-func select_card(index):
-		for c : Card in card_hand.get_children():
-			c.deselected()
-		selected_card_index = index
-		selected_card = card_hand.get_child(selected_card_index)
-		selected_card.selected()
-		debug_card_index.text = str(selected_card_index)
 
 func draw_card():	
 	#ASSUMPTION - STARTING DECK EXISTS
@@ -126,11 +99,11 @@ func take_card(top_card : Card):
 	top_card.drawn(card_hand.get_child_count() - 1,self,player)	
 	update_card_control_icons()
 	deck_count_label.text = str(card_deck.get_child_count())
-	if card_hand.get_child_count() < max_hand_size:
-		print("need more cards for max hand")
-		draw_card()
-	else:
-		is_drawing_hand = false
+	#if card_hand.get_child_count() < max_hand_size:
+		#print("need more cards for max hand")
+		#draw_card()
+	#else:
+		#is_drawing_hand = false
 
 
 func discard_complete():
@@ -152,20 +125,17 @@ func shuffle_discard_into_desk():
 	for card : Card in discard_deck.get_children():
 		card.reparent(card_deck, false)
 		card.reset_card()
-	print("DECK COUNT POST SHUFFLE ", card_deck.get_child_count())
+	print("DECK COUNT POST SHUFFLE ", card_deck.get_child_count())	
+	update_card_area_labels()
+
+func update_card_area_labels():
 	discard_count_label.text = str(discard_deck.get_child_count())
-	
+
 func update_card_control_icons():
 	for cardindex in card_hand.get_child_count():
 		card_hand.get_child(cardindex).update_control_texture(cardindex)
-		
 
-func _input(event):
-	if event.is_action_pressed("select_next_card"):
-		get_next_card()
-	if event.is_action_pressed("select_prev_card"):
-		get_prev_card()
-		
+
 func ui_update_effect_display_area():
 	if player:
 		#Clear First:
