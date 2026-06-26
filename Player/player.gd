@@ -78,6 +78,8 @@ func _physics_process(delta: float) -> void:
 	move(delta)
 	
 func _input(event):
+	#if not DisplayServer.window_is_focused():
+		#return
 	if is_multiplayer_authority():
 		#MOUSE LOOK CODE	
 		if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -99,33 +101,23 @@ func _input(event):
 		
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-				run_card(0)
+				CardManager.run_card.rpc_id(1,0)
 			if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-				run_card(1)
+				CardManager.run_card.rpc_id(1,1)
 			if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
-				run_card(2)
+				CardManager.run_card.rpc_id(1,2)
 		
 		if event is InputEventKey:
 			if Input.is_action_just_pressed("action_slot_four"):
-				run_card(3)
+				CardManager.run_card.rpc_id(1,3)
 			if Input.is_action_just_pressed("action_slot_five"):
-				run_card(4)
+				CardManager.run_card.rpc_id(1,4)
 			if Input.is_action_just_pressed("draw_card_force"):
 				ui.draw_card()
 			if Input.is_action_just_pressed("discard_card_force"):
 				if ui.card_hand.get_child_count() > 0:
 					ui.discard_card(ui.card_hand.get_children()[0])
 					
-
-@rpc("any_peer", "call_local", "reliable")
-func run_card(index):
-	print("ID: ", multiplayer.get_unique_id(), " runs card at hand index: ", index)
-	#if ui.card_hand.get_child_count() > index:
-		#var card : Card = ui.card_hand.get_child(index)
-		#if card.card_ready:
-			##print("Running Card: ", card.card_name)
-			#gun_sprite.play("shoot")
-			#card.use_card()
 
 func move(delta):
 	if is_multiplayer_authority():

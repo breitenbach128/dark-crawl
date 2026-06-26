@@ -40,7 +40,8 @@ func spawn_player(id : int):
 	return new_player
 
 func start_game():
-	monster_generator.spawn_monsters()
+	pass
+	#monster_generator.spawn_monsters()
 
 func _on_multiplayer_spawner_players_spawned(p: Player) -> void:
 	print("Spawned Player, " , p)

@@ -76,7 +76,7 @@ func draw_card():
 		var hand_count = card_hand.get_child_count()
 		var min_card_size_x = 160	
 		drop_position += Vector2((min_card_size_x+card_hand.get_theme_constant("separation"))*hand_count,0)
-		var top_card : Card = card_deck.get_child(0)
+		var top_card : Card = card_deck.get_child(0)		
 		top_card.visible = true
 		top_card.reparent(self,true)
 		

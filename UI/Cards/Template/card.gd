@@ -54,7 +54,7 @@ var max_energy : int = 5
 @export var self_effects : Node
 
 
-var card_hand_index : int  = 0
+var card_hand_index : int  = -1
 var player : Player #Belongs to this play
 var ui : HUD #UI reference for performing actions
 var card_ready : bool = true
@@ -82,21 +82,21 @@ func update_energy_display():
 #@rpc("any_peer", "call_local", "reliable", 0)
 func use_card():
 	energy = max(0,energy - 1)
-	cooldownTimer.start()	
+	cooldownTimer.start()
 	card_ready = false
 	cd_progress_bar.value = cd_progress_bar.max_value
 		
-	#print("Card Energy is now: ", energy)
-	update_energy_display()
-	match card_type:
-		CARD_CATEGORIES.MELEE:
-			attack_action()
-		CARD_CATEGORIES.RANGED:
-			attack_action()
-		CARD_CATEGORIES.DEFENSE:
-			activate_effects()
-		CARD_CATEGORIES.UTILITY:			
-			activate_effects()
+	print(name, " Energy is now: ", energy)
+	#update_energy_display()
+	#match card_type:
+		#CARD_CATEGORIES.MELEE:
+			#attack_action()
+		#CARD_CATEGORIES.RANGED:
+			#attack_action()
+		#CARD_CATEGORIES.DEFENSE:
+			#activate_effects()
+		#CARD_CATEGORIES.UTILITY:			
+			#activate_effects()
 
 func activate_effects():
 	if self_effects.get_child_count():
@@ -213,5 +213,6 @@ func reset_card():
 
 func _on_cool_down_timeout() -> void:	
 	if energy == 0 && is_discarded == false:
-		ui.discard_card(self)
+		#ui.discard_card(self)
+		pass
 	card_ready = true
