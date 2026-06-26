@@ -67,8 +67,10 @@ func init_host_card_manager(p: Player) -> void:
 	})
 	for i in range(0,hand_size*2):
 		build_starting_deck(player_cards.size()-1)	
-	
-	#draw_new_hand(player_cards.size()-1)
+		
+	if player.name.to_int() == 1: #Server is always ready
+		player_cards[player_cards.size()-1].client_ready = true
+
 
 ## Utility to get player index in player_cards array
 func get_player_index_by_pid(pid):
@@ -108,15 +110,29 @@ func client_rcv_starting_deck(data : Dictionary):
 		new_card.visible = false	
 	
 	#Client needs to send ready state to begin normal deck flow
-	client_requests_card.rpc_id(1)
-
-## Server Only. Client requests a card
+	client_deck_is_ready.rpc_id(1)
+	#client_requests_card.rpc_id(1)
+	
+## Server Only. Client is ready to receive new cards
+@rpc("any_peer", "call_remote", "reliable")
+func client_deck_is_ready():
+	var player_index=get_player_index_by_pid(multiplayer.get_remote_sender_id()) 
+	player_cards[player_index].client_ready = true
+	var players_ready =  player_cards.filter(func(p): return p.client_ready==true)
+	if players_ready.size() == Network.max_players:
+		#Game is ready to start:
+		print("All Players are ready to draw cards!")
+		for p in range(0,players_ready.size()):
+			draw_new_hand(p)
+		
+## Server Only. Client requests a card / restock of their hand
 @rpc("any_peer", "call_remote", "reliable")
 func client_requests_card():
 	print("Client :",multiplayer.get_remote_sender_id(), " requests card from Server: ", multiplayer.get_unique_id())
 	var p_index=get_player_index_by_pid(multiplayer.get_remote_sender_id()) 
 	# Check if space is available in hand
 	draw_new_hand(p_index)
+
 
 ## Check if there is space to draw a card
 func is_hand_space_available(player_index):	
@@ -157,9 +173,8 @@ func draw_card_from_deck(player_index):
 	if player_cards[player_index].pid != 1:
 		#RPC CALL TO CLIENT - DRAW CARD
 		client_rcv_draw_card.rpc_id(player_cards[player_index].pid,{"cardname":card.name})
-		pass
-	if ui:
-		pass
+	else:
+		Globals.local_player.ui.draw_card()
 
 func discard_card_from_hand(player_index, card_index):
 	var card: Card = player_cards[player_index].hand.pop_at(card_index)

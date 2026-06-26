@@ -63,7 +63,7 @@ func _enter_tree():
 
 	if multiplayer.is_server():
 		print("Player UI? ", ui)
-		CardManager.init_host_card_manager(self)		
+		CardManager.init_host_card_manager(self)
 
 	playernamelabel.text = str(peer_id)
 func _ready() -> void:
@@ -117,14 +117,15 @@ func _input(event):
 					ui.discard_card(ui.card_hand.get_children()[0])
 					
 
-#@rpc("any_peer", "call_remote", "reliable")
-func run_card(index):	
-	if ui.card_hand.get_child_count() > index:
-		var card : Card = ui.card_hand.get_child(index)
-		if card.card_ready:
-			#print("Running Card: ", card.card_name)
-			gun_sprite.play("shoot")
-			card.use_card()
+@rpc("any_peer", "call_local", "reliable")
+func run_card(index):
+	print("ID: ", multiplayer.get_unique_id(), " runs card at hand index: ", index)
+	#if ui.card_hand.get_child_count() > index:
+		#var card : Card = ui.card_hand.get_child(index)
+		#if card.card_ready:
+			##print("Running Card: ", card.card_name)
+			#gun_sprite.play("shoot")
+			#card.use_card()
 
 func move(delta):
 	if is_multiplayer_authority():
