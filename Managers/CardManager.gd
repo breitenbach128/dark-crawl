@@ -10,10 +10,10 @@ var ui : HUD #Reference to HUD for actions
 var player : Player
 var card_db : Array[Dictionary] = []
 
-signal gain_card #Add a card to the deck
-signal discard_card #Remove a card from your hand
-signal remove_card #Remove a card from the game
-signal draw_card #Add a card to the hand
+#signal gain_card #Add a card to the deck
+#signal discard_card #Remove a card from your hand
+#signal remove_card #Remove a card from the game
+#signal draw_card #Add a card to the hand
 
 #each player should have a card deck/hand/discard array. May require a new dictionary
 #Use that to track the cards in each one. I can still create the cards, 

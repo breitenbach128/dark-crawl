@@ -82,7 +82,8 @@ func activate_effect():
 func set_target(t):
 	target = t
 ## For passive effects, such as modifications to health, this changes the base state
-func apply_effects(mod : int):	
+func apply_effects(mod : int):
+	effect_begin.emit()
 	#print("Applying Effect, ", effect_name, " " , mod, " duration_count ", duration_count)
 	if duration_count > 0 && duration_ticks == 0:
 		duration_timer.wait_time = duration_tick_time

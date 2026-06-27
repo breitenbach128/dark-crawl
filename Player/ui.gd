@@ -142,8 +142,8 @@ func update_card_control_icons():
 	for cardindex in card_hand.get_child_count():
 		card_hand.get_child(cardindex).update_control_texture(cardindex)
 
-
-func ui_update_effect_display_area():
+## Client side effect visual diplay update
+func update_effect_display_area():
 	if player:
 		#Clear First:
 		for prev_ef_icon in effects_area.get_children():			

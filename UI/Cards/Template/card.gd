@@ -189,7 +189,7 @@ func discarded(path,hud):
 	reparent(holder_node,true)
 
 	#print("Rotation ", pivot_offset_ratio, " ", pivot_offset)
-	var progress_ratio = 0.0
+	#var progress_ratio = 0.0
 	var travel_time = 3.0
 	# Create and play the tween
 	var discard_tween = create_tween()
@@ -209,6 +209,7 @@ func add_to_discard_pile(holder_node : Control):
 	holder_node.queue_free()
 	print(card_name, " added to discard pile")
 	ui.discard_complete()
+	was_discarded.emit()
 
 
 func reset_card():

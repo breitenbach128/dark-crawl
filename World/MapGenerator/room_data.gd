@@ -5,7 +5,7 @@ var room_id : int = -1 #ID of the room for reference
 var rect : Rect2i = Rect2i(0,0,1,1)
 var exit_locations : Array[Vector2i] = []
 ## Mark true if room has at least one path to another room
-var is_connected: bool = false 
+var room_is_connected: bool = false 
 var connected_room_ids : Array[int] = []
 
 ## Gets all the world cells on the outside edge of the rect2 for this room

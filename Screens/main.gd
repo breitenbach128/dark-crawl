@@ -48,8 +48,8 @@ func start_game():
 func _on_multiplayer_spawner_players_spawned(p: Player) -> void:
 	print("Spawned Player, " , p)
 
-func _on_multiplayer_spawner_attacks_spawned(node: Node) -> void:
+func _on_multiplayer_spawner_attacks_spawned(_node: Node) -> void:
 	pass # Replace with function body.
 
-func _on_multiplayer_spawner_monsters_spawned(node: Node) -> void:
+func _on_multiplayer_spawner_monsters_spawned(_node: Node) -> void:
 	pass # Replace with function body.

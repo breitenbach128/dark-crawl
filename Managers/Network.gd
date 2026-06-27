@@ -63,7 +63,7 @@ func _on_peer_disconnected(id: int):
 func start_network_game():
 	if main_scene.player_peers.size() >= main_scene.max_players:
 		for pid in main_scene.player_peers:
-			var p : Player= main_scene.spawn_player(pid)
+			var _p : Player= main_scene.spawn_player(pid)
 		main_scene.start_game()
 
 func launch_game():	
@@ -84,8 +84,8 @@ func client_recv_gamesetup_info(dungeon_data : Dictionary):
 	Globals.current_main.dungeon_creator.build_dungeon(false)
 	
 func get_local_player_instance():	
-	var p = Globals.current_main.players_root.get_children().filter(func(p): return p.name.to_int() == multiplayer.get_unique_id())
-	return p
+	var player_inst = Globals.current_main.players_root.get_children().filter(func(p): return p.name.to_int() == multiplayer.get_unique_id())
+	return player_inst
 	
 func client_send_gamesetup_info(id : int):
 	if Globals.current_main is not MainScene:
@@ -111,7 +111,7 @@ func client_send_gamesetup_info(id : int):
 		var room_data : Dictionary = {
 			room_id = r.room_id,
 			rect = r.rect,
-			room_connected = r.is_connected,
+			room_is_connected = r.room_is_connected,
 			connected_rooms = r.connected_room_ids
 		}
 		dungeon_data.room_list.append(room_data)

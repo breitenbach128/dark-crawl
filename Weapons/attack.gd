@@ -1,13 +1,14 @@
 extends RigidBody3D
 class_name Attack
 
-var attack_damage
+
 var projectile_speed : float = 0.0
 const DIRECTIONS = ["front", "right", "back", "left"]
 
 @export var directional_attack : bool = false
+@export var attack_damage : Dictionary
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if directional_attack:
 		set_direction_anim()
 
@@ -32,7 +33,7 @@ func set_direction_anim():
 			$Anim.play(anim_name)
 			
 
-func attack(damage):
+func attack(damage : Dictionary):
 	attack_damage = damage
 	if directional_attack:
 		set_direction_anim()

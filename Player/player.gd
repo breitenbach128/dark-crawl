@@ -76,14 +76,14 @@ func _process(delta: float) -> void:
 			tracking_cam.position = tracking_cam.position.lerp(position+Vector3(0,50,0),5*delta)
 	else:
 		if Globals.local_player:
-			var camera : Camera3D = Globals.local_player.camera
+			var player_camera : Camera3D = Globals.local_player.camera
 			# Get the camera's local forward vector in 3D
 			var forward3d: Vector3 = -global_transform.basis.z
 			# Convert to a 2D vector using the X and Z axes (top-down)
 			var dir2d = Vector2(forward3d.x, forward3d.z).normalized()
 			# Calculate the angle between the character's movement and the camera's position
 			var pos_2d = Vector2(global_position.x,global_position.z)
-			var pos_2d_camera = Vector2(camera.global_position.x,camera.global_position.z)
+			var pos_2d_camera = Vector2(player_camera.global_position.x,player_camera.global_position.z)
 			var angle_to_camera = pos_2d.angle_to_point(pos_2d_camera)
 			
 			# Map the angle to one of the 4 directions (0 to 3)
@@ -179,7 +179,7 @@ func player_add_effect(new_effect : Effect):
 		new_effect.set_target(self)
 		new_effect.apply_effects(1)
 		new_effect.effect_end.connect(player_remove_effect)
-		ui.ui_update_effect_display_area()
+		ui.update_effect_display_area()
 
 func player_remove_effect():
 	ui.ui_update_effect_display_area()

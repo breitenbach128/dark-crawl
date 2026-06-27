@@ -62,7 +62,7 @@ func build_dungeon(isServer: bool):
 				var room = RoomData.new()
 				room.room_id = r.room_id
 				room.rect = r.rect
-				room.is_connected = r.room_connected
+				room.room_is_connected = r.room_is_connected
 				room.connected_room_ids = r.connected_rooms
 				room_list.append(room)
 			#Create all meshes
@@ -90,6 +90,7 @@ func create_rooms():
 		
 		#Create a room of random size, no bigger than half the map
 		var room = RoomData.new()
+		@warning_ignore("narrowing_conversion")
 		var new_room_size = Vector2i(randi_range(1,room_max_size.x),randi_range(1,room_max_size.y))
 		room.rect = Rect2i(Vector2i(0,0),new_room_size*room_tile_size)
 		#print("Creating Room ", rc, " size: ", room.rect)
@@ -146,6 +147,7 @@ func create_rooms():
 	
 	
 func create_exits():
+	@warning_ignore("unused_variable")
 	var pcount=0
 	for r in room_list:
 		var edge_positions :Dictionary= {
