@@ -167,10 +167,10 @@ func draw_new_hand(player_index):
 		#Pause between draws for effect
 		await get_tree().create_timer(1.5).timeout
 		
-	print("CM: Drew New Hand for ", player_cards[player_index].player.name)
+	print("CM: Drew New Hand for PID: ", player_cards[player_index].player.name)
 
 func draw_card_from_deck(player_index):
-	print("CM: Local Server: Draw Card from Deck for ", player_cards[player_index].pid)
+	print("CM: Local Server: Draw Card from Deck for pid: ", player_cards[player_index].pid)
 	var card: Card = player_cards[player_index].deck.pop_front()
 	card.card_hand_index = player_cards[player_index].hand.size()
 	player_cards[player_index].hand.append(card)
@@ -196,7 +196,7 @@ func discard_card_from_hand(pid, card_index):
 	print("CM: Server Discard from hand for player: ",pid, " card_index: ", card_index, " ", card.name)
 
 ## Client Only. Local UI discard action.
-@rpc("authority", "call_remote", "reliable")
+@rpc("authority", "call_local", "reliable")
 func client_discard_card_from_hand(card_node_name):
 	print("CM: Client Recv. Discard UI action on ",card_node_name, " local client ID: ", multiplayer.get_unique_id())
 	var card : Card = Globals.local_player.ui.card_hand.get_node_or_null(NodePath(card_node_name))
@@ -208,7 +208,7 @@ func client_discard_card_from_hand(card_node_name):
 	#Maybe by attaching to a signal?
 
 ## Server Only. Client completes their discard and lets the server know
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func client_discard_complete(client_hand_count,discards_in_action):
 	if multiplayer.is_server():
 		#Is hand empty?
@@ -239,7 +239,7 @@ func shuffle_discard_into_deck(player_index):
 	var card_deck_info : Array = player_cards[player_index].deck.map(func(card): return {"id":card.card_data.id,"name":card.name})
 	client_shuffle_discard_into_deck.rpc_id(player_cards[player_index].pid,card_deck_info)
 	
-@rpc("authority", "call_remote", "reliable")
+@rpc("authority", "call_local", "reliable")
 func client_shuffle_discard_into_deck(card_deck_info): #id and name properties	
 	Globals.local_player.ui.shuffle_discard_into_deck(card_deck_info)
 

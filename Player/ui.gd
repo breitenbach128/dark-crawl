@@ -82,7 +82,7 @@ func draw_card():
 		var vp_size = get_viewport_rect().size
 		var center_position = (vp_size-top_card.custom_minimum_size)/2 + Vector2(-64,0)
 		draw_card_tween.set_parallel(true)
-		draw_card_tween.tween_property(top_card, "global_position", center_position, 0.4).set_trans(Tween.TRANS_SINE)
+		draw_card_tween.tween_property(top_card, "global_position", center_position - Vector2((vp_size.x/3),0), 0.4).set_trans(Tween.TRANS_SINE) #Update: Offset more to left 1/4 of screen
 		draw_card_tween.tween_property(top_card, "scale", Vector2(1.3,1.3), 0.4).set_trans(Tween.TRANS_SINE)
 		draw_card_tween.chain().tween_interval(.6)
 		draw_card_tween.set_parallel(true)

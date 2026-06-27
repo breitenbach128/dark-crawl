@@ -15,6 +15,7 @@ class_name MainScene
 var player_peers = []
 var max_players = Network.max_players
 
+
 func _ready() -> void:
 	print("Main Ready")	
 	multiplayer_spawner_players.spawn_function = spawn_player
@@ -40,6 +41,7 @@ func spawn_player(id : int):
 	return new_player
 
 func start_game():
+	Globals.start_game = true
 	pass
 	#monster_generator.spawn_monsters()
 

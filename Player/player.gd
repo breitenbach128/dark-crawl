@@ -3,6 +3,7 @@ class_name Player
 
 @export_category("CharacterBody")
 @export var sync_velocity := Vector3.ZERO
+@export var sprite : Sprite3D
 
 @export_category("Mouse Control")
 @export var mouse_sensitivity : float = 0.002
@@ -73,6 +74,24 @@ func _process(delta: float) -> void:
 	if is_multiplayer_authority():
 		if tracking_cam:
 			tracking_cam.position = tracking_cam.position.lerp(position+Vector3(0,50,0),5*delta)
+	else:
+		if Globals.local_player:
+			var camera : Camera3D = Globals.local_player.camera
+			# Get the camera's local forward vector in 3D
+			var forward3d: Vector3 = -global_transform.basis.z
+			# Convert to a 2D vector using the X and Z axes (top-down)
+			var dir2d = Vector2(forward3d.x, forward3d.z).normalized()
+			# Calculate the angle between the character's movement and the camera's position
+			var pos_2d = Vector2(global_position.x,global_position.z)
+			var pos_2d_camera = Vector2(camera.global_position.x,camera.global_position.z)
+			var angle_to_camera = pos_2d.angle_to_point(pos_2d_camera)
+			
+			# Map the angle to one of the 4 directions (0 to 3)
+			var angle_diff = dir2d.angle() - angle_to_camera
+			var sector = wrapi(int(snappedf(angle_diff, PI/4) / (PI/4)), 0, 8)
+			
+			# Play the corresponding animation (e.g., Walk_Right)
+			sprite.frame = sector
 
 func _physics_process(delta: float) -> void:
 	move(delta)
