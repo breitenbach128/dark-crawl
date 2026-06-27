@@ -43,6 +43,7 @@ pivot_offset_ratio = Vector2(0.5, 0.5)
 script = ExtResource("1_4kgta")
 control_icon = NodePath("ControlIcon")
 cd_progress_bar = NodePath("CoolDownBar")
+energy = 1
 attack_damage = {
 "cold": [0, 0],
 "fire": [0, 0],

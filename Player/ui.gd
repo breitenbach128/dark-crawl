@@ -24,6 +24,7 @@ var selected_card_index : int = 0
 var max_hand_size : int = 5
 var draw_tween_pending : int = 0
 var is_drawing_hand : bool  = false
+var discards_in_action : int = 0
 
 enum SCREEN_FLASH_TYPE {HURT, HEAL, AURA, ZONE}
 
@@ -59,10 +60,6 @@ func screen_flash(type : SCREEN_FLASH_TYPE, intensity : float):
 			tween.tween_callback(func(): hurt_rect.queue_free())
 
 func draw_card():	
-	#ASSUMPTION - STARTING DECK EXISTS
-	#print("DECK COUNT PRE SHUFFLE ", card_deck.get_child_count())
-	if card_deck.get_child_count() <= 0:
-		shuffle_discard_into_desk()
 	if card_deck.get_child_count() <= 0:
 		print("Error. No Cards in Deck")
 		return
@@ -105,33 +102,42 @@ func take_card(top_card : Card):
 	#else:
 		#is_drawing_hand = false
 
-
-func discard_complete():
-	print("Discard Complete")
-	discard_count_label.text = str(discard_deck.get_child_count())
-	#Hand is empty, so start drawing again
-	if card_hand.get_child_count() == 0 && is_drawing_hand == false:
-		print("Hand Empty")
-		#draw_card()
-	
 func discard_card(card : Card):
-	#BUG: I need to recalculate the card_index value
+	for c in range(0,card_hand.get_child_count()):
+		card_hand.get_child(c).card_hand_index = c	
 	card.is_discarded = true
 	card.reparent(self, true) #Move back to UI parent
 	card.discarded(discard_path, self) #Setup path to follow to trash
 	update_card_control_icons()
+	discards_in_action+=1
 
-func shuffle_discard_into_desk():
-	print("SHUFFLE DISCARD INTO DECK ", discard_deck.get_child_count())
+func discard_complete():
+	discards_in_action-=1
+	print("Client Discard Complete")	
+	if card_hand.get_child_count() == 0 && is_drawing_hand == false:
+		print("Hand Empty")
+	CardManager.client_discard_complete.rpc_id(1,card_hand.get_child_count(),discards_in_action)	
+	update_card_area_labels()
+
+func shuffle_discard_into_deck(srv_card_deck_info):
+	print("CLIENT UI: Shuffle cards into deck ", discard_deck.get_child_count())
 	for card : Card in discard_deck.get_children():
 		card.reparent(card_deck, false)
 		card.reset_card()
-	print("DECK COUNT POST SHUFFLE ", card_deck.get_child_count())	
+	#Reparented, so now the deck needs ordered to match the server shuffle
+	print("Server Card Deck:", srv_card_deck_info)
+	var local_card_deck_ids = card_deck.get_children().map(func(card): return {"id":card.card_data.id,"name":card.name})
+	print("Client Card Deck: (Presort)",local_card_deck_ids)	
+	for i in range(0,srv_card_deck_info.size()):
+		var node = card_deck.get_node(NodePath(srv_card_deck_info[i].name))
+		card_deck.move_child(node,i)
+	
 	update_card_area_labels()
 
 func update_card_area_labels():
 	discard_count_label.text = str(discard_deck.get_child_count())
-
+	deck_count_label.text = str(card_deck.get_child_count())
+	
 func update_card_control_icons():
 	for cardindex in card_hand.get_child_count():
 		card_hand.get_child(cardindex).update_control_texture(cardindex)

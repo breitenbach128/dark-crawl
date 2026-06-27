@@ -203,13 +203,13 @@ func discarded(path,hud):
 	discard_tween.parallel().tween_property(self, "scale", Vector2(0.3,0.3), travel_time)
 	discard_tween.finished.connect(add_to_discard_pile.bind(holder_node))
 
-func add_to_discard_pile(holder_node : Control):
-	
+func add_to_discard_pile(holder_node : Control):	
 	visible = false
 	reparent(ui.discard_deck,false)	
 	holder_node.queue_free()
 	print(card_name, " added to discard pile")
 	ui.discard_complete()
+
 
 func reset_card():
 	is_discarded = false
