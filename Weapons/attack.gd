@@ -7,6 +7,7 @@ const DIRECTIONS = ["front", "right", "back", "left"]
 
 @export var directional_attack : bool = false
 @export var attack_damage : Dictionary
+@export var collision_shape : CollisionShape3D
 
 func _physics_process(_delta: float) -> void:
 	if directional_attack:
@@ -52,7 +53,10 @@ func _on_body_entered(body: Node) -> void:
 			effect.activate_effect()
 		#Free
 		call_deferred("queue_free")
-		
+	else:
+		#Not server
+		visible = false		
+		collision_shape.disabled = true
 	#Play impact animation	
 	
 

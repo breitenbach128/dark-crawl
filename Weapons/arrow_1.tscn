@@ -205,7 +205,7 @@ properties/2/path = NodePath(".:attack_damage")
 properties/2/spawn = true
 properties/2/replication_mode = 2
 
-[node name="arrow_1" type="RigidBody3D" unique_id=91766674]
+[node name="arrow_1" type="RigidBody3D" unique_id=91766674 node_paths=PackedStringArray("collision_shape")]
 collision_layer = 4
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_v0qp1")
@@ -214,6 +214,7 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_fjpof")
 directional_attack = true
+collision_shape = NodePath("CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=589480253]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
