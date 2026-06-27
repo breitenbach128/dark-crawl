@@ -136,7 +136,19 @@ func _input(event):
 			if Input.is_action_just_pressed("discard_card_force"):
 				if ui.card_hand.get_child_count() > 0:
 					ui.discard_card(ui.card_hand.get_children()[0])
-					
+			if Input.is_action_just_pressed("hurt_player_clients"):
+				for client in Globals.current_main.players_root.get_children():
+					if client is Player:
+						if client.name.to_int() != 1:
+							var attack_damage : Dictionary = { #[min,max]
+								"physical": [1,4],
+								"fire": [0,0],
+								"force": [0,0],
+								"shock": [0,0],
+								"cold": [0,0],
+								"soul": [0,0]
+							}
+							client.health_component.take_damage(attack_damage)
 
 func move(delta):
 	if is_multiplayer_authority():
@@ -183,3 +195,9 @@ func player_add_effect(new_effect : Effect):
 
 func player_remove_effect():
 	ui.ui_update_effect_display_area()
+
+
+func _on_multiplayer_synchronizer_delta_synchronized() -> void:
+	if is_multiplayer_authority():
+			return
+	print("client health", health_component.health)

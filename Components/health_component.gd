@@ -2,7 +2,12 @@ extends Node3D
 class_name Health_Component
 
 
-@export var health : int = 1
+@export var health : int = 1:
+	set(new):
+		var prev = health
+		health = new
+		health_changed.emit(health, health_max, new-prev)
+		
 @export var health_max : int = 1
 @export var restistance : Dictionary = {
 	"physical": 0.0,
@@ -25,11 +30,11 @@ func _ready() -> void:
 
 func heal(amount: int):
 	health=min(health+amount,health_max)
-	health_changed.emit(health, health_max, amount)
+	#health_changed.emit(health, health_max, amount)
 	#print("healed ", amount)	
 
 func take_damage(attack_damage):
-
+	print("Player taking damage: ", get_parent().name.to_int())
 	var physical_damage = ceil((1-restistance.physical) * randi_range(attack_damage.physical[0],attack_damage.physical[1]))
 	var fire_damage = ceil((1-restistance.fire) * randi_range(attack_damage.fire[0],attack_damage.fire[1]))
 	var shock_damage = ceil((1-restistance.shock) * randi_range(attack_damage.shock[0],attack_damage.shock[1]))

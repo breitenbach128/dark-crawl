@@ -32,6 +32,9 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:attack_damage")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="bullet_1" type="RigidBody3D" unique_id=91766674 node_paths=PackedStringArray("collision_shape")]
 collision_layer = 4
@@ -58,7 +61,7 @@ animation = &"attack"
 wait_time = 5.0
 autostart = true
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1860317355]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=851323167]
 replication_config = SubResource("SceneReplicationConfig_v0qp1")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

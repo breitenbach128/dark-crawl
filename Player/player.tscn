@@ -60,15 +60,6 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("Camera3D:rotation")
 properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath("HealthComponent:health")
-properties/4/spawn = true
-properties/4/replication_mode = 2
-properties/5/path = NodePath("HealthComponent:health_max")
-properties/5/spawn = true
-properties/5/replication_mode = 2
-properties/6/path = NodePath("HealthComponent:restistance")
-properties/6/spawn = true
-properties/6/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("sprite", "camera", "right_hand", "center_aim", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "playernamelabel", "client_cards", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
@@ -152,3 +143,5 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[connection signal="delta_synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_delta_synchronized"]
