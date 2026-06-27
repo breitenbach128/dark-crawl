@@ -57,7 +57,7 @@ func get_carddb_index_by_id(id: int):
 func init_host_card_manager(p: Player) -> void:
 	player = p
 	ui = player.ui
-	print("Card Manager Setup for: ", player.name, " on host")	
+	print("CM: Card Manager Setup for: ", player.name, " on host")	
 	
 	player_cards.append({
 		"pid": player.name.to_int(),
@@ -82,7 +82,7 @@ func get_player_index_by_pid(pid):
 ## Run this function when the clients card manager responds it is ready to receive data
 @rpc("any_peer", "call_remote", "reliable")
 func server_receive_client_ready_status():
-	print("Client Card Manager Ready: Client:", multiplayer.get_remote_sender_id(), " server: ", multiplayer.get_unique_id())
+	print("CM: Client Card Manager Ready: Client:", multiplayer.get_remote_sender_id(), " server: ", multiplayer.get_unique_id())
 	var p_card_index = get_player_index_by_pid(multiplayer.get_remote_sender_id())
 	if p_card_index != -1:
 		#print("Server Card Deck: for client -> ", player_cards[p_card_index].deck)
@@ -99,11 +99,11 @@ func build_starting_deck(player_index):
 ## Client Only. Build starting deck from server information
 @rpc("authority", "call_remote", "reliable")
 func client_rcv_starting_deck(data : Dictionary):
-	print("Client Rcv, Deck: ",multiplayer.get_unique_id()," ", data)
+	print("CM: Client Rcv, Deck: ",multiplayer.get_unique_id()," ", data)
 	for c in data.deck:		
 		var card_data = card_db[get_carddb_index_by_id(c.id)]
 		var new_card = load(card_data.res).instantiate()
-		#new_card.name = c.name
+		new_card.name = c.name
 		#print("Client Spawn Card: " , new_card.name, " " ,card_data.res, " ",card_data.id, " ", c.id)
 		Globals.local_player.ui.card_deck.add_child(new_card,true)
 		new_card.player = Globals.local_player
@@ -123,14 +123,14 @@ func client_deck_is_ready():
 	var players_ready =  player_cards.filter(func(p): return p.client_ready==true)
 	if players_ready.size() == Network.max_players:
 		#Game is ready to start:
-		print("All Players are ready to draw cards!")
+		print("CM: All Players are ready to draw cards!")
 		for p in range(0,players_ready.size()):
 			draw_new_hand(p)
 		
 ## Server Only. Client requests a card / restock of their hand
 @rpc("any_peer", "call_remote", "reliable")
 func client_requests_card():
-	print("Client :",multiplayer.get_remote_sender_id(), " requests card from Server: ", multiplayer.get_unique_id())
+	print("CM: Client :",multiplayer.get_remote_sender_id(), " requests card from Server: ", multiplayer.get_unique_id())
 	var p_index=get_player_index_by_pid(multiplayer.get_remote_sender_id()) 
 	# Check if space is available in hand
 	draw_new_hand(p_index)
@@ -143,7 +143,7 @@ func is_hand_space_available(player_index):
 	return false
 
 func add_card_to_deck(new_card: Card, player_index, card_data):	
-	new_card.player = player	
+	new_card.player = player_cards[player_index].player
 	new_card.card_data = card_data
 	new_card.visible = false
 	#print("adding new card to deck: ",new_card.name, " ", new_card.card_data)
@@ -160,10 +160,10 @@ func draw_new_hand(player_index):
 		draw_card_from_deck(player_index)
 		#Pause between draws for effect
 		await get_tree().create_timer(1.5).timeout
-	print("Drew New Hand for ", player_cards[player_index].player.name)
+	print("CM: Drew New Hand for ", player_cards[player_index].player.name)
 
 func draw_card_from_deck(player_index):
-	print("Local Server: Draw Card from Deck for ", player_cards[player_index].pid)
+	print("CM: Local Server: Draw Card from Deck for ", player_cards[player_index].pid)
 	var card: Card = player_cards[player_index].deck.pop_front()
 	card.card_hand_index = player_cards[player_index].hand.size()
 	player_cards[player_index].hand.append(card)
@@ -176,17 +176,32 @@ func draw_card_from_deck(player_index):
 ## Client Only. Receive the action to draw a new card from the deck.
 @rpc("authority", "call_remote", "reliable")
 func client_rcv_draw_card(data : Dictionary):
-	print("Client Rcv, server has drawn card: ", data)
+	print("CM: Client Rcv, server has drawn card: ", data)
 	Globals.local_player.ui.draw_card()
 
-func discard_card_from_hand(player_index, card_index):
+#BUG: I since I am changing the order, I need to refresh the card index values
+#base on their new position in the hand
+func discard_card_from_hand(pid, card_index):
+	print("CM: Server Discard from hand for player: ",pid, " card_index: ", card_index)
+	var player_index = get_player_index_by_pid(pid)
 	var card: Card = player_cards[player_index].hand.pop_at(card_index)
-	player_cards[player_index].discard.append(card)
+	player_cards[player_index].discard.append(card)	
+	#BUG: Should probably just send the updated hand id/name/index data
+	client_discard_card_from_hand.rpc_id(pid, card.name)
 	#Is hand empty?
 	if player_cards[player_index].hand.size() == 0:
-		draw_new_hand(player_index)
-	if ui:
-		pass
+		#draw_new_hand(player_index)
+		print("CM: Hand empty, draw new hand")
+
+## Client Only. Local UI discard action.
+@rpc("authority", "call_remote", "reliable")
+func client_discard_card_from_hand(card_node_name):
+	print("CM: Client Recv. Discard UI action on ",card_node_name, " local client ID: ", multiplayer.get_unique_id())
+	var card : Card = Globals.local_player.ui.card_hand.get_node_or_null(NodePath(card_node_name))
+	if card:
+		Globals.local_player.ui.discard_card(card)
+	else:
+		print("CM: Error: No Card Found in client UI card_hand. Name: ", card_node_name)
 
 func remove_card_from_deck(player_index,card_index):
 	player_cards[player_index].deck.remove_at(card_index)
@@ -196,17 +211,29 @@ func remove_card_from_deck(player_index,card_index):
 func shuffle_discard_into_desk(player_index):
 	player_cards[player_index].deck.append_array(player_cards[player_index].discard)
 	player_cards[player_index].deck.shuffle()
-	print("Local Server: Shuffled Discard into Deck for ", player_cards[player_index].pid)
+	print("CM: Local Server: Shuffled Discard into Deck for ", player_cards[player_index].pid)
 
 ## This is called by any peer, including server. It runs the card action on the server
 @rpc("any_peer", "call_local", "reliable")
 func run_card(index):
-	print("ID: ", multiplayer.get_remote_sender_id(), " runs card at hand index: ", index, " on ", multiplayer.get_unique_id())
+	print("CM: ID: ", multiplayer.get_remote_sender_id(), " runs card at hand index: ", index, " on ", multiplayer.get_unique_id())
 	var p_index=get_player_index_by_pid(multiplayer.get_remote_sender_id())
 	var card : Card = player_cards[p_index].hand[index]
 	if card.card_ready:
 		card.use_card()
-	
+		#If sender is not the server, then I need to let them know the server ran the card
+		if multiplayer.get_remote_sender_id() != 1:
+			client_run_card.rpc_id(multiplayer.get_remote_sender_id(),card.name)
+
+## Client receives message to start it visual card cooldown action and decrement energy
+@rpc("authority", "call_remote", "reliable")	
+func client_run_card(card_node_name):
+	print("CM: Card run on client issued by server. Name: ",card_node_name)
+	var card : Card = Globals.local_player.ui.card_hand.get_node_or_null(NodePath(card_node_name))
+	if card:
+		card.use_card()
+	else:
+		print("CM: Error: No Card Found in client UI card_hand. Name: ", card_node_name)
 
 ## Run the tween for the drawing of the card
 func ui_visual_draw_card():

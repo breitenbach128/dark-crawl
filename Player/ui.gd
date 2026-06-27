@@ -112,9 +112,10 @@ func discard_complete():
 	#Hand is empty, so start drawing again
 	if card_hand.get_child_count() == 0 && is_drawing_hand == false:
 		print("Hand Empty")
-		draw_card()
+		#draw_card()
 	
 func discard_card(card : Card):
+	#BUG: I need to recalculate the card_index value
 	card.is_discarded = true
 	card.reparent(self, true) #Move back to UI parent
 	card.discarded(discard_path, self) #Setup path to follow to trash

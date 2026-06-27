@@ -58,7 +58,7 @@ func _enter_tree():
 	else:
 		#Remove on UX stuff for puppets
 		print("Puppet: removing UI")
-		camera.free()
+		#camera.free()
 		ui.free()
 
 	if multiplayer.is_server():

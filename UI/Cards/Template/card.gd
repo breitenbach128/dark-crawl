@@ -55,7 +55,7 @@ var max_energy : int = 5
 
 
 var card_hand_index : int  = -1
-var player : Player #Belongs to this play
+var player : Player #Belongs to this player
 var ui : HUD #UI reference for performing actions
 var card_ready : bool = true
 var is_discarded: bool = false
@@ -79,24 +79,30 @@ func _process(delta: float) -> void:
 func update_energy_display():
 	$EnergyLevel.text = str(energy)
 
-#@rpc("any_peer", "call_local", "reliable", 0)
+#@rpc("any_peer", "call_local", "reliable")
 func use_card():
-	energy = max(0,energy - 1)
-	cooldownTimer.start()
-	card_ready = false
-	cd_progress_bar.value = cd_progress_bar.max_value
+	if energy > 0:
+		cooldownTimer.start()
+		energy = max(0,energy - 1)	
+		card_ready = false
+		cd_progress_bar.value = cd_progress_bar.max_value
 		
-	print(name, " Energy is now: ", energy)
-	#update_energy_display()
-	#match card_type:
-		#CARD_CATEGORIES.MELEE:
-			#attack_action()
-		#CARD_CATEGORIES.RANGED:
-			#attack_action()
-		#CARD_CATEGORIES.DEFENSE:
-			#activate_effects()
-		#CARD_CATEGORIES.UTILITY:			
-			#activate_effects()
+		print(name, " Energy is now: ", energy)
+	
+		update_energy_display()
+	
+		#Run Card Action. This happens ONLY on the server
+		if multiplayer.is_server():
+			print("Run card action for card: ", name, " for client", multiplayer.get_unique_id())
+			match card_type:
+				CARD_CATEGORIES.MELEE:
+					attack_action()
+				CARD_CATEGORIES.RANGED:
+					attack_action()
+				#CARD_CATEGORIES.DEFENSE:
+					#activate_effects()
+				#CARD_CATEGORIES.UTILITY:			
+					#activate_effects()
 
 func activate_effects():
 	if self_effects.get_child_count():
@@ -212,7 +218,9 @@ func reset_card():
 	update_energy_display()
 
 func _on_cool_down_timeout() -> void:	
-	if energy == 0 && is_discarded == false:
-		#ui.discard_card(self)
-		pass
+	if energy == 0 && is_discarded == false:		
+		print("Card: ", name, " is out of energy,  server discard. CLient ID: ", multiplayer.get_unique_id())
+		if multiplayer.is_server():
+			CardManager.discard_card_from_hand(player.name.to_int(),card_hand_index)
+			
 	card_ready = true

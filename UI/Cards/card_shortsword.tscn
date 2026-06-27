@@ -131,6 +131,7 @@ label_settings = SubResource("LabelSettings_qlr6f")
 horizontal_alignment = 1
 
 [node name="CoolDown" type="Timer" parent="." unique_id=710085231]
+one_shot = true
 
 [node name="CoolDownBar" type="ProgressBar" parent="." unique_id=2031944578]
 layout_mode = 1
