@@ -41,6 +41,13 @@ enum GUNS {BLASTER=0}
 @export var gun_sprite : AnimatedSprite3D
 @export var card_manager: CardManager
 
+#testing
+@export_category("Testing")
+@export var health : int = 1:
+	set(value):
+		health = value
+		print("health changed")
+		
 func _enter_tree():
 	#Set the owner's multiplayer ID
 	var peer_id = str(name).to_int()
