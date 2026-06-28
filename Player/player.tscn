@@ -60,6 +60,9 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("Camera3D:rotation")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath("HealthComponent:health_max")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("sprite", "camera", "right_hand", "center_aim", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "playernamelabel", "client_cards", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")

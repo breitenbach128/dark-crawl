@@ -30,8 +30,27 @@ func _ready() -> void:
 
 func heal(amount: int):
 	health=min(health+amount,health_max)
-	#health_changed.emit(health, health_max, amount)
-	#print("healed ", amount)	
+
+func hurt(amount: int):
+	health=max(health-amount,0)	
+	#Visual Effect
+	var ui_effect_damage_number : Damage_Number = load("res://UIEffects/damage_number.tscn").instantiate()
+	get_tree().current_scene.uieffects_root.add_child(ui_effect_damage_number)
+	ui_effect_damage_number.global_position = global_position
+	ui_effect_damage_number.text_label.text = str(amount)	
+	var bloodsplatter : GPUParticles3D = vi_bloodsplatter.get_node("GPUParticles3D")
+	bloodsplatter.restart()
+	if multiplayer.is_server():
+		print("HPC: Server - Player ID: ",get_parent().name.to_int(), " hurt ", amount)
+		client_rcv_hurt.rpc(get_parent().name.to_int(),amount)
+
+## Broadcast to all clients, NOT including server.
+@rpc("any_peer", "call_remote", "reliable")
+func client_rcv_hurt(pid: int, amount: int):
+	print("Client ",multiplayer.get_unique_id()," Receive Hurt, ",amount, " for player id : ", pid)
+	for p : Player in Globals.current_main.players_root.get_children():
+		if p.name.to_int() == pid:
+			p.health_component.hurt(amount)
 
 func take_damage(attack_damage):
 	print("Player taking damage: ", get_parent().name.to_int())
@@ -43,16 +62,7 @@ func take_damage(attack_damage):
 	var soul_damage = ceil((1-restistance.soul) * randi_range(attack_damage.soul[0],attack_damage.soul[1]))
 	
 	var damage_number = physical_damage+fire_damage+shock_damage+force_damage+cold_damage+soul_damage
-	#print("HC Taking damage ", attack_damage)
-	health = health - damage_number
-	var ui_effect_damage_number : Damage_Number = load("res://UIEffects/damage_number.tscn").instantiate()
-	get_tree().current_scene.uieffects_root.add_child(ui_effect_damage_number)
-	ui_effect_damage_number.global_position = global_position
-	ui_effect_damage_number.text_label.text = str(damage_number)
-	
-	var bloodsplatter : GPUParticles3D = vi_bloodsplatter.get_node("GPUParticles3D")
-	bloodsplatter.restart()
-	
+	hurt(damage_number)	
 	health_changed.emit(health, health_max, -damage_number)
 	
 	if health <= 0:

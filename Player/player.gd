@@ -139,7 +139,7 @@ func _input(event):
 			if Input.is_action_just_pressed("hurt_player_clients"):
 				for client in Globals.current_main.players_root.get_children():
 					if client is Player:
-						if client.name.to_int() != 1:
+						if client.name.to_int() != -1:
 							var attack_damage : Dictionary = { #[min,max]
 								"physical": [1,4],
 								"fire": [0,0],
