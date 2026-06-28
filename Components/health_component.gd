@@ -41,16 +41,26 @@ func hurt(amount: int):
 	var bloodsplatter : GPUParticles3D = vi_bloodsplatter.get_node("GPUParticles3D")
 	bloodsplatter.restart()
 	if multiplayer.is_server():
-		print("HPC: Server - Player ID: ",get_parent().name.to_int(), " hurt ", amount)
-		client_rcv_hurt.rpc(get_parent().name.to_int(),amount)
+		if get_parent() is Player:
+			print("HPC: Server - Player ID: ",get_parent().name.to_int(), " hurt ", amount)
+			client_rcv_hurt.rpc(get_parent().name.to_int(),amount)
+		if get_parent() is Enemy:
+			print("HPC: Server - Enemy ID: ",get_parent().name, " hurt ", amount)
+			client_rcv_hurt.rpc(get_parent().name.to_int(),amount)
 
-## Broadcast to all clients, NOT including server.
+## Broadcast to all clients, NOT including server. This is JUST for local client visual stuff (healh bars, effects, etc)
 @rpc("any_peer", "call_remote", "reliable")
-func client_rcv_hurt(pid: int, amount: int):
-	print("Client ",multiplayer.get_unique_id()," Receive Hurt, ",amount, " for player id : ", pid)
-	for p : Player in Globals.current_main.players_root.get_children():
-		if p.name.to_int() == pid:
-			p.health_component.hurt(amount)
+func client_rcv_hurt(name, amount: int, type):
+	if type == "Player":
+		print("Client ",multiplayer.get_unique_id()," Receive Hurt, ",amount, " for player id : ", name.to_int())
+		for p : Player in Globals.current_main.players_root.get_children():
+			if p.name.to_int() == name.to_int():
+				p.health_component.hurt(amount)
+	if type == "Enemy":
+		print("Client ",multiplayer.get_unique_id()," Receive Hurt, ",amount, " for enemy id : ", name)
+		for e : Enemy in Globals.current_main.players_root.get_children():
+			if e.name == name:
+				e.health_component.hurt(amount)
 
 func take_damage(attack_damage):
 	print("Player taking damage: ", get_parent().name.to_int())
