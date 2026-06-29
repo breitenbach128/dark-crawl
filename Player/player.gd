@@ -160,22 +160,17 @@ func _input(event):
 		
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-				CardManager.run_card.rpc_id(1,0)
+				if ui.is_drawing_hand == false: CardManager.run_card.rpc_id(1,0)
 			if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-				CardManager.run_card.rpc_id(1,1)
+				if ui.is_drawing_hand == false: CardManager.run_card.rpc_id(1,1)
 			if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
-				CardManager.run_card.rpc_id(1,2)
+				if ui.is_drawing_hand == false: CardManager.run_card.rpc_id(1,2)
 		
 		if event is InputEventKey:
 			if Input.is_action_just_pressed("action_slot_four"):
-				CardManager.run_card.rpc_id(1,3)
+				if ui.is_drawing_hand == false: CardManager.run_card.rpc_id(1,3)
 			if Input.is_action_just_pressed("action_slot_five"):
-				CardManager.run_card.rpc_id(1,4)
-			if Input.is_action_just_pressed("draw_card_force"):
-				ui.draw_card()
-			if Input.is_action_just_pressed("discard_card_force"):
-				if ui.card_hand.get_child_count() > 0:
-					ui.discard_card(ui.card_hand.get_children()[0])
+				if ui.is_drawing_hand == false: CardManager.run_card.rpc_id(1,4)
 			if Input.is_action_just_pressed("hurt_player_clients"):
 				for client in Globals.current_main.players_root.get_children():
 					if client is Player:

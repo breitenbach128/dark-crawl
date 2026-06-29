@@ -64,7 +64,7 @@ attack_damage = {
 "soul": [0, 0]
 }
 attack_resource = ExtResource("2_fydt7")
-attack_velocity = 6.0
+attack_velocity = 9.0
 rate = 0.6
 cooldownTimer = NodePath("CoolDown")
 hit_effects = NodePath("HitEffects")

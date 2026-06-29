@@ -137,7 +137,7 @@ func draw_new_hand(player_index):
 			shuffle_discard_into_deck(player_index)	
 
 		#Pause between draws for effect
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(0.7).timeout
 		
 	#print("CM: Drew New Hand for PID: ", player_cards[player_index].player.name)
 

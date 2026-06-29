@@ -65,6 +65,7 @@ func draw_card():
 		return
 	#Only allow if hand is not max size
 	if card_hand.get_child_count() < max_hand_size:		
+		$CardDraw.play()
 		is_drawing_hand = true
 		var drop_position = card_hand.global_position
 		if drop_position.x == 0:
@@ -82,12 +83,12 @@ func draw_card():
 		var vp_size = get_viewport_rect().size
 		var center_position = (vp_size-top_card.custom_minimum_size)/2 + Vector2(-64,0)
 		draw_card_tween.set_parallel(true)
-		draw_card_tween.tween_property(top_card, "global_position", center_position - Vector2((vp_size.x/3),0), 0.2).set_trans(Tween.TRANS_SINE) #Update: Offset more to left 1/4 of screen
-		draw_card_tween.tween_property(top_card, "scale", Vector2(1.3,1.3), 0.2).set_trans(Tween.TRANS_SINE)
-		draw_card_tween.chain().tween_interval(.2)
+		draw_card_tween.tween_property(top_card, "global_position", center_position - Vector2((vp_size.x/3),0), 0.1).set_trans(Tween.TRANS_SINE) #Update: Offset more to left 1/4 of screen
+		draw_card_tween.tween_property(top_card, "scale", Vector2(1.3,1.3), 0.1).set_trans(Tween.TRANS_SINE)
+		draw_card_tween.chain().tween_interval(.1)
 		draw_card_tween.set_parallel(true)
-		draw_card_tween.tween_property(top_card, "global_position", drop_position, 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.2)
-		draw_card_tween.tween_property(top_card, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.2)
+		draw_card_tween.tween_property(top_card, "global_position", drop_position, 0.2).set_trans(Tween.TRANS_SINE).set_delay(0.1)
+		draw_card_tween.tween_property(top_card, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_SINE).set_delay(0.1)
 		draw_card_tween.finished.connect(take_card.bind(top_card))
 
 func take_card(top_card : Card):
@@ -96,11 +97,8 @@ func take_card(top_card : Card):
 	top_card.drawn(card_hand.get_child_count() - 1,self,player)	
 	update_card_control_icons()
 	deck_count_label.text = str(card_deck.get_child_count())
-	#if card_hand.get_child_count() < max_hand_size:
-		#print("need more cards for max hand")
-		#draw_card()
-	#else:
-		#is_drawing_hand = false
+	if card_hand.get_child_count() == max_hand_size:
+		is_drawing_hand = false
 
 func discard_card(card : Card):
 	for c in range(0,card_hand.get_child_count()):
@@ -116,10 +114,12 @@ func discard_complete():
 	print("Client Discard Complete")	
 	if card_hand.get_child_count() == 0 && is_drawing_hand == false:
 		print("Hand Empty")
+		is_drawing_hand = true
 	CardManager.client_discard_complete.rpc_id(1,card_hand.get_child_count(),discards_in_action)	
 	update_card_area_labels()
 
 func shuffle_discard_into_deck(srv_card_deck_info):
+	$CardShuffle.play()
 	print("CLIENT UI: Shuffle cards into deck ", discard_deck.get_child_count())
 	for card : Card in discard_deck.get_children():
 		card.reparent(card_deck, false)
