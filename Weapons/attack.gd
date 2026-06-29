@@ -8,6 +8,25 @@ const DIRECTIONS = ["front", "right", "back", "left"]
 @export var directional_attack : bool = false
 @export var attack_damage : Dictionary
 @export var collision_shape : CollisionShape3D
+@export var spawn_on_load : Array[Resource]
+@export var spawn_on_load_trigger : bool = false : 
+	set(value):
+		spawn_on_load_trigger = value
+		run_spawn_on_load()
+		
+
+func _ready() -> void:
+	if directional_attack:
+		set_direction_anim()
+	else:
+		$Anim.play("attack")
+
+func run_spawn_on_load():
+	for sol in spawn_on_load:
+		var sol_inst = sol.instantiate()
+		Globals.current_main.visuals_root.add_child(sol_inst)
+		sol_inst.global_position = global_position
+		
 
 func _physics_process(_delta: float) -> void:
 	if directional_attack:
@@ -34,40 +53,34 @@ func set_direction_anim():
 			$Anim.play(anim_name)
 			
 
-func attack(damage : Dictionary):
-	attack_damage = damage
-	if directional_attack:
-		set_direction_anim()
-	else:
-		$Anim.play("attack")
-
 func _on_body_entered(body: Node) -> void:
-	if multiplayer.is_server():
-		if body is Enemy:
-			#print("Hit Enemy ", attack_damage)
+	if multiplayer.is_server():		
+		if body is Enemy:		
+			#Hit Enemy on server
 			if body.health_component:
 				body.health_component.take_damage(attack_damage)
 				$SoundOnHit.play()
 		#Check for any hit effects
 		for effect: Effect in get_children().filter(func(x): return x is Effect):
 			effect.activate_effect()
-		#Free
-		call_deferred("queue_free")
+		
+		queue_free()
 	else:
-		#Not server
-		visible = false		
-		collision_shape.disabled = true
-	#Play impact animation	
-	
-
-	
-
+		#Hit Enemy on client
+		client_hide_instance()
 	
 
 func _on_anim_animation_finished() -> void:
-	#print("Anim finished ", name)
-	queue_free()
+	print("Anim finished ", name, " client : ", multiplayer.get_unique_id())
+	if multiplayer.is_server():
+		queue_free()
+	else:
+		client_hide_instance()
 
+func client_hide_instance():
+	#Not server
+	visible = false		
+	collision_shape.disabled = true
 
 func _on_lifespan_timeout() -> void:
 	#print("Attack Timeout ", name)

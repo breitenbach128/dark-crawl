@@ -17,6 +17,7 @@ enum ATTACK_TYPE {MELEE, RANGED}
 @export var selection_chance : float = 1.0 #100% by default, but can be reduced
 @export var movement_speed : float = 8.0
 @export var attack_type : ATTACK_TYPE = ATTACK_TYPE.RANGED
+@export var collision_shape : CollisionShape3D
 
 var velocity = Vector3(0,0,0)
 
@@ -25,10 +26,15 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body is Player:
-		#print(attack_name, " hit player")
-		if body.health_component:
-			body.health_component.take_damage(attack_damage)
-		call_deferred("queue_free")
+		if multiplayer.is_server():
+			#print(attack_name, " hit player")
+			if body.health_component:
+				body.health_component.take_damage(attack_damage)
+			
+			call_deferred("queue_free")
+		else:
+			visible = false
+			collision_shape.disabled = true
 
 
 func _on_lifespan_timeout() -> void:

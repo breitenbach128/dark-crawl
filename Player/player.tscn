@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_vtle1"]
 [ext_resource type="Texture2D" uid="uid://j6mtvmwlc185" path="res://art/Player/wizard.png" id="4_x3vf3"]
 [ext_resource type="PackedScene" uid="uid://dql37iq21ntuu" path="res://UI/ui.tscn" id="5_fhl08"]
+[ext_resource type="PackedScene" uid="uid://d4ivwi26ba6f6" path="res://VisualEffects/HealthBar3D.tscn" id="6_fhl08"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -63,8 +64,11 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath(".:health")
 properties/4/spawn = true
 properties/4/replication_mode = 2
+properties/5/path = NodePath(".:money")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
-[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("sprite", "camera", "right_hand", "center_aim", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "playernamelabel", "client_cards", "health_component", "gun_sprite") groups=["Player"]]
+[node name="Player" type="CharacterBody3D" unique_id=757762237 node_paths=PackedStringArray("sprite", "camera", "right_hand", "center_aim", "left_hand", "gun_raycast", "ui", "tracking_cam", "subviewport", "playernamelabel", "client_cards", "HealthBar", "health_component", "gun_sprite") groups=["Player"]]
 script = ExtResource("1_l8h54")
 sprite = NodePath("Sprite3D")
 camera = NodePath("Camera3D")
@@ -77,6 +81,7 @@ tracking_cam = NodePath("SubViewport/TopDownCam")
 subviewport = NodePath("SubViewport")
 playernamelabel = NodePath("PlayerName")
 client_cards = NodePath("ClientCards")
+HealthBar = NodePath("HealthBar3d")
 health_component = NodePath("HealthComponent")
 gun_sprite = NodePath("Camera3D/GunSprite")
 
@@ -102,13 +107,13 @@ sprite_frames = SubResource("SpriteFrames_vtle1")
 animation = &"shoot"
 
 [node name="CenterAim" type="Node3D" parent="Camera3D" unique_id=505732099]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.043368697, -0.6000519)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.043, -0.9)
 
 [node name="RightHand" type="Node3D" parent="Camera3D" unique_id=632795815]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.043368697, -0.68905187)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.043, -0.9)
 
 [node name="LeftHand" type="Node3D" parent="Camera3D" unique_id=18097889]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.043368697, -0.68905187)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.043, -0.9)
 
 [node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_vtle1")]
 health = 100
@@ -146,5 +151,8 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="HealthBar3d" parent="." unique_id=1665366822 instance=ExtResource("6_fhl08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3301421, 0)
 
 [connection signal="delta_synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_delta_synchronized"]

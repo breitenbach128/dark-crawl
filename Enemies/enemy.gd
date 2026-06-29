@@ -20,7 +20,7 @@ class_name Enemy
 		#print("New Behavior State: ", multiplayer.get_unique_id(), " ", new_value)
 
 var gravity = 75.5
-var coin_chance : float = 0.75 #75%
+var coin_chance : float = 1.00 #75%
 
 func _enter_tree() -> void:
 	pass
@@ -33,7 +33,7 @@ func _ready() -> void:
 func death():
 	if randf() < coin_chance:
 		var coin : Coin = load("res://Pickups/coin.tscn").instantiate()
-		get_tree().current_scene.pickups_root.add_child(coin)		
+		get_tree().current_scene.pickups_root.add_child(coin,true)		
 		coin.global_position = global_position
 	$DeathSounds.play()
 

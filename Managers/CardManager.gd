@@ -10,29 +10,6 @@ var ui : HUD #Reference to HUD for actions
 var player : Player
 var card_db : Array[Dictionary] = []
 
-#signal gain_card #Add a card to the deck
-#signal discard_card #Remove a card from your hand
-#signal remove_card #Remove a card from the game
-#signal draw_card #Add a card to the hand
-
-#each player should have a card deck/hand/discard array. May require a new dictionary
-#Use that to track the cards in each one. I can still create the cards, 
-#but need a place to store them. maybe a control node offset on each player?
-
-#The manager can handle moving the cards around and trigger the UI events.
-
-#Order:
-# Once all peers are connected, and the game starts.
-# Host inits the card manager
-# CM generates cards for all players.
-# CM sends card info to all peers FROM the host.
-# Draw intial card action is started from this message.
-# When players discard a card, sends msg to server. 
-# Server receives, and if hand empty, draws 5 cards, updates the local arrays
-# Server sends the drawn cards to and local array ids to the client.
-# CLient receives and triggers UI action for visual.
-
-#Client presses "use card" and it sends to server, which replies back to call use_card func
 
 func _ready() -> void:
 	var card_scenes = Globals.get_scenes_in_folder("res://UI/Cards/")
@@ -43,9 +20,6 @@ func _ready() -> void:
 			"id":cs,
 			"res":card_scenes[cs]
 		})
-	#print("CardDB: ", card_db)
-	#BUG Databases are different between client and server.
-	#Need to send the clients the DB to work with
 
 func get_carddb_index_by_id(id: int):
 	var f = -1
@@ -161,11 +135,9 @@ func draw_new_hand(player_index):
 			draw_card_from_deck(player_index)
 		else:
 			shuffle_discard_into_deck(player_index)	
-			#BUG: Order is still bad on client
-			# Maybe break out here? Then return once client is ready?
-			#
+
 		#Pause between draws for effect
-		await get_tree().create_timer(1.5).timeout
+		await get_tree().create_timer(1.0).timeout
 		
 	#print("CM: Drew New Hand for PID: ", player_cards[player_index].player.name)
 

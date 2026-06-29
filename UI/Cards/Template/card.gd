@@ -53,7 +53,6 @@ var max_energy : int = 5
 @export var hit_effects : Node #What effects can the card cause, trigger, etc.
 @export var self_effects : Node
 
-
 var card_hand_index : int  = -1
 var player : Player #Belongs to this player
 var ui : HUD #UI reference for performing actions
@@ -99,9 +98,9 @@ func use_card():
 					attack_action()
 				CARD_CATEGORIES.RANGED:
 					attack_action()
-				#CARD_CATEGORIES.DEFENSE:
+				CARD_CATEGORIES.DEFENSE:
 					activate_effects()
-				#CARD_CATEGORIES.UTILITY:			
+				CARD_CATEGORIES.UTILITY:			
 					activate_effects()
 
 func activate_effects():
@@ -126,13 +125,14 @@ func get_attack_origin():
 func attack_action():
 	#print("attack card ", attack_damage)
 	var attack : Attack = attack_resource.instantiate()
-	get_tree().current_scene.attacks_root.add_child(attack, true)
-	attack.attack(attack_damage)
+	attack.attack_damage = attack_damage
+	get_tree().current_scene.attacks_root.add_child(attack, true)	
 	#POSITION
 	var attack_origin = get_attack_origin()
 	
 	attack.position = attack_origin.global_position
-	#new_bullet.global_transform.origin = camera.global_transform.origin	
+	#Use to trigger setter for mp sync
+	attack.spawn_on_load_trigger = true 
 	
 	var target_point : Vector3
 	if player.gun_raycast.is_colliding():
@@ -141,6 +141,7 @@ func attack_action():
 		target_point = attack_origin.global_position + (-attack_origin.global_transform.basis.z * 1000)
 	
 	var direction = attack_origin.global_position.direction_to(target_point)
+	attack.position += direction * attack.collision_shape.shape.radius
 	#attack.look_at(direction,Vector3.UP)
 	attack.apply_impulse(direction * attack_velocity)	
 	attack.projectile_speed = attack_velocity

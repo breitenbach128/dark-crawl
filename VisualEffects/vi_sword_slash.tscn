@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://baxp2kn74wann"]
+
+[ext_resource type="Script" uid="uid://dia7xhskupk1r" path="res://VisualEffects/sword_slash.gd" id="1_nivtl"]
+[ext_resource type="Texture2D" uid="uid://c3y8goxxcrlrj" path="res://art/Weapons/pixel_art_sword_slash_sprites.png" id="2_78cm2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwstx"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(0, 0, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4oub"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(64, 0, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cyxd"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(128, 0, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0yds"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(0, 47, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ax2yk"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(64, 47, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_881xn"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(128, 47, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo1mp"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(0, 94, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkkl6"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(64, 94, 64, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brhlr"]
+atlas = ExtResource("2_78cm2")
+region = Rect2(128, 94, 64, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iulbe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwstx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4oub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5cyxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0yds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ax2yk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_881xn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xo1mp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkkl6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brhlr")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="VISwordSlash" type="Node3D" unique_id=141469168]
+script = ExtResource("1_nivtl")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=725940123]
+billboard = 2
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_iulbe")
+autoplay = "default"
+frame = 8
+frame_progress = 1.0
+
+[connection signal="animation_finished" from="AnimatedSprite3D" to="." method="_on_animated_sprite_3d_animation_finished"]

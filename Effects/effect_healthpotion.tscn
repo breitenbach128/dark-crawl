@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://xiqj8h02uv0v" path="res://Effects/effect.gd" id="1_x5h0o"]
 [ext_resource type="Texture2D" uid="uid://cuppm3o5g5jb6" path="res://art/icons/Free - Raven Fantasy Icons/Separated Files/32x32/fb959.png" id="2_1td58"]
+[ext_resource type="PackedScene" uid="uid://ci8csvuwk8pv0" path="res://VisualEffects/healing_player.tscn" id="3_wk1ef"]
 
 [node name="EffectHealthPotion" type="Node3D" unique_id=1298307307 node_paths=PackedStringArray("duration_timer")]
 script = ExtResource("1_x5h0o")
@@ -13,5 +14,8 @@ duration_timer = NodePath("Duration")
 heal = Array[int]([4, 16])
 
 [node name="Duration" type="Timer" parent="." unique_id=50897816]
+
+[node name="HealingPlayer" parent="." unique_id=1747287295 instance=ExtResource("3_wk1ef")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
 [connection signal="timeout" from="Duration" to="." method="_on_duration_timeout"]

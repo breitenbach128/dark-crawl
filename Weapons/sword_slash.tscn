@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://dwg5sydgquur"]
 
 [ext_resource type="Script" uid="uid://benrwrut7pys6" path="res://Weapons/attack.gd" id="1_4jxaa"]
-[ext_resource type="Texture2D" uid="uid://c3y8goxxcrlrj" path="res://art/Weapons/pixel_art_sword_slash_sprites.png" id="2_4jxaa"]
+[ext_resource type="Texture2D" uid="uid://k1u1mlt1pxhh" path="res://art/Weapons/attacks/sword.png" id="2_7w7dw"]
+[ext_resource type="PackedScene" uid="uid://baxp2kn74wann" path="res://VisualEffects/vi_sword_slash.tscn" id="2_27s6r"]
 [ext_resource type="AudioStream" uid="uid://tw6khxfsyqxy" path="res://Sound/sword_slash_1.wav" id="3_7w7dw"]
 [ext_resource type="AudioStream" uid="uid://d1gbhqvhgjots" path="res://Sound/enemy_hit_1.wav" id="4_27s6r"]
 
@@ -10,75 +11,19 @@ friction = 0.2
 bounce = 0.5
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lqaso"]
-radius = 0.2
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fcquk"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(0, 0, 64, 47)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7w7dw"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(64, 0, 64, 47)
+radius = 0.7
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_27s6r"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(128, 0, 64, 47)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qb5o4"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(0, 47, 64, 47)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vs4xa"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(64, 47, 64, 47)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7jkmi"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(128, 47, 64, 47)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p1lqc"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(0, 94, 64, 47)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l4uom"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(64, 94, 64, 47)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jp3wh"]
-atlas = ExtResource("2_4jxaa")
-region = Rect2(128, 94, 64, 47)
+atlas = ExtResource("2_7w7dw")
+region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_oika3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fcquk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7w7dw")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_27s6r")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qb5o4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vs4xa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7jkmi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p1lqc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l4uom")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jp3wh")
 }],
-"loop": false,
+"loop": true,
 "name": &"attack",
 "speed": 12.0
 }]
@@ -99,6 +44,9 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:attack_damage")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath(".:spawn_on_load_trigger")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="sword_slash" type="RigidBody3D" unique_id=91766674 node_paths=PackedStringArray("collision_shape")]
 collision_layer = 4
@@ -109,21 +57,24 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_4jxaa")
 collision_shape = NodePath("CollisionShape3D")
+spawn_on_load = Array[Resource]([ExtResource("2_27s6r")])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=589480253]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("SphereShape3D_lqaso")
 
 [node name="Anim" type="AnimatedSprite3D" parent="." unique_id=2088719789]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.26833493, 0)
+pixel_size = 0.04
 billboard = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_oika3")
 animation = &"attack"
-frame = 8
 frame_progress = 1.0
 
 [node name="Lifespan" type="Timer" parent="." unique_id=329340027]
-wait_time = 3.0
+wait_time = 0.3
+autostart = true
 
 [node name="SoundOnSpawn" type="AudioStreamPlayer3D" parent="." unique_id=277286314]
 stream = ExtResource("3_7w7dw")

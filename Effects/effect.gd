@@ -60,24 +60,26 @@ signal effect_begin
 func activate_effect():
 	if duration_count > 0 && duration_ticks == 0:
 		duration_timer.wait_time = duration_tick_time
-		duration_timer.start()
-	
-	if blast_projectiles > 0:
-		if get_parent() is Attack:
-			var parent_attack : Attack = get_parent()
-			#Get attack angle, then divide the 360 by the number of projectiles
-			#Using the angle as the starting point, add that amount of deg and then file off an 
-			#equal velocity projectile in another direction			
-			var rot_step : float = (2*PI) / blast_projectiles
-			for ds in range(0,blast_projectiles):
-				var dir: Vector3 = Vector3(cos(ds*rot_step), 0.0, sin(ds*rot_step))
-				var final_velocity: Vector3 = dir*parent_attack.projectile_speed
-				var new_attack : Attack = load(parent_attack.scene_file_path).instantiate()
-				get_tree().current_scene.get_node("Attacks").add_child(new_attack,true)
-				new_attack.attack(parent_attack.attack_damage)
-				new_attack.position = parent_attack.position + (dir)
-				new_attack.linear_velocity = final_velocity
-				new_attack.look_at(parent_attack.position + final_velocity, Vector3.UP)
+		duration_timer.start()	
+		
+	#ONLY CREATE THINGS ON SERVER
+	if multiplayer.is_server():
+		if blast_projectiles > 0:
+			if get_parent() is Attack:
+				var parent_attack : Attack = get_parent()
+				#Get attack angle, then divide the 360 by the number of projectiles
+				#Using the angle as the starting point, add that amount of deg and then file off an 
+				#equal velocity projectile in another direction			
+				var rot_step : float = (2*PI) / blast_projectiles
+				for ds in range(0,blast_projectiles):
+					var dir: Vector3 = Vector3(cos(ds*rot_step), 0.0, sin(ds*rot_step))
+					var final_velocity: Vector3 = dir*parent_attack.projectile_speed
+					var new_attack : Attack = load(parent_attack.scene_file_path).instantiate()
+					get_tree().current_scene.get_node("Attacks").add_child(new_attack,true)
+					new_attack.attack_damage = parent_attack.attack_damage
+					new_attack.position = parent_attack.position + (dir)
+					new_attack.linear_velocity = final_velocity
+					new_attack.look_at(parent_attack.position + final_velocity, Vector3.UP)
 
 func set_target(t):
 	target = t
@@ -88,15 +90,18 @@ func apply_effects(mod : int):
 	if duration_count > 0 && duration_ticks == 0:
 		duration_timer.wait_time = duration_tick_time
 		duration_timer.start()
-	if target.has_node("HealthComponent"):
-		var hcomp : Health_Component = target.get_node("HealthComponent")
-		#Apply Restistances
-		for dtype in restistance:
-			hcomp.restistance[dtype] += (mod*restistance[dtype])
-		#Apply Heal
-		if mod > 0:
-			if heal[1] > 0: #max on range is greather than zero
-				hcomp.heal(randi_range(heal[0],heal[1]))
+		
+	#ONLY APPLY CHANGES ON SERVER
+	if multiplayer.is_server():
+		if target.has_node("HealthComponent"):
+			var hcomp : Health_Component = target.get_node("HealthComponent")
+			#Apply Restistances
+			for dtype in restistance:
+				hcomp.restistance[dtype] += (mod*restistance[dtype])
+			#Apply Heal
+			if mod > 0:
+				if heal[1] > 0: #max on range is greather than zero
+					hcomp.heal(randi_range(heal[0],heal[1]))
 		
 ## For passive effects, such as modifications to health, this removes the mod value
 func remove_effects():

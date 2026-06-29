@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cun5efmq4qhh6" path="res://art/Weapons/crosshair_1.png" id="2_c7tqi"]
 [ext_resource type="Texture2D" uid="uid://bed4odajfllxs" path="res://art/Cards/Cards.png" id="3_cbfhl"]
 [ext_resource type="Texture2D" uid="uid://btn8gkeortv32" path="res://art/ui/ui_discard_icon.png" id="6_6rr40"]
+[ext_resource type="PackedScene" uid="uid://s6s4tnij1fhh" path="res://UI/Displays/LatencyDisplay.tscn" id="6_nm1m0"]
 [ext_resource type="Texture2D" uid="uid://bn4pyeftitr3y" path="res://art/Magic/heal_1.png" id="7_c7tqi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
@@ -162,6 +163,7 @@ randomness = 0.07
 process_material = SubResource("ParticleProcessMaterial_4fiuh")
 
 [node name="HealingParticlesTimer" type="Timer" parent="." unique_id=1459848168]
+one_shot = true
 
 [node name="MPIDLabel" type="Label" parent="." unique_id=1827346667]
 layout_mode = 0
@@ -189,3 +191,13 @@ offset_right = 1531.0
 offset_bottom = 784.0
 text = "(##)"
 horizontal_alignment = 1
+
+[node name="LatencyDisplay" parent="." unique_id=1214101862 instance=ExtResource("6_nm1m0")]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 167.0
+offset_right = 10.0
+offset_bottom = 190.0
+text = "0 ms"
+
+[connection signal="timeout" from="HealingParticlesTimer" to="." method="_on_healing_particles_timer_timeout"]

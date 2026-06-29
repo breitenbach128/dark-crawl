@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://ci8csvuwk8pv0"]
+
+[ext_resource type="Script" uid="uid://cj3665kxst6o7" path="res://VisualEffects/healing_player.gd" id="1_uhpr6"]
+[ext_resource type="Texture2D" uid="uid://bgydht8j3mgm8" path="res://art/Weapons/bullet_blast_1.png" id="1_yv861"]
+
+[sub_resource type="Curve" id="Curve_uhpr6"]
+_limits = [-2.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_sav5d"]
+curve = SubResource("Curve_uhpr6")
+
+[sub_resource type="Curve" id="Curve_yv861"]
+_limits = [0.0, 1.0, 0.0, 2.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(2, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_uhpr6"]
+curve = SubResource("Curve_yv861")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uhpr6"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.5
+emission_ring_radius = 1.2
+emission_ring_inner_radius = 1.0
+emission_ring_cone_angle = 90.0
+orbit_velocity_curve = SubResource("CurveTexture_sav5d")
+gravity = Vector3(0, 0.6, 0)
+scale_curve = SubResource("CurveTexture_uhpr6")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sav5d"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(0.16078432, 0.8117647, 0.16470589, 1)
+albedo_texture = ExtResource("1_yv861")
+texture_filter = 0
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+point_size = 16.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_mpd3q"]
+lightmap_size_hint = Vector2i(3, 3)
+material = SubResource("StandardMaterial3D_sav5d")
+size = Vector2(0.25, 0.25)
+
+[node name="HealingPlayer" type="Node3D" unique_id=1747287295]
+script = ExtResource("1_uhpr6")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1196964865]
+amount = 48
+lifetime = 1.5
+trail_lifetime = 1.44
+process_material = SubResource("ParticleProcessMaterial_uhpr6")
+draw_pass_1 = SubResource("QuadMesh_mpd3q")
+
+[node name="Timer" type="Timer" parent="." unique_id=969188022]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

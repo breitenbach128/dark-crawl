@@ -6,8 +6,17 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_u3gby"]
 radius = 0.09982186
 
-[node name="EnemyAttack" type="Node3D" unique_id=827840960]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_u3gby"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="EnemyAttack" type="Node3D" unique_id=827840960 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("1_jiqw2")
+collision_shape = NodePath("Area3D/CollisionShape3D")
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=242593886]
 texture_filter = 0
@@ -20,6 +29,9 @@ shape = SubResource("SphereShape3D_u3gby")
 
 [node name="Lifespan" type="Timer" parent="." unique_id=1628370107]
 wait_time = 10.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1089852393]
+replication_config = SubResource("SceneReplicationConfig_u3gby")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="timeout" from="Lifespan" to="." method="_on_lifespan_timeout"]

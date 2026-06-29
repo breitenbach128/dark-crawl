@@ -3,8 +3,24 @@
 [ext_resource type="Script" uid="uid://bkue45pxryoaf" path="res://Components/health_component.gd" id="1_3hjnf"]
 [ext_resource type="PackedScene" uid="uid://u1jon222ioi6" path="res://VisualEffects/blood_splatter.tscn" id="2_1yhyo"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1yhyo"]
+properties/0/path = NodePath(".:health_max")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:health")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:restistance")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
 [node name="HealthComponent" type="Node3D" unique_id=657661605 node_paths=PackedStringArray("vi_bloodsplatter")]
 script = ExtResource("1_3hjnf")
 vi_bloodsplatter = NodePath("BloodSplatter")
 
 [node name="BloodSplatter" parent="." unique_id=1784654527 instance=ExtResource("2_1yhyo")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1191660070]
+replication_config = SubResource("SceneReplicationConfig_1yhyo")
+
+[connection signal="health_changed" from="." to="." method="_on_health_changed"]

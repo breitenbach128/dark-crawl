@@ -8,6 +8,7 @@ class_name MainScene
 @export var uieffects_root : Node3D
 @export var pickups_root : Node3D
 @export var players_root : Node3D
+@export var visuals_root : Node3D
 @export var dungeon_creator: DungeonGenerator
 @export var monster_generator: MonsterGenerator
 @export var multiplayer_spawner_players: MultiplayerSpawner
@@ -41,9 +42,8 @@ func spawn_player(id : int):
 	return new_player
 
 func start_game():
-	Globals.start_game = true
-	pass
-	#monster_generator.spawn_monsters()
+	Globals.start_game = true	
+	monster_generator.spawn_monsters()
 
 func _on_multiplayer_spawner_players_spawned(p: Player) -> void:
 	print("Spawned Player, " , p)

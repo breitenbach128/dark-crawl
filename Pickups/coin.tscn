@@ -71,6 +71,11 @@ animations = [{
 [sub_resource type="SphereShape3D" id="SphereShape3D_6fufe"]
 radius = 0.4
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1pu3x"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
 [node name="Coin" type="Node3D" unique_id=180616837]
 script = ExtResource("1_qgrjt")
 
@@ -88,6 +93,9 @@ shape = SubResource("SphereShape3D_6fufe")
 
 [node name="PickupSound" type="AudioStreamPlayer3D" parent="." unique_id=788516283]
 stream = ExtResource("3_1pu3x")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=971916255]
+replication_config = SubResource("SceneReplicationConfig_1pu3x")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="finished" from="PickupSound" to="." method="_on_pickup_sound_finished"]

@@ -21,17 +21,27 @@ class_name Player
 @export var subviewport : SubViewport
 @export var playernamelabel: Label3D
 @export var client_cards : Control
+@export var HealthBar : HealthBar3D
+
+var health_bar_display_tick : float = 0.0
+var health_bar_display_tick_max : float = 0.5 #Seconds
 
 var jump_velocity : float = 25.5
 var movement_speed : float = 8.0
 var movement_direction : Vector3 =  Vector3(0,0,0)
 var gravity = 75.5
 var dash_speed : float = 18.0
-var money: int = 0
+#MP Sync Setters
+@export_category("Setters")
+@export var money: int = 0 :
+	set(value):
+		money = value
+		money_changed.emit()
+	
 var has_spawned : bool = false
 
 enum GUNS {BLASTER=0}
-
+signal money_changed
 #Components
 @export_category("Components")
 @export var health_component : Health_Component
@@ -75,12 +85,35 @@ func _enter_tree():
 
 	playernamelabel.text = str(peer_id)
 func _ready() -> void:
-	pass
-	
+	if health_component:
+		health_component.health_changed.connect(player_update_hp_bar)
+	if ui:
+		money_changed.connect(func(): ui.get_node("Coins").text = "Money:" + str(money))
+
+func player_update_hp_bar(hp,hpmax,amount):
+	HealthBar.max = hpmax
+	HealthBar.update_bar_value(hp)
+
+func player_show_hp_bar():
+	if HealthBar.visible == false:
+		HealthBar.visible = true
+	health_bar_display_tick = health_bar_display_tick_max
+		
+
 func _process(delta: float) -> void:
+	if HealthBar.visible == true:
+		health_bar_display_tick-= delta
+		if health_bar_display_tick <= 0:
+			HealthBar.visible = false
+		
 	if is_multiplayer_authority():
 		if tracking_cam:
 			tracking_cam.position = tracking_cam.position.lerp(position+Vector3(0,50,0),5*delta)
+		if gun_raycast.is_colliding(): 
+			var collider = gun_raycast.get_collider()
+			if collider is Player:
+				collider.player_show_hp_bar()
+				
 	else:
 		if Globals.local_player:
 			var player_camera : Camera3D = Globals.local_player.camera
@@ -191,17 +224,36 @@ func move(delta):
 func collect_coin(amount: int):
 	if is_multiplayer_authority():
 		money+=amount
-		ui.get_node("Coins").text = "Money:" + str(money)
 
+
+## Server Adds effect to player
 func player_add_effect(new_effect : Effect):
-		add_child(new_effect)
-		new_effect.set_target(self)
-		new_effect.apply_effects(1)
-		new_effect.effect_end.connect(player_remove_effect)
+	print("Effect Added to player: ", name, " on client: ", multiplayer.get_unique_id())
+	add_child(new_effect)
+	new_effect.set_target(self)
+	new_effect.apply_effects(1)
+	new_effect.effect_end.connect(player_remove_effect)
+	if ui:
 		ui.update_effect_display_area()
+	client_player_add_effect.rpc(name.to_int(),new_effect.scene_file_path)
+		
+@rpc("any_peer","call_remote","reliable")
+func client_player_add_effect(pid,effect_scene_path):
+	for client in Globals.current_main.players_root.get_children():
+		if client is Player:
+			if client.name.to_int() == pid:
+				print("Client Rcv: Player Add Effect: ", effect_scene_path)
+				var new_effect: Effect = load(effect_scene_path).instantiate()
+				client.add_child(new_effect)
+				new_effect.set_target(self)
+				new_effect.apply_effects(1)
+				if client.ui:
+					client.ui.update_effect_display_area()
+					new_effect.effect_end.connect(client.player_remove_effect)
 
 func player_remove_effect():
-	ui.ui_update_effect_display_area()
+	if ui:
+		ui.update_effect_display_area()
 
 
 func _on_multiplayer_synchronizer_delta_synchronized() -> void:

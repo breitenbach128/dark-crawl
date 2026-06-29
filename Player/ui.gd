@@ -82,12 +82,12 @@ func draw_card():
 		var vp_size = get_viewport_rect().size
 		var center_position = (vp_size-top_card.custom_minimum_size)/2 + Vector2(-64,0)
 		draw_card_tween.set_parallel(true)
-		draw_card_tween.tween_property(top_card, "global_position", center_position - Vector2((vp_size.x/3),0), 0.4).set_trans(Tween.TRANS_SINE) #Update: Offset more to left 1/4 of screen
-		draw_card_tween.tween_property(top_card, "scale", Vector2(1.3,1.3), 0.4).set_trans(Tween.TRANS_SINE)
-		draw_card_tween.chain().tween_interval(.6)
+		draw_card_tween.tween_property(top_card, "global_position", center_position - Vector2((vp_size.x/3),0), 0.2).set_trans(Tween.TRANS_SINE) #Update: Offset more to left 1/4 of screen
+		draw_card_tween.tween_property(top_card, "scale", Vector2(1.3,1.3), 0.2).set_trans(Tween.TRANS_SINE)
+		draw_card_tween.chain().tween_interval(.2)
 		draw_card_tween.set_parallel(true)
-		draw_card_tween.tween_property(top_card, "global_position", drop_position, 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.4)
-		draw_card_tween.tween_property(top_card, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.4)
+		draw_card_tween.tween_property(top_card, "global_position", drop_position, 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.2)
+		draw_card_tween.tween_property(top_card, "scale", Vector2(1,1), 0.5).set_trans(Tween.TRANS_SINE).set_delay(0.2)
 		draw_card_tween.finished.connect(take_card.bind(top_card))
 
 func take_card(top_card : Card):
@@ -146,7 +146,7 @@ func update_card_control_icons():
 func update_effect_display_area():
 	if player:
 		#Clear First:
-		for prev_ef_icon in effects_area.get_children():			
+		for prev_ef_icon in effects_area.get_children():
 			prev_ef_icon.queue_free()
 
 		for ef : Effect in player.get_children().filter(func(child): return child is Effect):
@@ -160,6 +160,8 @@ func update_effect_display_area():
 func start_healing_particles():
 	healing_particles.emitting = true
 	healing_particles_timer.start()
+	print("Starting healing particles")
 
 func _on_healing_particles_timer_timeout() -> void:
+	print("End healing particles")
 	healing_particles.emitting = false

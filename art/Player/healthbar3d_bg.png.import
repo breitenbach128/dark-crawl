@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chk31rmfn3bxl"
-path.s3tc="res://.godot/imported/Green Effect and Bullet 16x16.png-c2af9eed92701d9ba342c1e49214e0a0.s3tc.ctex"
+uid="uid://cjhubdiu0txbj"
+path.s3tc="res://.godot/imported/healthbar3d_bg.png-8b371546c7ac34a124fd592ba9bcbec3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://art/Magic/Green Effect and Bullet 16x16.png"
-dest_files=["res://.godot/imported/Green Effect and Bullet 16x16.png-c2af9eed92701d9ba342c1e49214e0a0.s3tc.ctex"]
+source_file="res://art/Player/healthbar3d_bg.png"
+dest_files=["res://.godot/imported/healthbar3d_bg.png-8b371546c7ac34a124fd592ba9bcbec3.s3tc.ctex"]
 
 [params]
 

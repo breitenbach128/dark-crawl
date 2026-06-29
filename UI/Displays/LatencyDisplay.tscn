@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://s6s4tnij1fhh"]
+
+[ext_resource type="Script" uid="uid://b85yg20gnswl5" path="res://UI/Displays/latency_display.gd" id="1_ih2ul"]
+
+[node name="LatencyDisplay" type="Label" unique_id=1214101862]
+script = ExtResource("1_ih2ul")

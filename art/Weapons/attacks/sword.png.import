@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chk31rmfn3bxl"
-path.s3tc="res://.godot/imported/Green Effect and Bullet 16x16.png-c2af9eed92701d9ba342c1e49214e0a0.s3tc.ctex"
+uid="uid://k1u1mlt1pxhh"
+path.s3tc="res://.godot/imported/sword.png-96d4e4ba445f31efad62943c9d373fa8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://art/Magic/Green Effect and Bullet 16x16.png"
-dest_files=["res://.godot/imported/Green Effect and Bullet 16x16.png-c2af9eed92701d9ba342c1e49214e0a0.s3tc.ctex"]
+source_file="res://art/Weapons/attacks/sword.png"
+dest_files=["res://.godot/imported/sword.png-96d4e4ba445f31efad62943c9d373fa8.s3tc.ctex"]
 
 [params]
 

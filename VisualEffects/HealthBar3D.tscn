@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://d4ivwi26ba6f6"]
+
+[ext_resource type="Script" uid="uid://hhtiy17ukpjn" path="res://VisualEffects/health_bar_3d.gd" id="1_cp8ej"]
+[ext_resource type="Texture2D" uid="uid://cjhubdiu0txbj" path="res://art/Player/healthbar3d_bg.png" id="2_jtbc4"]
+[ext_resource type="Texture2D" uid="uid://b5qvt3q5l8qud" path="res://art/Player/healthbar3d_bar.png" id="3_4lt8v"]
+[ext_resource type="Texture2D" uid="uid://27jrj8sec8m7" path="res://art/Player/healthbar3d_fg.png" id="4_s804s"]
+
+[node name="HealthBar3d" type="Node3D" unique_id=1665366822 node_paths=PackedStringArray("background_sprite", "foreground_sprite", "bar_sprite")]
+script = ExtResource("1_cp8ej")
+background_sprite = NodePath("Background")
+foreground_sprite = NodePath("Foreground")
+bar_sprite = NodePath("Bar")
+bar_size = Rect2(0, 0, 128, 32)
+
+[node name="Background" type="Sprite3D" parent="." unique_id=1118529822]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0)
+sorting_offset = 1.0
+billboard = 2
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("2_jtbc4")
+
+[node name="Bar" type="Sprite3D" parent="." unique_id=1205479480]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0)
+sorting_offset = 2.0
+billboard = 2
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("3_4lt8v")
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 32)
+
+[node name="Foreground" type="Sprite3D" parent="." unique_id=1267715657]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0)
+sorting_offset = 3.0
+billboard = 2
+alpha_cut = 2
+texture_filter = 0
+texture = ExtResource("4_s804s")
