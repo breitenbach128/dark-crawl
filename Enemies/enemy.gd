@@ -37,6 +37,9 @@ func death():
 		coin.global_position = global_position
 	$DeathSounds.play()
 
+func _process(delta: float) -> void:
+	pass
+
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
