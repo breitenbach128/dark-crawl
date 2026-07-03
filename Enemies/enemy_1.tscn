@@ -82,6 +82,15 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:behavior")
 properties/3/spawn = true
 properties/3/replication_mode = 2
+properties/4/path = NodePath("Merfolks_Marauder:position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("Merfolks_Marauder:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("Merfolks_Marauder/Armature:rotation")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight", "mesh")]
 script = ExtResource("1_vy3xu")
@@ -156,7 +165,7 @@ replication_config = SubResource("SceneReplicationConfig_7bagf")
 transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 0.48000002, 0)
 
 [node name="Skeleton3D" parent="Merfolks_Marauder/Armature" parent_id_path=PackedInt32Array(1971859074, 1170892216) index="0" unique_id=200970264]
-bones/0/position = Vector3(-1.510361e-05, 0.30654457, -0.002139961)
+bones/0/position = Vector3(-1.310644e-05, 0.26600975, -0.001856991)
 bones/1/scale = Vector3(1, 1, 1)
 bones/4/rotation = Quaternion(0, -1.1920929e-07, 0, 1)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
