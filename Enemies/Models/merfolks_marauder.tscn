@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://be4lavx1fcc1n"]
+
+[ext_resource type="PackedScene" uid="uid://darhlhgidvevy" path="res://art/Enemies/Merfolks_Marauder.glb" id="1_lb8yg"]
+
+[node name="Merfolks_Marauder" unique_id=906223138 instance=ExtResource("1_lb8yg")]
+transform = Transform3D(-0.23, 0, -3.4729034e-08, 0, 0.23, 0, 3.4729034e-08, 0, -0.23, 0, 0, 0)
+
+[node name="Armature" parent="." index="0" unique_id=1170892216]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Armature" index="0" unique_id=200970264]
+bones/1/scale = Vector3(1.1503274, 1.1503274, 1.1503274)
+bones/4/rotation = Quaternion(0, -0.017780513, 0, 0.9998419)
+bones/8/rotation = Quaternion(0, -0.014338796, 0, 0.9998972)
+bones/9/rotation = Quaternion(0, 1.2107193e-07, 0, 1)
+bones/13/rotation = Quaternion(-0.14521313, 0, 0, 0.98940045)
+bones/14/rotation = Quaternion(0.19970517, 0, 0, 0.979856)
+bones/15/rotation = Quaternion(0.0068488233, 0, 0, 0.99997663)

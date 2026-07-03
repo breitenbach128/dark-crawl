@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://bfq6musk5k252"]
 
-[ext_resource type="Texture2D" uid="uid://cqtpg0fh2vgee" path="res://art/Enemies/MerfolkImpaler.png" id="1_mbxyh"]
 [ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy.gd" id="1_vy3xu"]
 [ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_4cuqr"]
 [ext_resource type="Script" uid="uid://cg2vnfv2on06f" path="res://Statemachine/statemachine.gd" id="4_kvr2i"]
@@ -10,127 +9,13 @@
 [ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="8_rknch"]
 [ext_resource type="Script" uid="uid://diy2rcwynumbt" path="res://Statemachine/enemy_death.gd" id="9_xamao"]
 [ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="10_7bagf"]
-[ext_resource type="PackedScene" uid="uid://darhlhgidvevy" path="res://art/Enemies/Merfolks_Marauder.glb" id="11_wys7m"]
+[ext_resource type="PackedScene" uid="uid://be4lavx1fcc1n" path="res://Enemies/Models/merfolks_marauder.tscn" id="11_wys7m"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
+radius = 0.35
 
-[sub_resource type="Animation" id="Animation_by8t8"]
-resource_name = "Attack"
-length = 1.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite3D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.23333333, 0.46666667, 0.7, 0.93333334),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [7, 8, 9, 10, 11]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("StateMachine/StateEnemyAttack")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1.1333333),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"attack_animation_loop_complete"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_rknch"]
-resource_name = "Death"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite3D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.43333334, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [12, 13, 14, 15, 16]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("StateMachine/StateEnemyDeath")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"death_animation_complete"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_csjqm"]
-resource_name = "Idle"
-length = 1.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite3D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [1, 0, 2, 3]
-}
-
-[sub_resource type="Animation" id="Animation_1jrr1"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite3D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_rtiul"]
-resource_name = "Walk"
-length = 0.5
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite3D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [4, 5, 6]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_rknch"]
-_data = {
-&"Attack": SubResource("Animation_by8t8"),
-&"Death": SubResource("Animation_rknch"),
-&"Idle": SubResource("Animation_csjqm"),
-&"RESET": SubResource("Animation_1jrr1"),
-&"Walk": SubResource("Animation_rtiul")
-}
+[sub_resource type="BoxShape3D" id="BoxShape3D_7bagf"]
+size = Vector3(0.47382814, 0.49433595, 1.5577149)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rtiul"]
 animation = &"Attack"
@@ -198,7 +83,7 @@ properties/3/path = NodePath(".:behavior")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
-[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight")]
+[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight", "mesh")]
 script = ExtResource("1_vy3xu")
 health_component = NodePath("HealthComponent")
 attack_component = NodePath("AttackComponent")
@@ -206,20 +91,15 @@ state_machine = NodePath("StateMachine")
 animation_player = NodePath("Merfolks_Marauder/AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 line_of_sight = NodePath("LineOfSign")
+mesh = NodePath("Merfolks_Marauder")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1774136908]
+[node name="ColShapeBody" type="CollisionShape3D" parent="." unique_id=1774136908]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_h2yge")
 
-[node name="Sprite3D" type="Sprite3D" parent="." unique_id=669087216]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8000001, 0)
-visible = false
-pixel_size = 0.1
-billboard = 2
-texture_filter = 0
-texture = ExtResource("1_mbxyh")
-hframes = 17
-region_rect = Rect2(0, 0, 224, 16)
+[node name="ColShapeTail" type="CollisionShape3D" parent="." unique_id=546019064]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00021025538, 0.25283203, 0.5211426)
+shape = SubResource("BoxShape3D_7bagf")
 
 [node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_4cuqr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.2)
@@ -257,9 +137,6 @@ script = ExtResource("9_xamao")
 enemy = NodePath("../..")
 metadata/_custom_type_script = "uid://diy2rcwynumbt"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1872529516]
-libraries/ = SubResource("AnimationLibrary_rknch")
-
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1390166169]
 root_node = NodePath("../Merfolks_Marauder")
 tree_root = SubResource("AnimationNodeStateMachine_xamao")
@@ -267,7 +144,6 @@ anim_player = NodePath("../Merfolks_Marauder/AnimationPlayer")
 
 [node name="LineOfSign" type="RayCast3D" parent="." unique_id=420305316]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
-target_position = Vector3(0, 0, -30)
 debug_shape_custom_color = Color(0.20169646, 0.7046821, 0.7619191, 1)
 
 [node name="DeathSounds" type="AudioStreamPlayer3D" parent="." unique_id=2059134241]
@@ -277,12 +153,18 @@ stream = SubResource("AudioStreamRandomizer_wys7m")
 replication_config = SubResource("SceneReplicationConfig_7bagf")
 
 [node name="Merfolks_Marauder" parent="." unique_id=1971859074 instance=ExtResource("11_wys7m")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.6, 0)
+transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 0.48000002, 0)
 
-[node name="Skeleton3D" parent="Merfolks_Marauder/Armature" parent_id_path=PackedInt32Array(1971859074, 370293353) index="0" unique_id=710792562]
-bones/0/position = Vector3(-1.5215931e-05, 0.3088242, -0.002155875)
-bones/13/rotation = Quaternion(-0.14521313, 0, 0, 0.98940045)
-bones/14/rotation = Quaternion(0.19970517, 0, 0, 0.979856)
-bones/15/rotation = Quaternion(0.0068488233, 0, 0, 0.99997663)
+[node name="Skeleton3D" parent="Merfolks_Marauder/Armature" parent_id_path=PackedInt32Array(1971859074, 1170892216) index="0" unique_id=200970264]
+bones/0/position = Vector3(-1.510361e-05, 0.30654457, -0.002139961)
+bones/1/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(0, -1.1920929e-07, 0, 1)
+bones/8/rotation = Quaternion(0, 0, 0, 1)
+bones/9/rotation = Quaternion(0, 1.1920929e-07, 0, 1)
+
+[node name="DEBUG" type="Label3D" parent="." unique_id=1016468438]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+billboard = 2
+text = "Safe"
 
 [editable path="Merfolks_Marauder"]

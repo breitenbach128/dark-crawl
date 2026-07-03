@@ -5,6 +5,8 @@ class_name StateEnemyWander
 var move_speed : float = 6.0
 var move_direction: Vector3
 var wander_time : float
+var los_check_time : float = 3.0
+var los_check_tick : float = 0.0
 #general purpose interrupts for states - Common actions
 var is_dead : bool = false
 
@@ -29,10 +31,14 @@ func Update(delta: float):
 	if is_dead:
 		Transitioned.emit(self, "StateEnemyDeath")
 	#Check for players to kill
-	var target = enemy.find_closest_player_target()
-	if target:
-		Transitioned.emit(self, "StateEnemyAttack")
-	
+	los_check_tick-= delta
+	if los_check_tick <= 0:
+		var target = enemy.find_closest_player_target()
+		
+		if target:
+			Transitioned.emit(self, "StateEnemyAttack")
+		los_check_tick = los_check_time
+		
 	#No players, so just wander	
 	if wander_time > 0:
 		wander_time -= delta

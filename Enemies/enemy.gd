@@ -11,16 +11,19 @@ class_name Enemy
 @export var animation_player : AnimationPlayer
 @export var animation_tree : AnimationTree
 @export var line_of_sight: RayCast3D
+@export var mesh: Node3D
 
 @export var behavior : String = "Idle":
 	set(new_value):
 		behavior = new_value
 		var anim_sm :AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 		anim_sm.travel(new_value)
+		$DEBUG.text=new_value
 		#print("New Behavior State: ", multiplayer.get_unique_id(), " ", new_value)
 
 var gravity = 75.5
 var coin_chance : float = 1.00 #75%
+var rotation_speed : float = 5.0
 
 func _enter_tree() -> void:
 	pass
@@ -43,21 +46,29 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+	#Face movement direction:
+	if behavior == "Walk":
+		var horizontal_velocity = Vector3(velocity.x, 0, velocity.z)
+		if horizontal_velocity.length() > 0.1:
+			var target_angle = atan2(-horizontal_velocity.x, -horizontal_velocity.z)
+			mesh.rotation.y = lerp_angle(mesh.rotation.y, target_angle, rotation_speed * delta)
+
 	move_and_slide()
 	
-func check_line_of_sight(target):
+func check_line_of_sight(target):	
 	line_of_sight.target_position = target.global_position - line_of_sight.global_position
 	line_of_sight.force_raycast_update()
 	if line_of_sight.is_colliding():
 		var collider = line_of_sight.get_collider()
+		print("LOS Check Returns Target ", collider == target)
 		return  collider == target
 	return false
 
 func find_closest_player_target():
-	var players = get_tree().get_nodes_in_group("Player")
+	var players = get_tree().get_nodes_in_group("Player")	
 	var target = null
 	var min_distance = INF 
-	for p in players:
+	for p in players:		
 		if is_instance_valid(p):
 			if check_line_of_sight(p):
 				var distance = global_position.distance_squared_to(p.global_position)

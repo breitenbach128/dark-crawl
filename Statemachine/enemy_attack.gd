@@ -7,23 +7,26 @@ class_name StateEnemyAttack
 @export var attack_rate_count : float = 0.0
 @export var attack_rate_timer : float = 3.0
 @export var aggro_range: float = 10.0
+@export var turn_speed: float = 5.0
 
 var atc: Attack_Component
 var use_animtree: bool = true
 #general purpose interrupts for states - Common actions
 var is_dead : bool = false
+var target
 
 func _ready() -> void:
 	if enemy:
 		enemy.health_component.health_death.connect(func(): is_dead = true)
 
 func attack_animation_loop_complete():	
-	var target = enemy.find_closest_player_target()
+	target = enemy.find_closest_player_target()	
 	if target == null:
 		Transitioned.emit(self, "StateEnemyWander")	
+		return
 	if atc && target:
-		enemy.look_at(target.global_position, Vector3.UP)
 		atc.attack_target(target)
+		return
 
 func Enter():
 	#print("Enter State, StateEnemyAttack")
@@ -35,6 +38,8 @@ func Enter():
 		enemy.behavior = "Attack"
 	else:
 		use_animtree = false
+	#Find any target
+	target = enemy.find_closest_player_target()	
 	
 func Update(delta: float):
 	#Is Dead?
@@ -55,7 +60,9 @@ func Update(delta: float):
 				atc.attack_target(target)
 				
 			attack_rate_count = 0
-
-
+			
+	if target:
+		enemy.mesh.look_at(target.global_position, Vector3.UP)
+		
 func Physics_Update(_delta : float):
 	pass
