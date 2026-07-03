@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://j6mtvmwlc185" path="res://art/Player/wizard.png" id="4_x3vf3"]
 [ext_resource type="PackedScene" uid="uid://dql37iq21ntuu" path="res://UI/ui.tscn" id="5_fhl08"]
 [ext_resource type="PackedScene" uid="uid://d4ivwi26ba6f6" path="res://VisualEffects/HealthBar3D.tscn" id="6_fhl08"]
+[ext_resource type="PackedScene" uid="uid://5werojpq58r2" path="res://art/Player/Wizard_Player.glb" id="7_vtle1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
 
@@ -121,6 +122,7 @@ health_max = 100
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=1167071204]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1726234, 0)
+visible = false
 pixel_size = 0.04
 billboard = 2
 texture_filter = 0
@@ -154,5 +156,8 @@ offset_bottom = 40.0
 
 [node name="HealthBar3d" parent="." unique_id=1665366822 instance=ExtResource("6_fhl08")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3301421, 0)
+
+[node name="Wizard_Player" parent="." unique_id=740643223 instance=ExtResource("7_vtle1")]
+transform = Transform3D(-0.29999998, 0, 2.6226832e-08, 0, 0.29999998, 0, -2.6226832e-08, 0, -0.29999998, 0, 0, 0.3380658)
 
 [connection signal="delta_synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_delta_synchronized"]

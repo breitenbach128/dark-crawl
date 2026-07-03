@@ -17,11 +17,12 @@ func _ready() -> void:
 	if enemy:
 		enemy.health_component.health_death.connect(func(): is_dead = true)
 
-func attack_animation_loop_complete():
+func attack_animation_loop_complete():	
 	var target = enemy.find_closest_player_target()
 	if target == null:
 		Transitioned.emit(self, "StateEnemyWander")	
 	if atc && target:
+		enemy.look_at(target.global_position, Vector3.UP)
 		atc.attack_target(target)
 
 func Enter():

@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="8_rknch"]
 [ext_resource type="Script" uid="uid://diy2rcwynumbt" path="res://Statemachine/enemy_death.gd" id="9_xamao"]
 [ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="10_7bagf"]
+[ext_resource type="PackedScene" uid="uid://darhlhgidvevy" path="res://art/Enemies/Merfolks_Marauder.glb" id="11_wys7m"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 
@@ -202,7 +203,7 @@ script = ExtResource("1_vy3xu")
 health_component = NodePath("HealthComponent")
 attack_component = NodePath("AttackComponent")
 state_machine = NodePath("StateMachine")
-animation_player = NodePath("AnimationPlayer")
+animation_player = NodePath("Merfolks_Marauder/AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 line_of_sight = NodePath("LineOfSign")
 
@@ -212,6 +213,7 @@ shape = SubResource("CapsuleShape3D_h2yge")
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=669087216]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8000001, 0)
+visible = false
 pixel_size = 0.1
 billboard = 2
 texture_filter = 0
@@ -259,14 +261,28 @@ metadata/_custom_type_script = "uid://diy2rcwynumbt"
 libraries/ = SubResource("AnimationLibrary_rknch")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1390166169]
+root_node = NodePath("../Merfolks_Marauder")
 tree_root = SubResource("AnimationNodeStateMachine_xamao")
-anim_player = NodePath("../AnimationPlayer")
+anim_player = NodePath("../Merfolks_Marauder/AnimationPlayer")
 
 [node name="LineOfSign" type="RayCast3D" parent="." unique_id=420305316]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+target_position = Vector3(0, 0, -30)
+debug_shape_custom_color = Color(0.20169646, 0.7046821, 0.7619191, 1)
 
 [node name="DeathSounds" type="AudioStreamPlayer3D" parent="." unique_id=2059134241]
 stream = SubResource("AudioStreamRandomizer_wys7m")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1609139329]
 replication_config = SubResource("SceneReplicationConfig_7bagf")
+
+[node name="Merfolks_Marauder" parent="." unique_id=1971859074 instance=ExtResource("11_wys7m")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.6, 0)
+
+[node name="Skeleton3D" parent="Merfolks_Marauder/Armature" parent_id_path=PackedInt32Array(1971859074, 370293353) index="0" unique_id=710792562]
+bones/0/position = Vector3(-1.5215931e-05, 0.3088242, -0.002155875)
+bones/13/rotation = Quaternion(-0.14521313, 0, 0, 0.98940045)
+bones/14/rotation = Quaternion(0.19970517, 0, 0, 0.979856)
+bones/15/rotation = Quaternion(0.0068488233, 0, 0, 0.99997663)
+
+[editable path="Merfolks_Marauder"]
