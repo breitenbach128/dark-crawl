@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://bcen2x4pdxsm3"]
+
+[ext_resource type="Shader" uid="uid://bkswtpt18j5r" path="res://VisualEffects/Particles/Impact_1.tres" id="1_mehnl"]
+[ext_resource type="Texture2D" uid="uid://ud8ypxtt6l56" path="res://art/ui/ui_card_mana_icon.png" id="2_iibcl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iibcl"]
+render_priority = 0
+shader = ExtResource("1_mehnl")
+shader_parameter/Hit_texture = ExtResource("2_iibcl")
+
+[sub_resource type="Curve" id="Curve_iibcl"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_5ldhr"]
+curve = SubResource("Curve_iibcl")
+
+[sub_resource type="Gradient" id="Gradient_wxak6"]
+offsets = PackedFloat32Array(0, 0.99568963)
+colors = PackedColorArray(1, 1, 0.13333334, 1, 0.86146796, 0.077545606, 0.18466717, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hknru"]
+gradient = SubResource("Gradient_wxak6")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_5ldhr"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_wxak6"]
+curve = SubResource("Curve_5ldhr")
+
+[sub_resource type="Curve" id="Curve_2aj2o"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_fcspe"]
+curve = SubResource("Curve_2aj2o")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h0kdc"]
+angle_min = -179.99998
+angle_max = 180.00002
+gravity = Vector3(0, 0, 0)
+scale_min = 0.79999995
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_fcspe")
+color_ramp = SubResource("GradientTexture1D_hknru")
+alpha_curve = SubResource("CurveTexture_5ldhr")
+emission_curve = SubResource("CurveTexture_wxak6")
+
+[sub_resource type="QuadMesh" id="QuadMesh_mehnl"]
+
+[sub_resource type="Environment" id="Environment_m3x5i"]
+glow_enabled = true
+glow_intensity = 2.4
+glow_strength = 2.0
+glow_hdr_scale = 2.68
+glow_hdr_luminance_cap = 38.95
+
+[node name="Impact1" type="Node3D" unique_id=735613800]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=726888050]
+material_override = SubResource("ShaderMaterial_iibcl")
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_h0kdc")
+draw_pass_1 = SubResource("QuadMesh_mehnl")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1496635282]
+environment = SubResource("Environment_m3x5i")

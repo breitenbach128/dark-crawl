@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://76lhisbkmc5c"]
+
+[ext_resource type="PackedScene" uid="uid://b6j4mnhm2mr3a" path="res://art/Enemies/Goblin_Warrior/Goblin_Warrior.glb" id="1_a86hr"]
+
+[node name="Goblin_Warrior" unique_id=2125459268 instance=ExtResource("1_a86hr")]
+
+[node name="metarig" parent="." index="0" unique_id=71696780]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)

@@ -1,21 +1,19 @@
-[gd_scene format=3 uid="uid://bfq6musk5k252"]
+[gd_scene format=3 uid="uid://bjtmk0f1ehwt5"]
 
-[ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy.gd" id="1_vy3xu"]
-[ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="3_4cuqr"]
-[ext_resource type="Script" uid="uid://cg2vnfv2on06f" path="res://Statemachine/statemachine.gd" id="4_kvr2i"]
-[ext_resource type="PackedScene" uid="uid://cr2g8yogrqi8n" path="res://Components/Attack_Component.tscn" id="4_p1n56"]
-[ext_resource type="Script" uid="uid://cmfdvoc00jqfv" path="res://Statemachine/enemy_idle.gd" id="5_l2fd0"]
-[ext_resource type="Script" uid="uid://bxktyrxbnrj8p" path="res://Statemachine/enemy_wander.gd" id="6_l2fd0"]
-[ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="8_rknch"]
-[ext_resource type="Script" uid="uid://diy2rcwynumbt" path="res://Statemachine/enemy_death.gd" id="9_xamao"]
-[ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="10_7bagf"]
-[ext_resource type="PackedScene" uid="uid://be4lavx1fcc1n" path="res://Enemies/Models/merfolks_marauder.tscn" id="11_wys7m"]
+[ext_resource type="Script" uid="uid://bjw8f67ws23w8" path="res://Enemies/enemy.gd" id="1_4a6qe"]
+[ext_resource type="PackedScene" uid="uid://qqxbogqjoj2j" path="res://Components/Health_Component.tscn" id="2_cfo87"]
+[ext_resource type="PackedScene" uid="uid://cr2g8yogrqi8n" path="res://Components/Attack_Component.tscn" id="3_cs366"]
+[ext_resource type="Script" uid="uid://cg2vnfv2on06f" path="res://Statemachine/statemachine.gd" id="4_jkhmt"]
+[ext_resource type="Script" uid="uid://cmfdvoc00jqfv" path="res://Statemachine/enemy_idle.gd" id="5_pumcf"]
+[ext_resource type="Script" uid="uid://bxktyrxbnrj8p" path="res://Statemachine/enemy_wander.gd" id="6_1fbo7"]
+[ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="7_31sjm"]
+[ext_resource type="Script" uid="uid://diy2rcwynumbt" path="res://Statemachine/enemy_death.gd" id="8_a8ws6"]
+[ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="9_voj5l"]
+[ext_resource type="PackedScene" uid="uid://76lhisbkmc5c" path="res://Enemies/Models/goblin_warrior.tscn" id="10_4a6qe"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2yge"]
 radius = 0.35
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_7bagf"]
-size = Vector3(0.47382814, 0.49433595, 1.5577149)
+height = 1.8
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rtiul"]
 animation = &"Attack"
@@ -67,7 +65,7 @@ graph_offset = Vector2(183.40422, 47.548744)
 random_pitch = 1.005793
 random_volume_offset_db = 0.1
 streams_count = 1
-stream_0/stream = ExtResource("10_7bagf")
+stream_0/stream = ExtResource("9_voj5l")
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7bagf"]
 properties/0/path = NodePath(".:position")
@@ -92,64 +90,58 @@ properties/6/path = NodePath("Merfolks_Marauder/Armature:rotation")
 properties/6/spawn = true
 properties/6/replication_mode = 1
 
-[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight", "mesh")]
-script = ExtResource("1_vy3xu")
+[node name="Enemy2" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight", "mesh")]
+script = ExtResource("1_4a6qe")
 health_component = NodePath("HealthComponent")
 attack_component = NodePath("AttackComponent")
 state_machine = NodePath("StateMachine")
-animation_player = NodePath("Merfolks_Marauder/AnimationPlayer")
+animation_player = NodePath("Goblin_Warrior/AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 line_of_sight = NodePath("LineOfSign")
-mesh = NodePath("Merfolks_Marauder")
+mesh = NodePath("Goblin_Warrior")
 
 [node name="ColShapeBody" type="CollisionShape3D" parent="." unique_id=1774136908]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_h2yge")
 
-[node name="ColShapeTail" type="CollisionShape3D" parent="." unique_id=546019064]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00021025538, 0.25283203, 0.5211426)
-shape = SubResource("BoxShape3D_7bagf")
-
-[node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("3_4cuqr")]
+[node name="HealthComponent" parent="." unique_id=657661605 instance=ExtResource("2_cfo87")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -0.2)
 health = 10
 health_max = 10
 
-[node name="AttackComponent" parent="." unique_id=1762840063 node_paths=PackedStringArray("enemy") instance=ExtResource("4_p1n56")]
+[node name="AttackComponent" parent="." unique_id=1762840063 node_paths=PackedStringArray("enemy") instance=ExtResource("3_cs366")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 enemy = NodePath("..")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1309826036 node_paths=PackedStringArray("initial_state")]
-script = ExtResource("4_kvr2i")
+script = ExtResource("4_jkhmt")
 initial_state = NodePath("StateEnemyIdle")
 metadata/_custom_type_script = "uid://cg2vnfv2on06f"
 
 [node name="StateEnemyIdle" type="Node" parent="StateMachine" unique_id=2136858549 node_paths=PackedStringArray("enemy")]
-script = ExtResource("5_l2fd0")
+script = ExtResource("5_pumcf")
 enemy = NodePath("../..")
 bored_level = null
 metadata/_custom_type_script = "uid://cmfdvoc00jqfv"
 
 [node name="StateEnemyWander" type="Node" parent="StateMachine" unique_id=230540216 node_paths=PackedStringArray("enemy")]
-script = ExtResource("6_l2fd0")
+script = ExtResource("6_1fbo7")
 enemy = NodePath("../..")
 metadata/_custom_type_script = "uid://bxktyrxbnrj8p"
 
 [node name="StateEnemyAttack" type="Node" parent="StateMachine" unique_id=1821165404 node_paths=PackedStringArray("enemy")]
-script = ExtResource("8_rknch")
+script = ExtResource("7_31sjm")
 enemy = NodePath("../..")
 attack_rate_timer = 1.5
 metadata/_custom_type_script = "uid://btwueqitmvqcq"
 
 [node name="StateEnemyDeath" type="Node" parent="StateMachine" unique_id=619789061 node_paths=PackedStringArray("enemy")]
-script = ExtResource("9_xamao")
+script = ExtResource("8_a8ws6")
 enemy = NodePath("../..")
 metadata/_custom_type_script = "uid://diy2rcwynumbt"
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1390166169]
-root_node = NodePath("../Merfolks_Marauder")
 tree_root = SubResource("AnimationNodeStateMachine_xamao")
-anim_player = NodePath("../Merfolks_Marauder/AnimationPlayer")
 
 [node name="LineOfSign" type="RayCast3D" parent="." unique_id=420305316]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
@@ -161,19 +153,28 @@ stream = SubResource("AudioStreamRandomizer_wys7m")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1609139329]
 replication_config = SubResource("SceneReplicationConfig_7bagf")
 
-[node name="Merfolks_Marauder" parent="." unique_id=1971859074 instance=ExtResource("11_wys7m")]
-transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 0.48000002, 0)
-
-[node name="Skeleton3D" parent="Merfolks_Marauder/Armature" parent_id_path=PackedInt32Array(1971859074, 1170892216) index="0" unique_id=200970264]
-bones/0/position = Vector3(-1.5215931e-05, 0.3088242, -0.002155875)
-bones/1/scale = Vector3(1, 1, 1)
-bones/4/rotation = Quaternion(0, -1.1920929e-07, 0, 1)
-bones/8/rotation = Quaternion(0, 0, 0, 1)
-bones/9/rotation = Quaternion(0, 1.1920929e-07, 0, 1)
-
 [node name="DEBUG" type="Label3D" parent="." unique_id=1016468438]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
 billboard = 2
 text = "DEBUG"
 
-[editable path="Merfolks_Marauder"]
+[node name="Goblin_Warrior" parent="." unique_id=2125459268 instance=ExtResource("10_4a6qe")]
+transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 1, 0)
+
+[node name="Skeleton3D" parent="Goblin_Warrior/metarig" parent_id_path=PackedInt32Array(2125459268, 1221361846) index="0" unique_id=864540915]
+bones/4/position = Vector3(-2.930306e-11, 0.6658994, 1.8220591e-08)
+bones/8/position = Vector3(0.41762084, 0.9185898, -0.13062495)
+bones/8/rotation = Quaternion(-0.17306617, 0.69658244, -0.52766573, 0.4543015)
+bones/9/rotation = Quaternion(-0.009898251, -0.059488777, -0.0415347, 0.9973154)
+bones/12/position = Vector3(-0.41762093, 0.91858965, -0.13062495)
+bones/12/rotation = Quaternion(-0.1547591, -0.6626471, 0.5371348, 0.49843222)
+bones/13/rotation = Quaternion(0.25168854, -0.45998403, 0.08844041, 0.8469037)
+bones/14/rotation = Quaternion(0.055360634, 0.017602287, -0.09333551, 0.99393857)
+bones/19/rotation = Quaternion(0.96639174, 0.1992294, -0.024789928, 0.16056252)
+bones/22/rotation = Quaternion(-1.7117094e-07, 0.96124876, -0.27568245, -1.8716207e-07)
+bones/24/rotation = Quaternion(0.9759431, -0.14539804, 0.033476334, 0.15897779)
+
+[node name="hand_R" parent="Goblin_Warrior/metarig/Skeleton3D" index="0" unique_id=1629887864]
+transform = Transform3D(-0.4191938, -0.04306303, 0.9068746, 0.56295747, -0.7959934, 0.22242361, 0.71228874, 0.603771, 0.35791832, -2.0505977, -1.747198, 0.4791713)
+
+[editable path="Goblin_Warrior"]

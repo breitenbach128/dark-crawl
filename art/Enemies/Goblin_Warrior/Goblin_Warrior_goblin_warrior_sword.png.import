@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ud8ypxtt6l56"
-path.s3tc="res://.godot/imported/ui_card_mana_icon.png-737f1d045c61b60b511adee072c39aaf.s3tc.ctex"
+uid="uid://bota8y44vrbyv"
+path.s3tc="res://.godot/imported/Goblin_Warrior_goblin_warrior_sword.png-b62f666316fa70fd7fea98aa35340447.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "06acb0488c6e634f65c55cfcdbac3a26"
+}
 
 [deps]
 
-source_file="res://art/ui/ui_card_mana_icon.png"
-dest_files=["res://.godot/imported/ui_card_mana_icon.png-737f1d045c61b60b511adee072c39aaf.s3tc.ctex"]
+source_file="res://art/Enemies/Goblin_Warrior/Goblin_Warrior_goblin_warrior_sword.png"
+dest_files=["res://.godot/imported/Goblin_Warrior_goblin_warrior_sword.png-b62f666316fa70fd7fea98aa35340447.s3tc.ctex"]
 
 [params]
 
