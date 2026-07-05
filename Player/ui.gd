@@ -35,8 +35,11 @@ func _ready() -> void:
 	if player:
 		player.health_component.health_changed.connect(update_ui_display_health)
 		update_ui_display_health(player.health_component.health,player.health_component.health_max,0)
-		
+		player.stamina_changed.connect(update_ui_stamina_bar)
 
+func update_ui_stamina_bar(stamina, stamina_max):
+	$StaminaBar.value = stamina
+	$StaminaBar.max_value = stamina_max
 
 func update_ui_display_health(hp : float,hpmax : float,change):
 	var hp_change_percent : float = snapped((hp/hpmax),0.01)

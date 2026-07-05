@@ -38,4 +38,8 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 
 
 func _on_lifespan_timeout() -> void:
-	call_deferred("queue_free")
+	if multiplayer.is_server():
+		call_deferred("queue_free")
+	else:
+		visible = false
+		collision_shape.disabled = true

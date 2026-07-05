@@ -12,6 +12,12 @@
 [sub_resource type="LabelSettings" id="LabelSettings_lquwl"]
 font_size = 32
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbfhl"]
+bg_color = Color(0.5656833, 0.52940243, 0.9884264, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4fiuh"]
+bg_color = Color(0, 0.4673398, 0.18352672, 1)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_vtle1"]
 atlas = ExtResource("3_cbfhl")
 region = Rect2(336, 16, 64, 96)
@@ -74,6 +80,17 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "HP: 10"
 label_settings = SubResource("LabelSettings_lquwl")
+
+[node name="StaminaBar" type="ProgressBar" parent="." unique_id=551212503]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 77.0
+offset_right = 117.0
+offset_bottom = 86.0
+theme_override_styles/background = SubResource("StyleBoxFlat_cbfhl")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4fiuh")
+value = 100.0
+show_percentage = false
 
 [node name="Coins" type="Label" parent="." unique_id=1601716640]
 layout_mode = 0

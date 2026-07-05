@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bxktyrxbnrj8p" path="res://Statemachine/enemy_wander.gd" id="6_1fbo7"]
 [ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="7_31sjm"]
 [ext_resource type="Script" uid="uid://diy2rcwynumbt" path="res://Statemachine/enemy_death.gd" id="8_a8ws6"]
+[ext_resource type="Script" uid="uid://diammbjrg4dqa" path="res://Statemachine/enemy_hunt.gd" id="9_6vefc"]
 [ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="9_voj5l"]
 [ext_resource type="PackedScene" uid="uid://76lhisbkmc5c" path="res://Enemies/Models/goblin_warrior.tscn" id="10_4a6qe"]
 
@@ -90,7 +91,16 @@ properties/6/path = NodePath("Goblin_Warrior/metarig:rotation")
 properties/6/spawn = true
 properties/6/replication_mode = 1
 
-[node name="Enemy2" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight", "mesh")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_6vefc"]
+size = Vector3(1, 1.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8kohj"]
+size = Vector3(1, 1.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j1phu"]
+size = Vector3(1, 1.4, 1)
+
+[node name="Enemy2" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight", "mesh", "detect_left", "detect_right", "detect_front")]
 script = ExtResource("1_4a6qe")
 health_component = NodePath("HealthComponent")
 attack_component = NodePath("AttackComponent")
@@ -99,6 +109,9 @@ animation_player = NodePath("Goblin_Warrior/AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 line_of_sight = NodePath("LineOfSign")
 mesh = NodePath("Goblin_Warrior")
+detect_left = NodePath("Detectors/Left")
+detect_right = NodePath("Detectors/Right")
+detect_front = NodePath("Detectors/Front")
 
 [node name="ColShapeBody" type="CollisionShape3D" parent="." unique_id=1774136908]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -140,13 +153,19 @@ script = ExtResource("8_a8ws6")
 enemy = NodePath("../..")
 metadata/_custom_type_script = "uid://diy2rcwynumbt"
 
+[node name="StateEnemyHunt" type="Node" parent="StateMachine" unique_id=905983811 node_paths=PackedStringArray("enemy")]
+script = ExtResource("9_6vefc")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://diammbjrg4dqa"
+
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1390166169]
 root_node = NodePath("../Goblin_Warrior")
 tree_root = SubResource("AnimationNodeStateMachine_xamao")
 anim_player = NodePath("../Goblin_Warrior/AnimationPlayer")
 
 [node name="LineOfSign" type="RayCast3D" parent="." unique_id=420305316]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.6)
+target_position = Vector3(0, 0, -1)
 debug_shape_custom_color = Color(0.20169646, 0.7046821, 0.7619191, 1)
 
 [node name="DeathSounds" type="AudioStreamPlayer3D" parent="." unique_id=2059134241]
@@ -177,5 +196,31 @@ bones/24/rotation = Quaternion(0.9634381, -0.14347859, 0.046359498, 0.22147632)
 
 [node name="hand_R" parent="Goblin_Warrior/metarig/Skeleton3D" index="0" unique_id=482421711]
 transform = Transform3D(0.08816009, -0.99140596, 0.09664942, 0.9934453, 0.09459682, 0.064166345, -0.072757944, 0.09035925, 0.99324816, -3.722268, 0.483684, -0.0051335916)
+
+[node name="Detectors" type="Node3D" parent="." unique_id=1406293160]
+
+[node name="Left" type="Area3D" parent="Detectors" unique_id=1953675249]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detectors/Left" unique_id=778245832]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10000014, 0)
+shape = SubResource("BoxShape3D_6vefc")
+
+[node name="Right" type="Area3D" parent="Detectors" unique_id=1454598473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detectors/Right" unique_id=1184003644]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1920929e-07, 0)
+shape = SubResource("BoxShape3D_8kohj")
+
+[node name="Front" type="Area3D" parent="Detectors" unique_id=1504956994]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -1)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detectors/Front" unique_id=498605499]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1920929e-07, 0)
+shape = SubResource("BoxShape3D_j1phu")
 
 [editable path="Goblin_Warrior"]

@@ -31,6 +31,8 @@ var movement_speed : float = 8.0
 var movement_direction : Vector3 =  Vector3(0,0,0)
 var gravity = 75.5
 var dash_speed : float = 18.0
+var stamina : float = 100.0
+var stamina_max : float = 100.0
 #MP Sync Setters
 @export_category("Setters")
 @export var money: int = 0 :
@@ -42,6 +44,7 @@ var has_spawned : bool = false
 
 enum GUNS {BLASTER=0}
 signal money_changed
+signal stamina_changed
 #Components
 @export_category("Components")
 @export var health_component : Health_Component
@@ -106,6 +109,10 @@ func _process(delta: float) -> void:
 		if health_bar_display_tick <= 0:
 			HealthBar.visible = false
 		
+	if stamina < stamina_max:
+		stamina += 0.25
+		stamina_changed.emit(stamina, stamina_max)
+	
 	if is_multiplayer_authority():
 		if tracking_cam:
 			tracking_cam.position = tracking_cam.position.lerp(position+Vector3(0,50,0),5*delta)
@@ -192,7 +199,10 @@ func move(delta):
 		var speed = movement_speed
 		
 		if Input.is_action_pressed("dash"):
-			speed = dash_speed
+			if stamina > 0:
+				stamina-=1.0
+				stamina_changed.emit(stamina, stamina_max)
+				speed = dash_speed
 		if not is_on_floor():
 			velocity.y -= gravity * delta
 			

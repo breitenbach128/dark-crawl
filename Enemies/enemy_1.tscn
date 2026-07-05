@@ -92,7 +92,16 @@ properties/6/path = NodePath("Merfolks_Marauder/Armature:rotation")
 properties/6/spawn = true
 properties/6/replication_mode = 1
 
-[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight", "mesh")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_wys7m"]
+size = Vector3(1, 1.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1pslu"]
+size = Vector3(1, 1.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j7amk"]
+size = Vector3(1, 1.4, 1)
+
+[node name="Enemy1" type="CharacterBody3D" unique_id=772004908 node_paths=PackedStringArray("health_component", "attack_component", "state_machine", "animation_player", "animation_tree", "line_of_sight", "mesh", "detect_left", "detect_right", "detect_front")]
 script = ExtResource("1_vy3xu")
 health_component = NodePath("HealthComponent")
 attack_component = NodePath("AttackComponent")
@@ -101,6 +110,9 @@ animation_player = NodePath("Merfolks_Marauder/AnimationPlayer")
 animation_tree = NodePath("AnimationTree")
 line_of_sight = NodePath("LineOfSign")
 mesh = NodePath("Merfolks_Marauder")
+detect_left = NodePath("Detectors/Left")
+detect_right = NodePath("Detectors/Right")
+detect_front = NodePath("Detectors/Front")
 
 [node name="ColShapeBody" type="CollisionShape3D" parent="." unique_id=1774136908]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -166,7 +178,7 @@ replication_config = SubResource("SceneReplicationConfig_7bagf")
 transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 0.48000002, 0)
 
 [node name="Skeleton3D" parent="Merfolks_Marauder/Armature" parent_id_path=PackedInt32Array(1971859074, 1170892216) index="0" unique_id=200970264]
-bones/0/position = Vector3(-1.5215931e-05, 0.3088242, -0.002155875)
+bones/0/position = Vector3(-1.2449605e-05, 0.25267854, -0.0017639272)
 bones/1/scale = Vector3(1, 1, 1)
 bones/4/rotation = Quaternion(0, -1.1920929e-07, 0, 1)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
@@ -176,5 +188,28 @@ bones/9/rotation = Quaternion(0, 1.1920929e-07, 0, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
 billboard = 2
 text = "DEBUG"
+
+[node name="Detectors" type="Node3D" parent="." unique_id=56354010]
+
+[node name="Left" type="Area3D" parent="Detectors" unique_id=2013309021]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detectors/Left" unique_id=1802595801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10000014, 0)
+shape = SubResource("BoxShape3D_wys7m")
+
+[node name="Right" type="Area3D" parent="Detectors" unique_id=846252588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detectors/Right" unique_id=515502999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1920929e-07, 0)
+shape = SubResource("BoxShape3D_1pslu")
+
+[node name="Front" type="Area3D" parent="Detectors" unique_id=827040658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detectors/Front" unique_id=389372847]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1920929e-07, 0)
+shape = SubResource("BoxShape3D_j7amk")
 
 [editable path="Merfolks_Marauder"]

@@ -12,6 +12,9 @@ class_name Enemy
 @export var animation_tree : AnimationTree
 @export var line_of_sight: RayCast3D
 @export var mesh: Node3D
+@export var detect_left : Area3D
+@export var detect_right : Area3D
+@export var detect_front : Area3D
 
 @export var behavior : String = "Idle":
 	set(new_value):
@@ -49,16 +52,19 @@ func _physics_process(delta: float) -> void:
 		var horizontal_velocity = Vector3(velocity.x, 0, velocity.z)
 		if horizontal_velocity.length() > 0.1:
 			var target_angle = atan2(-horizontal_velocity.x, -horizontal_velocity.z)
+			#rotation.y = lerp_angle(rotation.y, target_angle, rotation_speed * delta)
 			mesh.rotation.y = lerp_angle(mesh.rotation.y, target_angle, rotation_speed * delta)
 
+	$Detectors.rotation = mesh.rotation
 	move_and_slide()
+	
 	
 func check_line_of_sight(target):	
 	line_of_sight.target_position = target.global_position - line_of_sight.global_position
 	line_of_sight.force_raycast_update()
 	if line_of_sight.is_colliding():
 		var collider = line_of_sight.get_collider()
-		print("LOS Check Returns Target ", collider == target)
+		#print("LOS Check Returns Target ", collider == target, " " , collider)
 		return  collider == target
 	return false
 

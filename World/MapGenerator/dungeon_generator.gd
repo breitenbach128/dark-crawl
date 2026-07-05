@@ -186,15 +186,15 @@ func create_exits():
 			#then increment the tolerance
 			var connection_tolerance : int = 0
 			var connection_tolerance_max : int = 5
-			var closest_target = null
-			while(closest_target == null && connection_tolerance < connection_tolerance_max):
+			var closest_target = {"tile": null, "room_id": null}
+			while(closest_target.tile == null && connection_tolerance < connection_tolerance_max):
 				closest_target = find_closest_room_tile_by_tile(edge_tile,r,connection_tolerance)
-				if closest_target == null:
+				if closest_target.tile == null:
 					connection_tolerance+=1
 					print("Not found with conn tol: ", connection_tolerance)
-				#print("exit tile and target tile ", edge_tile, " ", target_tile)
-				#match side to side, so right side goes to left side, etc.
-				#pick random from both sides.
+				else:
+					print("exit tile and target tile ", edge_tile, " ", closest_target)
+
 			if closest_target.tile:
 				#Get a path between the two
 				var path= astar_grid.get_point_path(edge_tile,closest_target.tile,true)	

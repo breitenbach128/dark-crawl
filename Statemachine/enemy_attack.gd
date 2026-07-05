@@ -52,7 +52,7 @@ func Update(delta: float):
 			attack_rate_count += delta
 		else:
 			#Look to do something else
-			var target = enemy.find_closest_player_target()
+			target = enemy.find_closest_player_target()
 			#If there are no player targets, then transition to wander or idle	
 			if target == null:
 				Transitioned.emit(self, "StateEnemyWander")
@@ -62,7 +62,14 @@ func Update(delta: float):
 			attack_rate_count = 0
 			
 	if target:
+		#need to just rotate to the target 
 		enemy.mesh.look_at(target.global_position, Vector3.UP)
+		enemy.mesh.rotation.x = 0.0
+		enemy.mesh.rotation.z = 0.0
+		#var dir_2d_to_target = Vector2(enemy.global_position.x,enemy.global_position.z) - Vector2(target.global_position.x,target.global_position.z)
+		#var angle_2d_to_target = dir_2d_to_target.angle()
+		#print(angle_2d_to_target, " ", enemy.mesh.rotation.y)
+		#enemy.mesh.rotation.y = angle_2d_to_target
 		
 func Physics_Update(_delta : float):
 	pass

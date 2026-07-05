@@ -7,12 +7,14 @@ enum ATTACK_TYPE {MELEE, RANGED}
 @export var attack_list : Array[AttackSelection]
 @export var attack_type : ATTACK_TYPE
 
+var current_target
 
 func _ready() -> void:
 	pass
 	
 
 func attack_target(target : CharacterBody3D):
+	current_target = target
 	if target:
 		#print("Attacking from component")
 		var attack_selection : AttackSelection = attack_list.pick_random()

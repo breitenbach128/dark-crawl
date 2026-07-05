@@ -46,7 +46,9 @@ func init_host_card_manager(p: Player) -> void:
 		
 	if player.name.to_int() == 1: #Server is always ready
 		player_cards[player_cards.size()-1].client_ready = true
-
+		
+	if Network.max_players == 1:
+		CardManager.draw_new_hand(0)
 
 ## Utility to get player index in player_cards array
 func get_player_index_by_pid(pid):

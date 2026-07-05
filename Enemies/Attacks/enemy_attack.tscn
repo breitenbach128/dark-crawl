@@ -28,7 +28,8 @@ texture = ExtResource("2_u3gby")
 shape = SubResource("SphereShape3D_u3gby")
 
 [node name="Lifespan" type="Timer" parent="." unique_id=1628370107]
-wait_time = 10.0
+wait_time = 5.0
+autostart = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1089852393]
 replication_config = SubResource("SceneReplicationConfig_u3gby")
