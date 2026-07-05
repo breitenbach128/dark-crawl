@@ -164,17 +164,17 @@ transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 1, 0)
 [node name="Skeleton3D" parent="Goblin_Warrior/metarig" parent_id_path=PackedInt32Array(2125459268, 1221361846) index="0" unique_id=864540915]
 bones/4/position = Vector3(-2.930306e-11, 0.6658994, 1.8220591e-08)
 bones/8/position = Vector3(0.41762084, 0.9185898, -0.13062495)
-bones/8/rotation = Quaternion(-0.17306617, 0.69658244, -0.52766573, 0.4543015)
+bones/8/rotation = Quaternion(-0.11684063, 0.5581725, -0.6041202, 0.5566243)
 bones/9/rotation = Quaternion(-0.009898251, -0.059488777, -0.0415347, 0.9973154)
 bones/12/position = Vector3(-0.41762093, 0.91858965, -0.13062495)
-bones/12/rotation = Quaternion(-0.1547591, -0.6626471, 0.5371348, 0.49843222)
-bones/13/rotation = Quaternion(0.25168854, -0.45998403, 0.08844041, 0.8469037)
+bones/12/rotation = Quaternion(-0.19628331, -0.8172223, 0.41002077, 0.3542651)
+bones/13/rotation = Quaternion(-0.009898244, 0.059488695, 0.041534703, 0.9973154)
 bones/14/rotation = Quaternion(0.055360634, 0.017602287, -0.09333551, 0.99393857)
-bones/19/rotation = Quaternion(0.96639174, 0.1992294, -0.024789928, 0.16056252)
+bones/19/rotation = Quaternion(0.97783834, 0.20174164, 0.007416711, -0.055476185)
 bones/22/rotation = Quaternion(-1.7117094e-07, 0.96124876, -0.27568245, -1.8716207e-07)
-bones/24/rotation = Quaternion(0.9759431, -0.14539804, 0.033476334, 0.15897779)
+bones/24/rotation = Quaternion(0.9300726, -0.13840535, 0.069373846, 0.3331611)
 
 [node name="hand_R" parent="Goblin_Warrior/metarig/Skeleton3D" index="0" unique_id=1629887864]
-transform = Transform3D(-0.4191938, -0.04306303, 0.9068746, 0.56295747, -0.7959934, 0.22242361, 0.71228874, 0.603771, 0.35791832, -2.0505977, -1.747198, 0.4791713)
+transform = Transform3D(-0.81430393, -0.58039296, -0.007240547, 0.55993235, -0.7821884, -0.2732325, 0.15291888, -0.22654837, 0.961921, -2.3143334, -1.585991, -0.90457726)
 
 [editable path="Goblin_Warrior"]
