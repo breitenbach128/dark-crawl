@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://emckrb0l4ogb" path="res://World/Floors/floor_1x1.tscn" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://mbvx4sselk48" path="res://World/Floors/floor_1x1a.tscn" id="8_efxa6"]
 [ext_resource type="Script" uid="uid://bie8sxatextfe" path="res://World/MapGenerator/monster_generator.gd" id="9_4c57u"]
-[ext_resource type="PackedScene" uid="uid://bfq6musk5k252" path="res://Enemies/enemy_1.tscn" id="10_4c57u"]
+[ext_resource type="PackedScene" uid="uid://bjtmk0f1ehwt5" path="res://Enemies/enemy_goblin_warrior.tscn" id="9_grymg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
 size = Vector3(60, 1, 60)
@@ -77,7 +77,7 @@ metadata/_custom_type_script = "uid://cbsufhsn140b2"
 [node name="MonsterGenerator" type="Node" parent="." unique_id=679352985 node_paths=PackedStringArray("dungeon", "monster_holder")]
 script = ExtResource("9_4c57u")
 dungeon = NodePath("../DungeonGenerator")
-monster_spawns = Array[Resource]([ExtResource("10_4c57u")])
+monster_spawns = Array[Resource]([ExtResource("9_grymg")])
 total_spawns = 1
 monster_holder = NodePath("../Enemies")
 metadata/_custom_type_script = "uid://bie8sxatextfe"
@@ -94,7 +94,7 @@ _spawnable_scenes = PackedStringArray("uid://dpybtl6o3swwg", "uid://dbwflkox1ee0
 spawn_path = NodePath("../Attacks")
 
 [node name="MultiplayerSpawnerMonsters" type="MultiplayerSpawner" parent="." unique_id=1449917541]
-_spawnable_scenes = PackedStringArray("uid://bfq6musk5k252")
+_spawnable_scenes = PackedStringArray("uid://bfq6musk5k252", "uid://bjtmk0f1ehwt5")
 spawn_path = NodePath("../Enemies")
 
 [node name="MultiplayerSpawnerPickups" type="MultiplayerSpawner" parent="." unique_id=1368290460]

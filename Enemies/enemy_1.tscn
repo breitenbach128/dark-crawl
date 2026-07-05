@@ -118,6 +118,7 @@ health_max = 10
 [node name="AttackComponent" parent="." unique_id=1762840063 node_paths=PackedStringArray("enemy") instance=ExtResource("4_p1n56")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 enemy = NodePath("..")
+attack_type = 1
 
 [node name="StateMachine" type="Node" parent="." unique_id=1309826036 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_kvr2i")

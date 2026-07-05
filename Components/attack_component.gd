@@ -1,8 +1,11 @@
 extends Node3D
 class_name Attack_Component
 
+enum ATTACK_TYPE {MELEE, RANGED}
+
 @export var enemy: Enemy
 @export var attack_list : Array[AttackSelection]
+@export var attack_type : ATTACK_TYPE
 
 
 func _ready() -> void:

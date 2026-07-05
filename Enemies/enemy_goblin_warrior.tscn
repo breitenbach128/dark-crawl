@@ -80,13 +80,13 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:behavior")
 properties/3/spawn = true
 properties/3/replication_mode = 2
-properties/4/path = NodePath("Merfolks_Marauder:position")
+properties/4/path = NodePath("Goblin_Warrior:position")
 properties/4/spawn = true
 properties/4/replication_mode = 1
-properties/5/path = NodePath("Merfolks_Marauder:rotation")
+properties/5/path = NodePath("Goblin_Warrior:rotation")
 properties/5/spawn = true
 properties/5/replication_mode = 1
-properties/6/path = NodePath("Merfolks_Marauder/Armature:rotation")
+properties/6/path = NodePath("Goblin_Warrior/metarig:rotation")
 properties/6/spawn = true
 properties/6/replication_mode = 1
 
@@ -141,7 +141,9 @@ enemy = NodePath("../..")
 metadata/_custom_type_script = "uid://diy2rcwynumbt"
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1390166169]
+root_node = NodePath("../Goblin_Warrior")
 tree_root = SubResource("AnimationNodeStateMachine_xamao")
+anim_player = NodePath("../Goblin_Warrior/AnimationPlayer")
 
 [node name="LineOfSign" type="RayCast3D" parent="." unique_id=420305316]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
@@ -161,20 +163,19 @@ text = "DEBUG"
 [node name="Goblin_Warrior" parent="." unique_id=2125459268 instance=ExtResource("10_4a6qe")]
 transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 1, 0)
 
-[node name="Skeleton3D" parent="Goblin_Warrior/metarig" parent_id_path=PackedInt32Array(2125459268, 1221361846) index="0" unique_id=864540915]
+[node name="Skeleton3D" parent="Goblin_Warrior/metarig" parent_id_path=PackedInt32Array(2125459268, 800494486) index="0" unique_id=132226002]
 bones/4/position = Vector3(-2.930306e-11, 0.6658994, 1.8220591e-08)
 bones/8/position = Vector3(0.41762084, 0.9185898, -0.13062495)
-bones/8/rotation = Quaternion(-0.11684063, 0.5581725, -0.6041202, 0.5566243)
-bones/9/rotation = Quaternion(-0.009898251, -0.059488777, -0.0415347, 0.9973154)
+bones/8/rotation = Quaternion(0.034049448, 0.70279485, -0.43731096, 0.56007075)
+bones/9/rotation = Quaternion(0.08933319, -0.07287363, -0.41289052, 0.9034548)
 bones/12/position = Vector3(-0.41762093, 0.91858965, -0.13062495)
-bones/12/rotation = Quaternion(-0.19628331, -0.8172223, 0.41002077, 0.3542651)
-bones/13/rotation = Quaternion(-0.009898244, 0.059488695, 0.041534703, 0.9973154)
-bones/14/rotation = Quaternion(0.055360634, 0.017602287, -0.09333551, 0.99393857)
-bones/19/rotation = Quaternion(0.97783834, 0.20174164, 0.007416711, -0.055476185)
-bones/22/rotation = Quaternion(-1.7117094e-07, 0.96124876, -0.27568245, -1.8716207e-07)
-bones/24/rotation = Quaternion(0.9300726, -0.13840535, 0.069373846, 0.3331611)
+bones/12/rotation = Quaternion(0.19322287, -0.71217614, 0.18614827, 0.64870554)
+bones/13/rotation = Quaternion(-0.009898263, 0.059488695, 0.0415347, 0.9973154)
+bones/19/rotation = Quaternion(0.9770294, 0.20148808, -0.011071939, 0.06850962)
+bones/22/rotation = Quaternion(-1.7117095e-07, 0.96124876, -0.27568245, -1.8716212e-07)
+bones/24/rotation = Quaternion(0.9634381, -0.14347859, 0.046359498, 0.22147632)
 
-[node name="hand_R" parent="Goblin_Warrior/metarig/Skeleton3D" index="0" unique_id=1629887864]
-transform = Transform3D(-0.81430393, -0.58039296, -0.007240547, 0.55993235, -0.7821884, -0.2732325, 0.15291888, -0.22654837, 0.961921, -2.3143334, -1.585991, -0.90457726)
+[node name="hand_R" parent="Goblin_Warrior/metarig/Skeleton3D" index="0" unique_id=482421711]
+transform = Transform3D(0.08816009, -0.99140596, 0.09664942, 0.9934453, 0.09459682, 0.064166345, -0.072757944, 0.09035925, 0.99324816, -3.722268, 0.483684, -0.0051335916)
 
 [editable path="Goblin_Warrior"]

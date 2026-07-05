@@ -18,7 +18,7 @@ class_name Enemy
 		behavior = new_value
 		var anim_sm :AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 		anim_sm.travel(new_value)
-
+		$DEBUG.text= new_value
 var gravity = 75.5
 var coin_chance : float = 1.00 #75%
 var rotation_speed : float = 5.0
