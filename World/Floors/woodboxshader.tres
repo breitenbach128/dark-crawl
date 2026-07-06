@@ -1,0 +1,23 @@
+[gd_resource type="VisualShader" format=3 uid="uid://byd0pcjondn6i"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6woc6"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_i7ue5"]
+texture = SubResource("NoiseTexture2D_6woc6")
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_utdun"]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_fr5go"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(100, 0, 0)]
+expanded_output_ports = [0]
+operator = 2
+
+[resource]
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_i7ue5")
+nodes/fragment/2/position = Vector2(40, 200)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_utdun")
+nodes/fragment/3/position = Vector2(-580, 200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_fr5go")
+nodes/fragment/4/position = Vector2(-240, 200)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 4, 0, 4, 0, 2, 0)
