@@ -199,10 +199,12 @@ func move(delta):
 		var speed = movement_speed
 		
 		if Input.is_action_pressed("dash"):
-			if stamina > 0:
-				stamina-=1.0
+			if stamina > 1.0:
+				stamina-=3.0
+				if stamina < 0:stamina = 0
 				stamina_changed.emit(stamina, stamina_max)
 				speed = dash_speed
+			
 		if not is_on_floor():
 			velocity.y -= gravity * delta
 			

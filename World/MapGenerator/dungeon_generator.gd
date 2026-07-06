@@ -3,7 +3,7 @@ extends Node
 class_name DungeonGenerator
 
 
-@export var tile_inst : Resource
+@export var tile_inst : Array[Resource]
 @export var tile_1x1_inst : Array[Resource]
 @export var wall_inst : Resource
 @export var root_room_node : Node3D
@@ -114,7 +114,7 @@ func create_rooms():
 						var cell_y = ry+room.rect.position.y
 						map_tiles[cell_x][cell_y].type = CellData.TILETYPE.TILE
 						set_cell(Vector2i(cell_x,cell_y),CellData.TILETYPE.TILE)
-						map_tiles[cell_x][cell_y].mesh_resource = tile_inst
+						map_tiles[cell_x][cell_y].mesh_resource = tile_inst.pick_random()
 
 
 	#Pick exits on each room and connect to the closest room exit	
@@ -217,7 +217,7 @@ func create_meshes_from_tile_data():
 				var room_tile_position = Vector2i(cell_x,cell_y)
 				#Create instance tile every [room tilesize] tiles
 				if Vector2i(rx,ry) % 5 == Vector2i(0,0):
-					create_tile_mesh(tile_inst,room_tile_position,str(cell_x,"x",cell_y),false)
+					create_tile_mesh(tile_inst.pick_random(),room_tile_position,str(cell_x,"x",cell_y),false)
 					
 	#For walls and hallways, just set the map tile that matches
 	for j in range(0,map_area.size.y):

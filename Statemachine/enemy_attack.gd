@@ -71,5 +71,8 @@ func Update(delta: float):
 		#print(angle_2d_to_target, " ", enemy.mesh.rotation.y)
 		#enemy.mesh.rotation.y = angle_2d_to_target
 		
+		#If they move outside range, set back to hunt
+		if !enemy.attack_component.is_target_in_range():
+			Transitioned.emit(self, "StateEnemyHunt")
 func Physics_Update(_delta : float):
 	pass

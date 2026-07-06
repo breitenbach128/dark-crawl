@@ -5,7 +5,6 @@ class_name StateEnemyHunt
 
 @export var enemy : Enemy
 @export var forgetfullness: float = 0.0
-@export var melee_distance : float = 1.0 #meters
 var move_speed : float = 6.0
 var rotation_speed :float = 8.0
 var move_direction: Vector3
@@ -27,10 +26,11 @@ func Update(delta: float):
 		Transitioned.emit(self, "StateEnemyDeath")
 	
 	if enemy:
-		if enemy.attack_component.attack_type == Attack_Component.ATTACK_TYPE.MELEE:
-			if enemy.global_position.distance_to(enemy.attack_component.current_target.global_position) > melee_distance:
-				move_direction = enemy.global_position.direction_to(enemy.attack_component.current_target.global_position)
-				return
+		if !enemy.attack_component.is_target_in_range():
+			var target_2d_vector = enemy.attack_component.current_target.global_position
+			target_2d_vector.y = 0 #Restrict it to a flat 2d plane
+			move_direction = enemy.global_position.direction_to(target_2d_vector)
+			return
 		Transitioned.emit(self, "StateEnemyAttack")
 				
 func Physics_Update(delta : float):

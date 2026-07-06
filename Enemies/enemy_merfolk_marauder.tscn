@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cmfdvoc00jqfv" path="res://Statemachine/enemy_idle.gd" id="5_l2fd0"]
 [ext_resource type="Script" uid="uid://bxktyrxbnrj8p" path="res://Statemachine/enemy_wander.gd" id="6_l2fd0"]
 [ext_resource type="Script" uid="uid://btwueqitmvqcq" path="res://Statemachine/enemy_attack.gd" id="8_rknch"]
+[ext_resource type="Script" uid="uid://diammbjrg4dqa" path="res://Statemachine/enemy_hunt.gd" id="9_wys7m"]
 [ext_resource type="Script" uid="uid://diy2rcwynumbt" path="res://Statemachine/enemy_death.gd" id="9_xamao"]
 [ext_resource type="AudioStream" uid="uid://cwwjfbge4nnqj" path="res://Sound/monster_grunt_1.mp3" id="10_7bagf"]
 [ext_resource type="PackedScene" uid="uid://be4lavx1fcc1n" path="res://Enemies/Models/merfolks_marauder.tscn" id="11_wys7m"]
@@ -159,6 +160,11 @@ script = ExtResource("9_xamao")
 enemy = NodePath("../..")
 metadata/_custom_type_script = "uid://diy2rcwynumbt"
 
+[node name="StateEnemyHunt" type="Node" parent="StateMachine" unique_id=1299148111 node_paths=PackedStringArray("enemy")]
+script = ExtResource("9_wys7m")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://diammbjrg4dqa"
+
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1390166169]
 root_node = NodePath("../Merfolks_Marauder")
 tree_root = SubResource("AnimationNodeStateMachine_xamao")
@@ -178,7 +184,7 @@ replication_config = SubResource("SceneReplicationConfig_7bagf")
 transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 0.48000002, 0)
 
 [node name="Skeleton3D" parent="Merfolks_Marauder/Armature" parent_id_path=PackedInt32Array(1971859074, 1170892216) index="0" unique_id=200970264]
-bones/0/position = Vector3(-1.2449605e-05, 0.25267854, -0.0017639272)
+bones/0/position = Vector3(-1.4312437e-05, 0.29048678, -0.0020278634)
 bones/1/scale = Vector3(1, 1, 1)
 bones/4/rotation = Quaternion(0, -1.1920929e-07, 0, 1)
 bones/8/rotation = Quaternion(0, 0, 0, 1)
