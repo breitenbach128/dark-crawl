@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://blf6w3h0qkomd"]
 
 [ext_resource type="Texture2D" uid="uid://0cjiyd3bquol" path="res://art/floor_1.png" id="1_drnrk"]
+[ext_resource type="PackedScene" uid="uid://bgpmed4rpsvrg" path="res://World/Props/Crate/crate.tscn" id="2_3nai8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
 size = Vector3(10, 1, 10)
@@ -13,22 +14,6 @@ uv1_triplanar = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lquwl"]
 size = Vector3(10, 1, 10)
-
-[sub_resource type="BoxMesh" id="BoxMesh_drnrk"]
-
-[sub_resource type="Gradient" id="Gradient_drnrk"]
-colors = PackedColorArray(0.5243608, 0.25557584, 0.06622683, 1, 0.24313726, 0.10980392, 0.007843138, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_3nai8"]
-frequency = 0.0355
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_d5fry"]
-noise = SubResource("FastNoiseLite_3nai8")
-color_ramp = SubResource("Gradient_drnrk")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mvrsd"]
-albedo_texture = SubResource("NoiseTexture2D_d5fry")
-uv1_scale = Vector3(1, 0.01, 0.01)
 
 [node name="Floor_5x5" type="MeshInstance3D" unique_id=906401327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -52,7 +37,7 @@ light_color = Color(1, 1, 0.8156863, 1)
 light_energy = 10.0
 light_size = 2.0
 
-[node name="Crate" type="MeshInstance3D" parent="." unique_id=1018484961]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.622, 1, 3.288)
-mesh = SubResource("BoxMesh_drnrk")
-surface_material_override/0 = SubResource("StandardMaterial3D_mvrsd")
+[node name="Crate" parent="." unique_id=1231713201 instance=ExtResource("2_3nai8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.402832, 1, 3.484497)
+collision_layer = 7
+collision_mask = 7
