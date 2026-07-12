@@ -9,7 +9,10 @@ class_name Prop
 @export var prop_health : int  = 1
 
 
-
+func _enter_tree() -> void:
+	#Only enable the sync if the game has started and this is added
+	if Globals.start_game:
+		$MultiplayerSynchronizer.public_visibility = true
 
 func prop_destroyed():
 	var new_debris = debris.instantiate()
@@ -18,9 +21,13 @@ func prop_destroyed():
 
 
 func _on_rigid_body_3d_body_entered(body: Node) -> void:
-	print("Crate Hit by body: ", body)
+	pass
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void:	
 	if body is Attack:
 		prop_health-= 1
 		if prop_health <= 0:
 			prop_destroyed()
-			queue_free()
+			if multiplayer.is_server():
+				queue_free()

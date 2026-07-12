@@ -9,8 +9,10 @@ class_name MainScene
 @export var pickups_root : Node3D
 @export var players_root : Node3D
 @export var visuals_root : Node3D
+@export var props_root : Node3D
 @export var dungeon_creator: DungeonGenerator
 @export var monster_generator: MonsterGenerator
+@export var prop_generator: PropGenerator
 @export var multiplayer_spawner_players: MultiplayerSpawner
 
 var player_peers = []
@@ -42,8 +44,10 @@ func spawn_player(id : int):
 	return new_player
 
 func start_game():
+	# Server init only
 	Globals.start_game = true	
 	monster_generator.spawn_monsters()
+	prop_generator.generate_game_props(true)
 
 func _on_multiplayer_spawner_players_spawned(p: Player) -> void:
 	print("Spawned Player, " , p)

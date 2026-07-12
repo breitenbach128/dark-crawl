@@ -86,13 +86,13 @@ func use_card():
 		card_ready = false
 		cd_progress_bar.value = cd_progress_bar.max_value
 		
-		print(name, " Energy is now: ", energy)
+		#print(name, " Energy is now: ", energy)
 	
 		update_energy_display()
 	
 		#Run Card Action. This happens ONLY on the server
 		if multiplayer.is_server():
-			print("Run card action for card: ", name, " for client", multiplayer.get_unique_id())
+			#print("Run card action for card: ", name, " for client", multiplayer.get_unique_id())
 			match card_type:
 				CARD_CATEGORIES.MELEE:
 					attack_action()
@@ -221,7 +221,7 @@ func reset_card():
 
 func _on_cool_down_timeout() -> void:	
 	if energy == 0 && is_discarded == false:		
-		print("Card: ", name, " is out of energy,  server discard. CLient ID: ", multiplayer.get_unique_id())
+		#print("Card: ", name, " is out of energy,  server discard. CLient ID: ", multiplayer.get_unique_id())
 		if multiplayer.is_server():
 			CardManager.discard_card_from_hand(player.name.to_int(),card_hand_index)
 			

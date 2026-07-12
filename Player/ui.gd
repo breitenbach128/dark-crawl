@@ -114,23 +114,23 @@ func discard_card(card : Card):
 
 func discard_complete():
 	discards_in_action-=1
-	print("Client Discard Complete")	
+	#print("Client Discard Complete")	
 	if card_hand.get_child_count() == 0 && is_drawing_hand == false:
-		print("Hand Empty")
+		#print("Hand Empty")
 		is_drawing_hand = true
 	CardManager.client_discard_complete.rpc_id(1,card_hand.get_child_count(),discards_in_action)	
 	update_card_area_labels()
 
 func shuffle_discard_into_deck(srv_card_deck_info):
 	$CardShuffle.play()
-	print("CLIENT UI: Shuffle cards into deck ", discard_deck.get_child_count())
+	#print("CLIENT UI: Shuffle cards into deck ", discard_deck.get_child_count())
 	for card : Card in discard_deck.get_children():
 		card.reparent(card_deck, false)
 		card.reset_card()
 	#Reparented, so now the deck needs ordered to match the server shuffle
-	print("Server Card Deck:", srv_card_deck_info)
+	#print("Server Card Deck:", srv_card_deck_info)
 	var local_card_deck_ids = card_deck.get_children().map(func(card): return {"id":card.card_data.id,"name":card.name})
-	print("Client Card Deck: (Presort)",local_card_deck_ids)	
+	#print("Client Card Deck: (Presort)",local_card_deck_ids)	
 	for i in range(0,srv_card_deck_info.size()):
 		var node = card_deck.get_node(NodePath(srv_card_deck_info[i].name))
 		card_deck.move_child(node,i)

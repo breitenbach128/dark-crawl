@@ -6,7 +6,7 @@ const MAIN_GAME_RES = "res://Screens/main.tscn"
 const PLAYER_RES = "res://Player/player.tscn"
 var main_scene : MainScene
 var player_scene
-var max_players = 1
+var max_players = 2
 
 #Game Setup Variables for Clients
 var client_dungeon_data : Dictionary
@@ -82,7 +82,8 @@ func client_recv_gamesetup_info(dungeon_data : Dictionary):
 	#print("map_area: ", dungeon_data.map_area)
 	client_dungeon_data = dungeon_data
 	Globals.current_main.dungeon_creator.build_dungeon(false)
-	
+	Globals.current_main.prop_generator.generate_game_props(false)
+
 func get_local_player_instance():	
 	var player_inst = Globals.current_main.players_root.get_children().filter(func(p): return p.name.to_int() == multiplayer.get_unique_id())
 	return player_inst

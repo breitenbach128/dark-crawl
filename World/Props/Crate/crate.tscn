@@ -6,7 +6,21 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3xp8q"]
 
-[node name="Prop_Crate" type="Node3D" unique_id=215432201]
+[sub_resource type="BoxShape3D" id="BoxShape3D_jku5m"]
+size = Vector3(1.2, 1.2, 1.2)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jku5m"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("RigidBody3D:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:prop_health")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[node name="Prop_Crate" type="Node3D" unique_id=215432201 groups=["Props"]]
 script = ExtResource("1_wglq2")
 debris = ExtResource("3_jku5m")
 
@@ -23,4 +37,16 @@ shape = SubResource("BoxShape3D_3xp8q")
 [node name="crate" parent="RigidBody3D" unique_id=1034109357 instance=ExtResource("1_ypma4")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
+[node name="Area3D" type="Area3D" parent="RigidBody3D" unique_id=386187769]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/Area3D" unique_id=1122380646]
+shape = SubResource("BoxShape3D_jku5m")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1378713610]
+replication_config = SubResource("SceneReplicationConfig_jku5m")
+public_visibility = false
+
 [connection signal="body_entered" from="RigidBody3D" to="." method="_on_rigid_body_3d_body_entered"]
+[connection signal="body_entered" from="RigidBody3D/Area3D" to="." method="_on_area_3d_body_entered"]

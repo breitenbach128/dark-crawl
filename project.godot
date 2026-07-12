@@ -36,6 +36,7 @@ window/stretch/mode="canvas_items"
 
 Player="The game player"
 Card=""
+Props="All game props that can be smashed or interacted with"
 
 [input]
 
