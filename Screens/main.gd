@@ -57,3 +57,7 @@ func _on_multiplayer_spawner_attacks_spawned(_node: Node) -> void:
 
 func _on_multiplayer_spawner_monsters_spawned(_node: Node) -> void:
 	pass # Replace with function body.
+
+func _on_multiplayer_spawner_props_despawned(prop: Prop) -> void:
+	print("Despawned Prop, " , prop.prev_global_position)
+	prop.spawn_debris()

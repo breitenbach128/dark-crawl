@@ -26,10 +26,10 @@ class_name Player
 var health_bar_display_tick : float = 0.0
 var health_bar_display_tick_max : float = 0.5 #Seconds
 
-var jump_velocity : float = 25.5
+var jump_velocity : float = 15.5
 var movement_speed : float = 8.0
 var movement_direction : Vector3 =  Vector3(0,0,0)
-var gravity = 75.5
+var gravity = 45.5
 var dash_speed : float = 18.0
 var stamina : float = 100.0
 var stamina_max : float = 100.0

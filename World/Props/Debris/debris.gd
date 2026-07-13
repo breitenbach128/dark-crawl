@@ -1,5 +1,5 @@
 extends Node3D
-
+class_name Debris
 func _ready() -> void:
 	var tween = create_tween()	
 	tween.set_parallel(true)

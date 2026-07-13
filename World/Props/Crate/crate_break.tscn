@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://cqkjxluqf7c76"]
 
-[ext_resource type="Script" uid="uid://ba1f7ordi6kkk" path="res://World/Props/Crate/crate_break.gd" id="1_dvavj"]
+[ext_resource type="Script" uid="uid://ba1f7ordi6kkk" path="res://World/Props/Debris/debris.gd" id="1_dvavj"]
 [ext_resource type="AudioStream" uid="uid://c60xp4k7mfukx" path="res://Sound/Props/crate_destroy.mp3" id="2_lypxg"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dvavj"]

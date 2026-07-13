@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://dgs1mpnwllb3o"]
+
+[ext_resource type="Script" uid="uid://dmyasrrert1kj" path="res://World/Props/props.gd" id="1_65g64"]
+[ext_resource type="PackedScene" uid="uid://ddikk0f3wkf6a" path="res://World/Props/Pot/pot_1.glb" id="1_ut6dk"]
+[ext_resource type="PackedScene" uid="uid://d3qfe85srti33" path="res://World/Props/Pot/pot_1_break.tscn" id="2_k7qcp"]
+[ext_resource type="AudioStream" uid="uid://c24ksgtsipc7k" path="res://Sound/Props/pot_hit_1.mp3" id="4_kpkh7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_65g64"]
+size = Vector3(0.8, 1, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k7qcp"]
+size = Vector3(1, 1.2, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kpkh7"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("RigidBody3D:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Prop_Pot" type="Node3D" unique_id=871296068 node_paths=PackedStringArray("rigid_body", "hit_sound") groups=["Props"]]
+script = ExtResource("1_65g64")
+prop_name = "Clay Pot"
+rigid_body = NodePath("RigidBody3D")
+hit_sound = NodePath("AudioHit")
+debris = ExtResource("2_k7qcp")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=1851901378]
+collision_layer = 7
+collision_mask = 7
+mass = 120.0
+contact_monitor = true
+max_contacts_reported = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=1780710366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 0, -2.9802322e-08)
+shape = SubResource("BoxShape3D_65g64")
+
+[node name="Area3D" type="Area3D" parent="RigidBody3D" unique_id=1062796706]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/Area3D" unique_id=76718434]
+shape = SubResource("BoxShape3D_k7qcp")
+
+[node name="pot_1" parent="RigidBody3D" unique_id=1069039951 instance=ExtResource("1_ut6dk")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.5238027, 0)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=361369270]
+replication_config = SubResource("SceneReplicationConfig_kpkh7")
+public_visibility = false
+
+[node name="AudioHit" type="AudioStreamPlayer3D" parent="." unique_id=1240552351]
+stream = ExtResource("4_kpkh7")
+max_distance = 30.0
+
+[connection signal="body_entered" from="RigidBody3D" to="." method="_on_rigid_body_3d_body_entered"]
+[connection signal="body_entered" from="RigidBody3D/Area3D" to="." method="_on_area_3d_body_entered"]

@@ -6,7 +6,7 @@ const MAIN_GAME_RES = "res://Screens/main.tscn"
 const PLAYER_RES = "res://Player/player.tscn"
 var main_scene : MainScene
 var player_scene
-var max_players = 2
+var max_players = 1
 
 #Game Setup Variables for Clients
 var client_dungeon_data : Dictionary
@@ -21,6 +21,7 @@ func host_game():
 	main_scene.player_peers.append(1)
 	
 	if main_scene.max_players == 1:
+		await main_scene.ready
 		start_network_game()
 	
 func join_game(ip_address):

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cgstlgm26l3is" path="res://World/Floors/floor_5x5.tscn" id="5_7mycd"]
 [ext_resource type="PackedScene" uid="uid://blf6w3h0qkomd" path="res://World/Floors/floor_5x5a.tscn" id="5_50ivk"]
 [ext_resource type="Script" uid="uid://2k23cc4nm7u4" path="res://Zones/KillZone.gd" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://c8vgvbfc2ivgf" path="res://World/Floors/floor_5x5b.tscn" id="6_k6175"]
 [ext_resource type="Script" uid="uid://cbsufhsn140b2" path="res://World/MapGenerator/dungeon_generator.gd" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://emckrb0l4ogb" path="res://World/Floors/floor_1x1.tscn" id="7_kek77"]
 [ext_resource type="PackedScene" uid="uid://mbvx4sselk48" path="res://World/Floors/floor_1x1a.tscn" id="8_efxa6"]
@@ -73,7 +74,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9, 0.099999905)
 
 [node name="DungeonGenerator" type="Node" parent="." unique_id=1871517425 node_paths=PackedStringArray("root_room_node", "players_root", "monster_generator")]
 script = ExtResource("7_272bh")
-tile_inst = Array[Resource]([ExtResource("5_7mycd"), ExtResource("5_50ivk")])
+tile_inst = Array[Resource]([ExtResource("5_7mycd"), ExtResource("5_50ivk"), ExtResource("6_k6175")])
 tile_1x1_inst = Array[Resource]([ExtResource("7_kek77"), ExtResource("8_efxa6")])
 wall_inst = ExtResource("2_h2yge")
 root_room_node = NodePath("../Rooms")
@@ -113,10 +114,11 @@ _spawnable_scenes = PackedStringArray("uid://batvb64tw12jb")
 spawn_path = NodePath("../Pickups")
 
 [node name="MultiplayerSpawnerProps" type="MultiplayerSpawner" parent="." unique_id=685638420]
-_spawnable_scenes = PackedStringArray("uid://bgpmed4rpsvrg")
+_spawnable_scenes = PackedStringArray("uid://bgpmed4rpsvrg", "uid://dgs1mpnwllb3o")
 spawn_path = NodePath("../Props")
 
 [connection signal="body_entered" from="KillZone" to="KillZone" method="_on_body_entered"]
 [connection signal="spawned" from="MultiplayerSpawnerPlayers" to="." method="_on_multiplayer_spawner_players_spawned"]
 [connection signal="spawned" from="MultiplayerSpawnerAttacks" to="." method="_on_multiplayer_spawner_attacks_spawned"]
 [connection signal="spawned" from="MultiplayerSpawnerMonsters" to="." method="_on_multiplayer_spawner_monsters_spawned"]
+[connection signal="despawned" from="MultiplayerSpawnerProps" to="." method="_on_multiplayer_spawner_props_despawned"]

@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://0cjiyd3bquol" path="res://art/floor_1.png" id="1_drnrk"]
 [ext_resource type="PackedScene" uid="uid://bgpmed4rpsvrg" path="res://World/Props/Crate/crate.tscn" id="2_3nai8"]
+[ext_resource type="PackedScene" uid="uid://dgs1mpnwllb3o" path="res://World/Props/Pot/pot.tscn" id="3_d5fry"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
 size = Vector3(10, 1, 10)
@@ -15,16 +16,16 @@ uv1_triplanar = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_lquwl"]
 size = Vector3(10, 1, 10)
 
-[node name="Floor_5x5" type="MeshInstance3D" unique_id=906401327]
+[node name="Floor_5x5a" type="MeshInstance3D" unique_id=906401327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_0xm2m")
 surface_material_override/0 = SubResource("StandardMaterial3D_h2yge")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1525983690]
+[node name="FloorStaticBody" type="StaticBody3D" parent="." unique_id=1525983690]
 collision_layer = 7
 collision_mask = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=185023842]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorStaticBody" unique_id=185023842]
 shape = SubResource("BoxShape3D_lquwl")
 
 [node name="Label3D" type="Label3D" parent="." unique_id=1690245033]
@@ -45,3 +46,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4260254, 1, 1.3255858)
 
 [node name="Prop_Crate2" parent="." unique_id=2077974898 instance=ExtResource("2_3nai8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8391171, 1, 2.791504)
+
+[node name="Prop_Pot" parent="." unique_id=871296068 instance=ExtResource("3_d5fry")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.77484894, 1.0241034, -2.3537884)
