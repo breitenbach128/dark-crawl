@@ -1,6 +1,232 @@
 [gd_scene format=3 uid="uid://cgqsltg088ai5"]
 
 [ext_resource type="Script" uid="uid://cjagl7bag25cr" path="res://Screens/main_menu.gd" id="1_gpyco"]
+[ext_resource type="Texture2D" uid="uid://bgfvvs7mefrhk" path="res://art/ui/ui_connecting_skeleton_dead.png" id="2_7t5rn"]
+[ext_resource type="Texture2D" uid="uid://nvgbtck03dbv" path="res://art/ui/ui_connecting_skeleton_walk.png" id="2_bcgfw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpyco"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.5290667, 0.52906674, 0.5290664, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bcgfw"]
+bg_color = Color(0.07284262, 0.072842635, 0.072842576, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osd6u"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(0, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aob2q"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(33, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6pmj8"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(66, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryfdu"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(99, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46as1"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(132, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymdeg"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(165, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuiqo"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(198, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdht0"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(231, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uknxt"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(264, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgnsh"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(297, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mugib"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(330, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j05dk"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(363, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2fq5"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(396, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53h4u"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(429, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dj05"]
+atlas = ExtResource("2_7t5rn")
+region = Rect2(462, 0, 33, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7t5rn"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(0, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ht1sv"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(22, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g44j8"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(44, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_00dna"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(66, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5iprd"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(88, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0xc4"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(110, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vbfty"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(132, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfsgb"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(154, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhy2t"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(176, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5xr7"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(198, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tyef2"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(220, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yplvv"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(242, 0, 22, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrpfr"]
+atlas = ExtResource("2_bcgfw")
+region = Rect2(264, 0, 22, 33)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_osd6u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osd6u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aob2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6pmj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryfdu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46as1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymdeg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuiqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdht0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uknxt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kgnsh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mugib")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j05dk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2fq5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_53h4u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5dj05")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7t5rn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ht1sv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g44j8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_00dna")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5iprd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0xc4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vbfty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfsgb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhy2t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5xr7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tyef2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yplvv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrpfr")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
 
 [node name="MainMenu" type="Control" unique_id=2013632263]
 layout_mode = 3
@@ -19,11 +245,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="CenterContainer" unique_id=216839627]
+[node name="PanelMainMenu" type="Panel" parent="CenterContainer" unique_id=216839627]
 custom_minimum_size = Vector2(224, 360)
 layout_mode = 2
 
-[node name="VBoxButtons" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=507325457]
+[node name="VBoxButtons" type="VBoxContainer" parent="CenterContainer/PanelMainMenu" unique_id=507325457]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,20 +257,116 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BtnHostGame" type="Button" parent="CenterContainer/Panel/VBoxButtons" unique_id=1771878342]
+[node name="BtnHostGame" type="Button" parent="CenterContainer/PanelMainMenu/VBoxButtons" unique_id=1771878342]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+disabled = true
 text = "Host Game"
 
-[node name="BtnJoinGame" type="Button" parent="CenterContainer/Panel/VBoxButtons" unique_id=1360688474]
+[node name="BtnJoinGame" type="Button" parent="CenterContainer/PanelMainMenu/VBoxButtons" unique_id=1360688474]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+disabled = true
 text = "Join Game"
 
-[node name="LineEdit" type="LineEdit" parent="CenterContainer/Panel/VBoxButtons" unique_id=1012186526]
+[node name="TxtIpAddress" type="LineEdit" parent="CenterContainer/PanelMainMenu/VBoxButtons" unique_id=1012186526]
 layout_mode = 2
 placeholder_text = "192.168.0.1"
 alignment = 1
 
-[connection signal="pressed" from="CenterContainer/Panel/VBoxButtons/BtnHostGame" to="." method="_on_btn_host_game_pressed"]
-[connection signal="pressed" from="CenterContainer/Panel/VBoxButtons/BtnJoinGame" to="." method="_on_btn_join_game_pressed"]
+[node name="Spacer" type="Control" parent="CenterContainer/PanelMainMenu/VBoxButtons" unique_id=362800211]
+layout_mode = 2
+
+[node name="LblPlayerName" type="Label" parent="CenterContainer/PanelMainMenu/VBoxButtons" unique_id=1268151896]
+layout_mode = 2
+text = "Player Name"
+horizontal_alignment = 1
+
+[node name="TxtPlayerName" type="LineEdit" parent="CenterContainer/PanelMainMenu/VBoxButtons" unique_id=2067470405]
+layout_mode = 2
+placeholder_text = "Player Name"
+
+[node name="LblPlayerNameWarning" type="Label" parent="CenterContainer/PanelMainMenu/VBoxButtons" unique_id=863575753]
+custom_minimum_size = Vector2(224, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.97, 0.40740004, 0.42615333, 0.83137256)
+text = "You must supply a player name to join a name"
+autowrap_mode = 2
+
+[node name="PanelLobby" type="Panel" parent="CenterContainer" unique_id=752970010]
+visible = false
+custom_minimum_size = Vector2(224, 360)
+layout_mode = 2
+
+[node name="PlayerList" type="VBoxContainer" parent="CenterContainer/PanelLobby" unique_id=1810386031]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 36.0
+offset_right = -8.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LblPlayerListHeader" type="Label" parent="CenterContainer/PanelLobby" unique_id=1880619666]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_gpyco")
+text = "Players"
+horizontal_alignment = 1
+
+[node name="BtnStartGame" type="Button" parent="CenterContainer/PanelLobby" unique_id=1818716784]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 284.0
+offset_right = 216.0
+offset_bottom = 340.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_bcgfw")
+disabled = true
+text = "Start Game"
+
+[node name="PanelLoading" type="Panel" parent="." unique_id=296955576]
+visible = false
+custom_minimum_size = Vector2(340, 180)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="LblLoading" type="Label" parent="PanelLoading" unique_id=759358436]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Loading"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="PanelLoading" unique_id=439205204]
+visible = false
+
+[node name="AnimSpriteLoading" type="AnimatedSprite2D" parent="PanelLoading/CanvasLayer" unique_id=115229090]
+texture_filter = 1
+position = Vector2(768, 78)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_osd6u")
+animation = &"dead"
+autoplay = "walk"
+frame = 14
+frame_progress = 1.0
+
+[connection signal="pressed" from="CenterContainer/PanelMainMenu/VBoxButtons/BtnHostGame" to="." method="_on_btn_host_game_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelMainMenu/VBoxButtons/BtnJoinGame" to="." method="_on_btn_join_game_pressed"]
+[connection signal="text_changed" from="CenterContainer/PanelMainMenu/VBoxButtons/TxtIpAddress" to="." method="_on_txt_ip_address_text_changed"]
+[connection signal="text_changed" from="CenterContainer/PanelMainMenu/VBoxButtons/TxtPlayerName" to="." method="_on_txt_player_name_text_changed"]
+[connection signal="pressed" from="CenterContainer/PanelLobby/BtnStartGame" to="." method="_on_btn_start_game_pressed"]
+[connection signal="resized" from="PanelLoading" to="." method="_on_panel_loading_resized"]

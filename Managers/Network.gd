@@ -6,29 +6,28 @@ const MAIN_GAME_RES = "res://Screens/main.tscn"
 const PLAYER_RES = "res://Player/player.tscn"
 var main_scene : MainScene
 var player_scene
-var max_players = 1
+var max_players = 2
+var network_players : Array[NetworkPlayerData] = []
+var network_game_started: bool = false
 
 #Game Setup Variables for Clients
 var client_dungeon_data : Dictionary
 
+signal update_lobby_names
+signal update_lobby_loading
+
 func host_game():
-	peer.create_server(PORT)
+	peer.create_server(PORT,max_players)
 	multiplayer.multiplayer_peer = peer
 	print("Server started!")
 	Globals.local_player_id = 1
-	launch_game()
-	main_scene.dungeon_creator.build_dungeon(true)
-	main_scene.player_peers.append(1)
-	
-	if main_scene.max_players == 1:
-		await main_scene.ready
-		start_network_game()
-	
+	network_players.append(NetworkPlayerData.new(1,Globals.local_player_name))
+	network_players[0].ready = true
+
 func join_game(ip_address):
 	peer.create_client(ip_address, PORT)
 	multiplayer.multiplayer_peer = peer
-	print("Connecting...")	
-	launch_game()
+	print("Connecting...")
 
 func _ready():
 	# Connect client-specific signals
@@ -42,32 +41,90 @@ func _ready():
 func _on_connected_to_server():
 	print("Successfully connected to the server!")
 	# Spawn your local player here or send an RPC to the server
-
+	rpc_id(1,"set_network_player_name",Globals.local_player_name)
+	update_lobby_loading.emit(true)
 	
 func _on_connection_failed():
 	print("Connection failed.")
+	update_lobby_loading.emit(false)
 
 func _on_peer_connected(id: int):
 	print("Host: ",multiplayer.get_unique_id()," Peer joined the server with ID: ", id)
+	network_players.append(NetworkPlayerData.new(id,"new_player"))
 	Globals.local_player_id = multiplayer.get_unique_id()		
 
-	if multiplayer.is_server():	
-		#print("Host Action->Client")
-		client_send_gamesetup_info(id)
-		main_scene.player_peers.append(id)
-		start_network_game()
-
-			
 func _on_peer_disconnected(id: int):
 	print("Peer left the server: ", id)	
 
+@rpc("any_peer","call_remote","reliable")
+func set_network_player_name(new_name : String):
+	var remote_id = multiplayer.get_remote_sender_id()
+	for np in network_players:
+		print("Checking Network players : ", np.id, " - ", np.name)
+		if np.id == remote_id:
+			np.name = new_name
+	
+	print("Setting Network Name ", remote_id," ", new_name)
+	update_lobby_names.emit()
+	#Server recv update of player name. Send Updated list back to clients
+	#need to repackage this to avoid complex types
+	var package_network_players = []
+	for np in network_players:
+		package_network_players.append([np.id,np.name])
+	rpc("client_recv_network_player_data_lists",package_network_players)
+
+@rpc("authority", "call_remote", "reliable")
+func client_recv_network_player_data_lists(netplayer_data):
+	network_players.clear()
+	for netplayer in netplayer_data:
+		print("Rcv Player List from Server:", netplayer[0], " " , netplayer[1])
+		network_players.append(NetworkPlayerData.new(netplayer[0],netplayer[1]))
+	update_lobby_names.emit()
+	
 func start_network_game():
-	if main_scene.player_peers.size() >= main_scene.max_players:
+	load_main()
+	main_scene.dungeon_creator.build_dungeon(true)
+	main_scene.player_peers.append(1)
+	await main_scene.ready
+	#For each client, tell them to start main scene.
+	for netplayer :NetworkPlayerData in network_players:
+		if netplayer.id != 1:
+			rpc_id(netplayer.id,"client_recv_start_network_game")
+
+	
+# Clients have loaded main and are ready to begin the game.
+@rpc("any_peer","call_remote","reliable")
+func server_recv_client_main_is_ready():
+	#NOTE: SERVER ONLY
+	#Update client that is ready
+	for netplayer :NetworkPlayerData in network_players:
+		if netplayer.id == multiplayer.get_remote_sender_id():
+			netplayer.ready = true
+	print("Client has loaded main and is ready to start the game: ",multiplayer.get_remote_sender_id())
+	#Check if ready to start
+	
+	if network_players.filter(func(np): return np.ready == true).size() == max_players && network_game_started == false:
+		network_game_started = true
+		#For each client, send them the game data after the main scene has loaded on the server
+		for netplayer :NetworkPlayerData in network_players:
+			if netplayer.id != 1:
+				client_send_gamesetup_info(netplayer.id)
+				main_scene.player_peers.append(netplayer.id)
+		#Now they have the data, we can spawn them and start the game.	
 		for pid in main_scene.player_peers:
 			var _p : Player= main_scene.spawn_player(pid)
 		main_scene.start_game()
+	
 
-func launch_game():	
+@rpc("authority", "call_remote", "reliable")	
+func client_recv_start_network_game():
+	load_main()
+	await main_scene.ready
+	rpc_id(1,"server_recv_client_main_is_ready")
+	
+# Loads the main instance of the game. Switches the global to point to it.
+# Needs to exist so we can load players into the world.
+func load_main():	
 	main_scene = load(MAIN_GAME_RES).instantiate()	
 	get_tree().change_scene_to_node(main_scene)
 	Globals.current_main = main_scene

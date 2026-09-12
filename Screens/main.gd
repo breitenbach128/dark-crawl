@@ -33,7 +33,7 @@ func spawn_player(id : int):
 	var new_player = load(Network.PLAYER_RES).instantiate()
 	new_player.name = str(id)
 	new_player.set_multiplayer_authority(id)
-	players_root.add_child(new_player)
+	players_root.add_child(new_player, true)
 	if multiplayer:
 		print("Host: ",multiplayer.get_unique_id()," player added to main, :", id)
 	else:
